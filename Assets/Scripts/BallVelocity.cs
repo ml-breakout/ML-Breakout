@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BallVelocity : MonoBehaviour
 {
-
+    // Adding this line to test if the main branch is protected - Tyler 20241113
     // You can set this in the Unity Inspector
     public float initialSpeed = 5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
