@@ -23,6 +23,12 @@ public class BallVelocity : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Paddle"))
         {
+            // Add score when ball hits paddle
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.AddScore();
+            }
+
             // Calculate how far from the center of the paddle the ball hit
             float hitPoint = (transform.position.x - collision.transform.position.x) / collision.collider.bounds.size.x;
 
