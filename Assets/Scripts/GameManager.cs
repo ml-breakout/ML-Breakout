@@ -6,7 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;  // Singleton pattern
     public TextMeshProUGUI scoreText;  // Reference to UI text
+    //public TextMeshProUGUI livesText;   // Reference to UI text
     private int score = 0;
+    private int lives = 3;
 
     void Awake()
     {
@@ -29,5 +31,19 @@ public class GameManager : MonoBehaviour
     {
         score++;
         scoreText.text = "Score: " + score;
+    }
+
+    public int LoseALife()
+    {
+        lives--;
+        //livesText.text = "Lives: " + lives;
+        // I couldn't get a separate textbox using the same script
+
+        if (lives <= 0)
+        {
+            GameOver();
+        }
+
+        return lives;
     }
 }
