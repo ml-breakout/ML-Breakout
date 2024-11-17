@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class paddleMPController : MonoBehaviour
 {
     [SerializeField]
-    private float movementSpeed = 2f;
+    private float movementSpeed = 300f;
     private Rigidbody2D rb;
 
     private Vector2 movementDirection;
