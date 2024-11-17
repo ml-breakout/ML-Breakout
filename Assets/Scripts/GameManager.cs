@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     //public TextMeshProUGUI livesText;   // Reference to UI text
     private int score = 0;
     private int lives = 3;
+    private int livesp2 = 3;
 
 
     // brick creation vars
@@ -123,16 +124,43 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
-    public int LoseALife()
+    public int LoseALife(string objname)
     {
-        lives--;
+        if (objname.Equals("Ball"))
+        {
+            lives--;
+
+            if (lives <= 0)
+            {
+                GameOver();
+            }
+            return lives;
+        }
+        if (objname.Equals("Ball (0)"))
+        {
+            lives--;
+            if (lives <= 0 && livesp2 <= 0)
+            {
+                GameOver();
+            }
+            return lives;
+        }
+        if (objname.Equals("Ball (1)"))
+        {
+            livesp2--;
+            if (livesp2 <= 0 && lives <= 0)
+            {
+                GameOver();
+            }
+            return livesp2;
+        }
         //livesText.text = "Lives: " + lives;
         // I couldn't get a separate textbox using the same script
 
-        if (lives <= 0)
-        {
-            GameOver();
-        }
+        //if (lives <= 0)
+        //{
+        //    GameOver();
+        //}
 
         return lives;
     }

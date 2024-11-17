@@ -15,6 +15,23 @@ public class BallVelocity : MonoBehaviour
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(0f, initialSpeed);
+
+        if (name.Equals("Ball (0)"))
+        {
+            //multiplayer player 1 ball
+            startingxpos = -4.55f;
+            startingypos = -2.8f;
+        }
+        if (name.Equals("Ball (1)"))
+        {
+            startingxpos = 4.55f;
+            startingypos = -2.8f;
+        }
+        if (name.Equals("Ball"))
+        {
+            startingxpos = -0.7598f;
+            startingypos = -0.4128f;
+        }
     }
 
     void Update()
@@ -69,7 +86,7 @@ public class BallVelocity : MonoBehaviour
                 // collision might need to be disabled
                 rb.MovePosition(pos);
                 // objects moved with the above function can still collide, could cause issues but hasn't so far
-                if (GameManager.instance.LoseALife() == 0)
+                if (GameManager.instance.LoseALife(name) <= 0)
                 {
                     rb.linearVelocity = new Vector2(0f, 0f);
                 }
