@@ -5,6 +5,11 @@ public class BallVelocity : MonoBehaviour
     // Adding this line to test pull requests - Tyler 20241114
     // You can set this in the Unity Inspector
     public float initialSpeed = 5f;
+
+    // paused game on startup, noted initial ball position
+    private float startingxpos = -0.7598f;
+    private float startingypos = -0.4128f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -50,9 +55,29 @@ public class BallVelocity : MonoBehaviour
         if (other.gameObject.name == "DeathZone")
         {
             // Call game over
+            // Changing from instant game restart to 3 lives
+            //if (GameManager.instance != null)
+            //{
+            //    GameManager.instance.GameOver();
+            //}
             if (GameManager.instance != null)
             {
-                GameManager.instance.GameOver();
+                // to reset pos and speed of ball
+                // reset and freeze it if no lives remain
+                Vector2 pos = new Vector2(startingxpos, startingypos);
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+                // collision might need to be disabled
+                rb.MovePosition(pos);
+                // objects moved with the above function can still collide, could cause issues but hasn't so far
+                if (GameManager.instance.LoseALife() == 0)
+                {
+                    rb.linearVelocity = new Vector2(0f, 0f);
+                }
+                else
+                {
+                    rb.linearVelocity = new Vector2(0f, initialSpeed);
+                }
+            
             }
         }
     }
