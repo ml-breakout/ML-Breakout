@@ -16,15 +16,6 @@ public class paddleMPController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    // public void onMove(InputAction.CallbackContext context){
-    //     movementDirection = context.ReadValue<Vector2>();
-    // }
-    // Update is called once per frame
-    void Update()
-    {
-        // movementDirection = new Vector2(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
-    }
-
     void FixedUpdate(){
         if(Input.GetKey(left)){
             movementDirection = new Vector2(-1,0);
