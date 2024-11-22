@@ -49,6 +49,10 @@ public class BallVelocity : MonoBehaviour
         if (other.gameObject.name == "DeathZone")
         {
             if (GameManager.instance != null){
+                if (GameManager.instance.trainingMode)
+                {
+                    return; // let the Agent handle the ball in training mode
+                }
                 
                 GameObject ballObject = this.gameObject; 
                 Vector2 pos = GameManager.instance.GetBallStartingPosition(ballObject);

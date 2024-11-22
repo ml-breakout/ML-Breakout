@@ -1,0 +1,38 @@
+{
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 499955,
+                "file_path": "results/my_run_id/Paddle/Paddle-499955.onnx",
+                "reward": 9.99999886751175,
+                "creation_time": 1732297944.8519151,
+                "auxillary_file_paths": [
+                    "results/my_run_id/Paddle/Paddle-499955.pt"
+                ]
+            },
+            {
+                "steps": 500019,
+                "file_path": "results/my_run_id/Paddle/Paddle-500019.onnx",
+                "reward": 9.99999886751175,
+                "creation_time": 1732297944.870233,
+                "auxillary_file_paths": [
+                    "results/my_run_id/Paddle/Paddle-500019.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500019,
+            "file_path": "results/my_run_id/Paddle.onnx",
+            "reward": 9.99999886751175,
+            "creation_time": 1732297944.870233,
+            "auxillary_file_paths": [
+                "results/my_run_id/Paddle/Paddle-500019.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.1"
+    }
+}

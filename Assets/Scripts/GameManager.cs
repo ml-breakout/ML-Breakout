@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI livesText;   // Reference to UI text
     public TextMeshProUGUI scoreTextP2;  // Reference to UI text
     public TextMeshProUGUI livesTextP2;   // Reference to UI text
+    public bool trainingMode = false;  // Whether the game is in training mode
+
     private int score = 0;
     private int scoreP2 = 0;
     private int lives = 3;
@@ -87,6 +89,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void createBalls(){
+        if (trainingMode)
+        {
+            return;  //  Don't create a ball in training mode, let the Agent do it.
+        }
         if(MP == true){
             ballP1 = Instantiate(ballPrefab, new Vector3(-ballXMP, BallY, 0), Quaternion.identity);
             ballP2 = Instantiate(ballPrefab, new Vector3(ballXMP, BallY, 0), Quaternion.identity);
@@ -152,6 +158,10 @@ public class GameManager : MonoBehaviour
 
     public int LoseALife(GameObject ballObject)
     {
+        if (trainingMode)
+        {
+            return 0;  //  Don't lose a life in training mode, let the Agent do it.
+        }
         int returnLives;
         if(MP == true){
             // ball check
