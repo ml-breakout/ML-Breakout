@@ -1,12 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;  // For restarting the game
 using TMPro;
-using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using System;  // For TextMeshPro
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
-{   
+{
     // UI vars
     // public static GameManager instance;  // Singleton pattern
     public TextMeshProUGUI scoreText;  // Reference to UI text
@@ -23,14 +22,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float speedChange = 1f;
 
-    // traning vars
-    public bool trainingMode = false;  // Whether the game is in training mode
+    // AI Agent vars
+    public bool IsAgentPlayer; // Whether the AI agent is playing the game
+    public bool IsTrainingMode = false;  // Whether the game is in training mode
 
     // paddle vars
 
     [SerializeField]
     private GameObject paddle;
-  
+
 
     // ball creation vars
     public GameObject ballPrefab;
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Vector2 ballCenter;
 
+    private List<GameObject> currentBricks = new List<GameObject>();
 
     // brick creation vars
     public GameObject yellowBrick;
@@ -62,41 +63,70 @@ public class GameManager : MonoBehaviour
     private AudioSource loseALifeAudioSource;
     private AudioSource defeatAudioSource;
     private AudioSource victoryAudioSource;
-    
 
-    void Start(){
-        createBricks();
-        createBalls();
-        initLives();
-        initAudio();
+
+    void Start()
+    {
+        // Let the Agent initialize the game
+        if (!IsAgentPlayer)
+        {
+            InitializeGame();
+        }
     }
 
-    public void createBricks(){
-        GameObject[] bricks = {yellowBrick,greenBrick,orangeBrick,redBrick};
-        bricksInitalX = bricksWidth/2 + brickSpaceingX/2;
+    public void InitializeGame()
+    {
+        resetBricks();
+        resetBall();
+        if (!IsTrainingMode)
+        {
+            initLives();
+            initAudio();
+        }
 
-        for(var i = 0; i < 8; i++){
-            for(var j = 0; j < 7; j++){
+    }
+
+    public void resetBricks()
+    {
+        // Destroy all current bricks
+        foreach (GameObject brick in currentBricks)
+        {
+            Destroy(brick);
+        }
+        currentBricks.Clear();
+
+        GameObject[] bricks = { yellowBrick, greenBrick, orangeBrick, redBrick };
+        bricksInitalX = bricksWidth / 2 + brickSpaceingX / 2;
+
+        bricksInitalY = 0f;
+
+        for (var i = 0; i < 8; i++)
+        {
+            for (var j = 0; j < 7; j++)
+            {
                 bricksBuilt++;
                 bricksBuilt++;
-                Vector3 rightBrickPos = new Vector3((brickSpaceingX + bricksWidth)*j + bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
-                Vector3 leftBrickPos = new Vector3((brickSpaceingX + bricksWidth)*-j - bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
-                Instantiate(bricks[(int)math.floor(i/2)], rightBrickPos, Quaternion.identity,this.transform);
-                Instantiate(bricks[(int)math.floor(i/2)], leftBrickPos, Quaternion.identity,this.transform);
+                Vector3 rightBrickPos = new Vector3((brickSpaceingX + bricksWidth) * j + bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
+                Vector3 leftBrickPos = new Vector3((brickSpaceingX + bricksWidth) * -j - bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
+
+                currentBricks.Add(Instantiate(bricks[(int)math.floor(i / 2)], rightBrickPos, Quaternion.identity, this.transform));
+                currentBricks.Add(Instantiate(bricks[(int)math.floor(i / 2)], leftBrickPos, Quaternion.identity, this.transform));
             }
             bricksInitalY += bricksHeight + brickSpaceingY;
         }
-        
+
     }
 
-    public void createBalls(){
-        if (trainingMode)
+    public void resetBall()
+    {
+        if (BallObject != null)
         {
-            return;  //  Don't create a ball in training mode, let the Agent do it.
+            Destroy(BallObject);
         }
-        BallObject = Instantiate(ballPrefab, new Vector3(ballCenter.x, ballCenter.y, 0), Quaternion.identity,this.transform);
+        BallObject = Instantiate(ballPrefab, new Vector3(ballCenter.x, ballCenter.y, 0), Quaternion.identity, this.transform);
     }
-    public void initLives(){
+    public void initLives()
+    {
         livesText.text = lives.ToString();
     }
     public void initAudio(){
@@ -136,19 +166,21 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
-    public Vector2 GetBallStartingPosition(){
+    public Vector2 GetBallStartingPosition()
+    {
         return ballCenter;
     }
 
     public int LoseALife()
     {
         loseALifeAudioSource.Play();
-        if (trainingMode)
+        if (IsTrainingMode)
         {
             return 0;  //  Don't lose a life in training mode, let the Agent do it.
         }
         lives--;
-        if(lives <= 0){
+        if (lives <= 0)
+        {
             defeatAudioSource.Play();
             GameStateManager.instance.checkGameOver();
         }
@@ -157,25 +189,28 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void BrickUpdate(string type){
+    public void BrickUpdate(string type)
+    {
         bricksBroken++;
-        
-        if(type == "Orange" && !OrangeBrickBroken)
+
+        if (type == "Orange" && !OrangeBrickBroken)
         {
             OrangeBrickBroken = true;
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
             Debug.Log("Orange");
-        }else if(type == "Red" && !RedBrickBroken)
+        }
+        else if (type == "Red" && !RedBrickBroken)
         {
             RedBrickBroken = true;
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
             Debug.Log("red");
         }
-        if(bricksBroken == 4)
+        if (bricksBroken == 4)
         {
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
             Debug.Log("Broken:4");
-        }else if(bricksBroken == 12)
+        }
+        else if (bricksBroken == 12)
         {
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
             Debug.Log("Broken:12");
@@ -191,8 +226,17 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void UpdatePaddleSize(){
-        paddle.GetComponent<PaddleController>().updatePaddleSize();
+    public void UpdatePaddleSize()
+    {
+        if (!IsAgentPlayer)
+        {
+            paddle.GetComponent<PaddleAgentController>().updatePaddleSize();
+        }
+    }
+
+    public GameObject GetBall()
+    {
+        return BallObject;
     }
 
 }

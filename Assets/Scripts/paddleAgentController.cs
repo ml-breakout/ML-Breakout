@@ -7,7 +7,7 @@ using Unity.MLAgents.Sensors;
 
 // This class is similar to the PaddleController class, but contains modifications
 // that allow the paddle to be controlled by an ML Agent.
-public class paddleAgentController : Agent
+public class PaddleAgentController : Agent
 {
     [SerializeField]
     private float movementSpeed = 300f;
@@ -17,12 +17,13 @@ public class paddleAgentController : Agent
     public KeyCode left;
     public KeyCode right;
 
-    public GameObject ball;
+    private GameObject ball;
+    public GameManager gameManager;
     Rigidbody2D m_BallRb;
+    public float paddleSize;
 
     public override void Initialize()
     {
-        m_BallRb = ball.GetComponent<Rigidbody2D>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -54,12 +55,17 @@ public class paddleAgentController : Agent
     // learn from.
     public override void OnEpisodeBegin()
     {
+        gameManager.InitializeGame();
+
+        ball = gameManager.GetBall();
+        m_BallRb = ball.GetComponent<Rigidbody2D>();
+
         // randomize the ball position
-        ball.transform.position = new Vector2(Random.Range(0f, 8f), Random.Range(-3f, -1f));
+        // ball.transform.position = new Vector2(Random.Range(0f, 8f), Random.Range(-3f, -1f));
 
         // randomize the ball direction
-        float x = Random.Range(-1f, 1.0f);
-        float y = Random.Range(0.5f, 1.0f);
+        //float x = Random.Range(-1f, 1.0f);
+        // float y = Random.Range(0.5f, 1.0f);
         Vector2 direction = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(0.5f, 1.0f));
         float ballspeed = 5f;
         m_BallRb.linearVelocity = direction.normalized * ballspeed;
@@ -116,5 +122,10 @@ public class paddleAgentController : Agent
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
         continuousActionsOut[0] = Input.GetAxis("Horizontal");
+    }
+
+    public void updatePaddleSize(){
+        this.transform.localScale = new Vector3 (this.transform.localScale.x/2,this.transform.localScale.y,this.transform.localScale.z);
+        paddleSize /= 2;
     }
 }

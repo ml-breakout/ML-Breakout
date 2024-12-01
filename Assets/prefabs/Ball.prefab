@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 7469971276836180502}
   - component: {fileID: 3556865722824835280}
   - component: {fileID: 1224678935973981867}
-  - component: {fileID: 4295349131467212965}
   - component: {fileID: 1730436306195374011}
   - component: {fileID: -7958064237946683238}
   - component: {fileID: 5322982530226051855}
   - component: {fileID: -138041655344643968}
+  - component: {fileID: 5187363897360136416}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -120,8 +120,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &4295349131467212965
-CircleCollider2D:
+--- !u!114 &1730436306195374011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146456820650171359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9390975b2cbd040afa44905730ac72f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialSpeed: 5
+  ballX: 0
+  ballY: 0
+--- !u!61 &5187363897360136416
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -462,3 +477,14 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

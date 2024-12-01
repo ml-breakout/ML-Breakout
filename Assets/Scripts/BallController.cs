@@ -108,7 +108,7 @@ public class BallController : MonoBehaviour
         if (other.gameObject.name == "DeathZone")
         {
             if (parent != null){
-                if (parent.GetComponent<GameManager>().trainingMode)
+                if (parent.GetComponent<GameManager>().IsTrainingMode)
                 {
                     return; // let the Agent handle the ball in training mode
                 }
