@@ -1,20 +1,28 @@
+using System;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.Video;
 
-public class BallVelocity : MonoBehaviour
+public class BallController : MonoBehaviour
 {
     // Adding this line to test pull requests - Tyler 20241114
     // You can set this in the Unity Inspector
     public float initialSpeed = 5f;
+    public float ballX;
+    public float ballY;
     private Rigidbody2D rb;
+    private GameObject parent;   
+
+    private bool TopWallCollsion = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        parent = transform.parent.gameObject;
         rb = GetComponent<Rigidbody2D>();
         
-        float x = Random.Range(-1.0f,1.0f);
-        float y = Random.Range(0.5f,1.0f);
+        float x = UnityEngine.Random.Range(-1.0f,1.0f);
+        float y = UnityEngine.Random.Range(0.5f,1.0f);
 
         Vector2 direction = new Vector2(x,y);
         rb.linearVelocity = direction.normalized * initialSpeed;
@@ -42,30 +50,36 @@ public class BallVelocity : MonoBehaviour
             // Apply the new velocity
             rb.linearVelocity = direction * initialSpeed;
         }
+        if (collision.gameObject.CompareTag("Top Wall") && !TopWallCollsion)
+        {
+            TopWallCollsion = true;
+            if(parent != null){
+                parent.GetComponent<GameManager>().UpdatePaddleSize();
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.name == "DeathZone")
         {
-            if (GameManager.instance != null){
-                if (GameManager.instance.trainingMode)
+            if (parent != null){
+                if (parent.GetComponent<GameManager>().trainingMode)
                 {
                     return; // let the Agent handle the ball in training mode
                 }
                 
-                GameObject ballObject = this.gameObject; 
-                Vector2 pos = GameManager.instance.GetBallStartingPosition(ballObject);
+                Vector2 pos = parent.GetComponent<GameManager>().GetBallStartingPosition();
                 rb.MovePosition(pos);
                 // objects moved with the above function can still collide, could cause issues but hasn't so far
-                if (GameManager.instance.LoseALife(ballObject) <= 0)
+                if (parent.GetComponent<GameManager>().LoseALife() <= 0)
                 {
                     rb.linearVelocity = new Vector2(0f, 0f);
                 }
                 else
                 {
-                    float x = Random.Range(-1.0f,1.0f);
-                    float y = Random.Range(0.5f,1.0f);
+                    float x = UnityEngine.Random.Range(-1.0f,1.0f);
+                    float y = UnityEngine.Random.Range(0.5f,1.0f);
 
                     Vector2 direction = new Vector2(x,y);
                     rb.linearVelocity = direction.normalized * initialSpeed;
@@ -73,4 +87,10 @@ public class BallVelocity : MonoBehaviour
             }
         }
     }
+
+    public void IncreaseBallSpeed(float amount){
+        initialSpeed += amount;
+        Debug.Log(initialSpeed);
+    }
+
 }

@@ -2,57 +2,59 @@ using UnityEngine;
 using UnityEngine.SceneManagement;  // For restarting the game
 using TMPro;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;  // For TextMeshPro
+using Unity.Mathematics;
+using System;  // For TextMeshPro
 
 public class GameManager : MonoBehaviour
-{
-    public static GameManager instance;  // Singleton pattern
+{   
+    // UI vars
+    // public static GameManager instance;  // Singleton pattern
     public TextMeshProUGUI scoreText;  // Reference to UI text
     public TextMeshProUGUI livesText;   // Reference to UI text
-    public TextMeshProUGUI scoreTextP2;  // Reference to UI text
-    public TextMeshProUGUI livesTextP2;   // Reference to UI text
+
+    // game managment vars
+    private int score = 0;
+    private int lives = 3;
+    public Vector2 gameCenter;
+    private int bricksBroken;
+    private bool OrangeBrickBroken = false;
+    private bool RedBrickBroken = false;
+    [SerializeField]
+    private float speedChange = 1f;
+
+    // traning vars
     public bool trainingMode = false;  // Whether the game is in training mode
 
-    private int score = 0;
-    private int scoreP2 = 0;
-    private int lives = 3;
-    private int livesp2 = 3;
+    // paddle vars
 
-    public bool MP = true;
+    [SerializeField]
+    private GameObject paddle;
+  
 
     // ball creation vars
     public GameObject ballPrefab;
+    private GameObject BallObject;
+    [SerializeField]
+    private Vector2 ballCenter;
 
-    private GameObject ballP1;
-    private GameObject ballP2;
-    private float ballXMP = 4.5f;
-    private float ballXSP = 0f;
-    private float BallY = -3f;
+
     // brick creation vars
     public GameObject yellowBrick;
     public GameObject greenBrick;
     public GameObject orangeBrick;
     public GameObject redBrick;
 
-    // for creating bricks be warry of bricks width and height
     [SerializeField]
     private float bricksWidth = 0.5f;
     [SerializeField]
     private float bricksHeight = 0.15f;
     [SerializeField]
-    private float playerOffset = 4.5f;
-    [SerializeField]
-    private float brickSpaceingX = 0.2f;
+    private float brickSpaceingX = 0.15f;
     [SerializeField]
     private float brickSpaceingY = 0.25f;
     private float bricksInitalX;
-    private float bricksInitalY;
+    private float bricksInitalY = 0f;
     
-
-    void Awake()
-    {
-        instance = this;
-    }
 
     void Start(){
         createBricks();
@@ -64,28 +66,16 @@ public class GameManager : MonoBehaviour
         GameObject[] bricks = {yellowBrick,greenBrick,orangeBrick,redBrick};
         bricksInitalX = bricksWidth/2 + brickSpaceingX/2;
 
-        if(MP == true){
-            for(var k = 0; k < 2; k++){
-                for(var i = 0; i < 8; i++){
-                    for(var j = 0; j < 7; j++){
-                        Instantiate(bricks[(int)math.floor(i/2)], new Vector3((brickSpaceingX + bricksWidth)*j + bricksInitalX + playerOffset, bricksInitalY, 0), Quaternion.identity);
-                        Instantiate(bricks[(int)math.floor(i/2)], new Vector3((brickSpaceingX + bricksWidth)*-j - bricksInitalX + playerOffset, bricksInitalY, 0), Quaternion.identity);
-                    }
-                    bricksInitalY += bricksHeight + brickSpaceingY;
-                }
-                bricksInitalY = 0f;
-                playerOffset *= -1;
+        for(var i = 0; i < 8; i++){
+            for(var j = 0; j < 7; j++){
+                Vector3 rightBrickPos = new Vector3((brickSpaceingX + bricksWidth)*j + bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
+                Vector3 leftBrickPos = new Vector3((brickSpaceingX + bricksWidth)*-j - bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
+                Instantiate(bricks[(int)math.floor(i/2)], rightBrickPos, Quaternion.identity,this.transform);
+                Instantiate(bricks[(int)math.floor(i/2)], leftBrickPos, Quaternion.identity,this.transform);
             }
-            
-        }else{
-            for(var i = 0; i < 2; i++){
-                for(var j = 0; j < 7; j++){
-                    Instantiate(bricks[(int)math.floor(i/2)], new Vector3((brickSpaceingX + bricksWidth)*j + bricksInitalX + playerOffset, bricksInitalY, 0), Quaternion.identity);
-                    Instantiate(bricks[(int)math.floor(i/2)], new Vector3((brickSpaceingX + bricksWidth)*-j - bricksInitalX + playerOffset, bricksInitalY, 0), Quaternion.identity);
-                }
-                bricksInitalY += bricksHeight + brickSpaceingY;
-            }
+            bricksInitalY += bricksHeight + brickSpaceingY;
         }
+        
     }
 
     public void createBalls(){
@@ -93,20 +83,10 @@ public class GameManager : MonoBehaviour
         {
             return;  //  Don't create a ball in training mode, let the Agent do it.
         }
-        if(MP == true){
-            ballP1 = Instantiate(ballPrefab, new Vector3(-ballXMP, BallY, 0), Quaternion.identity);
-            ballP2 = Instantiate(ballPrefab, new Vector3(ballXMP, BallY, 0), Quaternion.identity);
-        }else{
-            ballP1 = Instantiate(ballPrefab, new Vector3(ballXSP, BallY, 0), Quaternion.identity);
-        }
+        BallObject = Instantiate(ballPrefab, new Vector3(ballCenter.x, ballCenter.y, 0), Quaternion.identity,this.transform);
     }
     public void initLives(){
-        if(MP ==false){
-            livesText.text = lives.ToString();
-        }else{  
-            livesText.text = lives.ToString(); 
-            livesTextP2.text = livesp2.ToString(); 
-        }
+        livesText.text = lives.ToString();
     }
     public void GameOver()
     {
@@ -120,78 +100,59 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void AddScore(int updateScore, GameObject ballObject)
+    public void AddScore(int updateScore)
     {
-        if(MP ==false){
-            score += updateScore;
-            scoreText.text = score.ToString();
-        }else{
-            if(ballObject == ballP1){
-                score += updateScore;
-                scoreText.text = score.ToString(); 
-            }else if(ballObject == ballP2){
-                scoreP2 += updateScore;
-                scoreTextP2.text = scoreP2.ToString(); 
-            }else{
-                Debug.Log(ballObject);
-            }
-        }
-        
+        score += updateScore;
+        scoreText.text = score.ToString();
     }
 
-    public Vector2 GetBallStartingPosition(GameObject ballObject){
-        Vector2 newBallPos;
-        if(MP == false){
-            newBallPos = new Vector2(ballXSP,BallY);
-        }else{
-            if(ballObject == ballP1){
-                newBallPos = new Vector2(-ballXMP,BallY); 
-            }else if(ballObject == ballP2){
-                newBallPos = new Vector2(ballXMP,BallY); 
-            }else{
-                Debug.Log(ballObject);
-                newBallPos = new Vector2(0,0);
-            }
-        }
-        return newBallPos;
+    public Vector2 GetBallStartingPosition(){
+        return ballCenter;
     }
 
-    public int LoseALife(GameObject ballObject)
+    public int LoseALife()
     {
         if (trainingMode)
         {
             return 0;  //  Don't lose a life in training mode, let the Agent do it.
         }
-        int returnLives;
-        if(MP == true){
-            // ball check
-            if(ballObject == ballP1){
-                lives--;
-                livesText.text = lives.ToString(); 
-                returnLives = lives;
-            }else if(ballObject == ballP2){
-                livesp2--;
-                livesTextP2.text = livesp2.ToString(); 
-                returnLives = livesp2;
-            }else{
-                Debug.Log(ballObject);
-                returnLives = 0;
-            }
-            // game state check
-            if (lives <= 0 && livesp2 <= 0)
-            {
-                GameOver();
-            }
-        }else{
-            // single player handle
-            lives--;
-            if (lives <= 0)
-            {
-                GameOver();
-            }
-            returnLives = lives;
-            
+        lives--;
+        if(lives <= 0){
+            GameStateManager.instance.checkGameOver();
         }
-        return returnLives;
+        livesText.text = lives.ToString();
+        return lives;
+
     }
+
+    public void BrickUpdate(string type){
+        bricksBroken++;
+        
+        if(type == "Orange" && !OrangeBrickBroken)
+        {
+            OrangeBrickBroken = true;
+            BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
+            Debug.Log("Orange");
+        }else if(type == "Red" && !RedBrickBroken)
+        {
+            RedBrickBroken = true;
+            BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
+            Debug.Log("red");
+        }
+        if(bricksBroken == 4)
+        {
+            BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
+            Debug.Log("Broken:4");
+        }else if(bricksBroken == 12)
+        {
+            BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
+            Debug.Log("Broken:12");
+        }
+
+    }
+
+    public void UpdatePaddleSize(){
+        paddle.GetComponent<PaddleController>().updatePaddleSize();
+    }
+
 }
