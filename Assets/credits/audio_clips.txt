@@ -1,0 +1,65 @@
+Name of Author:
+    EtherAudio
+Name of Sound file:
+    752736__etheraudio__square-blip-non-fade
+File Type:
+    .wav
+Attribution Text:
+    square blip  non-fade by EtherAudio -- https://freesound.org/s/752736/ -- License: Attribution 4.0
+Link:
+    https://freesound.org/people/EtherAudio/sounds/752736/?
+
+Name of Author:
+    EtherAudio
+Name of Sound file:
+    752671__etheraudio__sqr-blip-2
+File Type:
+    .wav
+Attribution Text:
+    sqr blip 2 by EtherAudio -- https://freesound.org/s/752671/ -- License: Attribution 4.0
+Link:
+    https://freesound.org/people/EtherAudio/sounds/752671/?
+
+Name of Author:
+    JapanYoshiTheGamer
+Name of Sound file:
+    361266__japanyoshithegamer__8-bit-soft-beep-impact
+File Type:
+    .wav
+Attribution Text:
+    8-bit Soft Beep Impact by JapanYoshiTheGamer -- https://freesound.org/s/361266/ -- License: Creative Commons 0
+Link:
+    https://freesound.org/people/JapanYoshiTheGamer/sounds/361266/?
+
+Name of Author:
+    Leszek_Szary
+Name of Sound file:
+    173958__leszek_szary__failure
+File Type:
+    .wav
+Attribution Text:
+    failure by Leszek_Szary -- https://freesound.org/s/173958/ -- License: Creative Commons 0
+Link:
+    https://freesound.org/people/Leszek_Szary/sounds/173958/?
+
+Name of Author:
+    Fupicat
+Name of Sound File:
+    538151__fupicat__8bit-fall
+File Type:
+    .wav
+Attribution Text:
+    8bit Fall by Fupicat -- https://freesound.org/s/538151/ -- License: Creative Commons 0
+Link:
+    https://freesound.org/people/Fupicat/sounds/538151/
+
+Name of Author:
+    EtherAudio
+Name of Sound File:
+    752857__etheraudio__square-nice-arpeggio-slow-echo
+File Type:
+    .wav
+Attribution Text:
+    Square nice arpeggio slow echo by EtherAudio -- https://freesound.org/s/752857/ -- License: Attribution 4.0
+Link:
+    https://freesound.org/people/EtherAudio/sounds/752857/?
