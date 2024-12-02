@@ -45,6 +45,12 @@ public class NewGameManager : MonoBehaviour
     [SerializeField]
     private float brickSpaceingY = 0.25f;
     public Vector2[] gameCenter; //center of game, used for creating bricks
+    private string loseALifeAudioName = "173958__leszek_szary__failure";
+    private string defeatAudioName = "538151__fupicat__8bit-fall";
+    private string victoryAudioName = "752857__etheraudio__square-nice-arpeggio-slow-echo";
+    private AudioSource loseALifeAudioSource;
+    private AudioSource defeatAudioSource;
+    private AudioSource victoryAudioSource;
     
 
     void Awake()
@@ -57,6 +63,7 @@ public class NewGameManager : MonoBehaviour
         createBricks();
         createBalls();
         initLives();
+        initAudio();
     }
 
     void verfyVariables(){
@@ -112,6 +119,24 @@ public class NewGameManager : MonoBehaviour
             livesTextArray[i].text = livesArray[i].ToString();
         }
     }
+    public void initAudio(){
+        AudioSource[] audio_options = GetComponents<AudioSource>();
+        foreach(AudioSource source in audio_options)
+        {
+            if (string.Equals(source.clip.name, loseALifeAudioName) is true)
+            {
+                loseALifeAudioSource = source;
+            }
+            if (string.Equals(source.clip.name, defeatAudioName) is true)
+            {
+                defeatAudioSource = source;
+            }
+            if (string.Equals(source.clip.name, victoryAudioName) is true)
+            {
+                victoryAudioSource = source;
+            }
+        }
+    }
     public void GameOver()
     {
         Debug.Log("Game Over!");
@@ -131,6 +156,10 @@ public class NewGameManager : MonoBehaviour
             if(ballArray[i] == ballObject){
                 scoreArray[i] += updateScore;
                 scoreTextArray[i].text = scoreArray[i].ToString();
+                if (scoreArray[i] == 448)
+                {
+                    victoryAudioSource.Play();
+                }
             }
         }
         
@@ -148,6 +177,7 @@ public class NewGameManager : MonoBehaviour
 
     public int LoseALife(GameObject ballObject)
     {
+        loseALifeAudioSource.Play();
         if (trainingMode)
         {
             return 0;  //  Don't lose a life in training mode, let the Agent do it.
@@ -161,6 +191,7 @@ public class NewGameManager : MonoBehaviour
             }
         }
         if(checkGameOver()){
+            defeatAudioSource.Play();
             GameOver();
         }
         return returnLives;
