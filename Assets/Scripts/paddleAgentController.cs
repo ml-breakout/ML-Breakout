@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using Unity.VisualScripting;
 
 // This class is similar to the PaddleController class, but contains modifications
 // that allow the paddle to be controlled by an ML Agent.
@@ -20,6 +21,9 @@ public class PaddleAgentController : Agent
     private GameObject ball;
     public GameManager gameManager;
     Rigidbody2D m_BallRb;
+
+    public Vector2 gameCenterPosition;
+    public float gameWidth;
     public float paddleSize;
 
     public override void Initialize()
@@ -121,7 +125,12 @@ public class PaddleAgentController : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
-        continuousActionsOut[0] = Input.GetAxis("Horizontal");
+        if (Input.GetKey(left)) {
+            continuousActionsOut[0] = -1f;   
+        } else if (Input.GetKey(right)) {
+            continuousActionsOut[0] = 1f;
+        }
+        
     }
 
     public void updatePaddleSize(){
