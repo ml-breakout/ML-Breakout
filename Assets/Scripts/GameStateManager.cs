@@ -5,8 +5,8 @@ public class GameStateManager : MonoBehaviour
 {
 
     public static GameStateManager instance;
-    public int numPlayers = 1;
 
+    public int numPlayers = 1;
     private int numCalledGameOver = 0;
 
 
@@ -15,7 +15,7 @@ public class GameStateManager : MonoBehaviour
         instance = this;
     }
 
-    public void checkGameOver(){
+    public void registerGameOver(){
         numCalledGameOver++;
         if(numCalledGameOver == numPlayers){
             Debug.Log("Game Over!");

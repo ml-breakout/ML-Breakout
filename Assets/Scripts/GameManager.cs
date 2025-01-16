@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour
     private AudioSource defeatAudioSource;
     private AudioSource victoryAudioSource;
 
+    private GameStateManager gameStateManager;
+
 
     void Start()
     {
@@ -72,6 +74,8 @@ public class GameManager : MonoBehaviour
         {
             InitializeGame();
         }
+
+        gameStateManager = GameStateManager.instance;
     }
 
     public void InitializeGame()
@@ -173,7 +177,9 @@ public class GameManager : MonoBehaviour
 
     public int LoseALife()
     {
-        loseALifeAudioSource.Play();
+        if (loseALifeAudioSource != null) {
+            loseALifeAudioSource.Play();
+        }
         if (IsTrainingMode)
         {
             return 0;  //  Don't lose a life in training mode, let the Agent do it.
@@ -181,8 +187,10 @@ public class GameManager : MonoBehaviour
         lives--;
         if (lives <= 0)
         {
-            defeatAudioSource.Play();
-            GameStateManager.instance.checkGameOver();
+            if (defeatAudioSource != null) {
+                defeatAudioSource.Play();
+            }
+            gameStateManager.registerGameOver();
         }
         livesText.text = lives.ToString();
         return lives;

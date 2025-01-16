@@ -26,6 +26,8 @@ public class PaddleAgentController : Agent
     public float gameWidth;
     public float paddleSize;
 
+    private GameManager parentGameManager;
+
     public override void Initialize()
     {
     }
@@ -34,6 +36,7 @@ public class PaddleAgentController : Agent
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        parentGameManager = GameObject.Find("BreakoutGameBoard").GetComponent<GameManager>();
     }
     void FixedUpdate()
     {
@@ -110,7 +113,10 @@ public class PaddleAgentController : Agent
         if (ball.transform.position.y < gameObject.transform.position.y)
         {
             SetReward(-1f);
-            EndEpisode();
+            if (parentGameManager.IsTrainingMode)
+            {
+                EndEpisode();
+            }
         }
         else
         {
@@ -125,16 +131,20 @@ public class PaddleAgentController : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
-        if (Input.GetKey(left)) {
-            continuousActionsOut[0] = -1f;   
-        } else if (Input.GetKey(right)) {
+        if (Input.GetKey(left))
+        {
+            continuousActionsOut[0] = -1f;
+        }
+        else if (Input.GetKey(right))
+        {
             continuousActionsOut[0] = 1f;
         }
-        
+
     }
 
-    public void updatePaddleSize(){
-        this.transform.localScale = new Vector3 (this.transform.localScale.x/2,this.transform.localScale.y,this.transform.localScale.z);
+    public void updatePaddleSize()
+    {
+        this.transform.localScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y, this.transform.localScale.z);
         paddleSize /= 2;
     }
 }
