@@ -63,29 +63,6 @@ public class PaddleAgentController : Agent
 
         ball = gameManager.GetBall();
         m_BallRb = ball.GetComponent<Rigidbody2D>();
-
-        // randomize the ball position
-        // ball.transform.position = new Vector2(Random.Range(0f, 8f), Random.Range(-3f, -1f));
-
-        // randomize the ball direction
-        //float x = Random.Range(-1f, 1.0f);
-        // float y = Random.Range(0.5f, 1.0f);
-        Vector2 direction = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(0.5f, 1.0f));
-        float ballspeed = 5f;
-        m_BallRb.linearVelocity = direction.normalized * ballspeed;
-
-        // randomize the paddle position (within normal bounds)
-        if (gameManager.IsTrainingMode)
-        {
-            gameObject.transform.position = new Vector2(
-                Random.Range(
-                  gameManager.gameCenter.x - gameWidth / 2, 
-                  gameManager.gameCenter.x + gameWidth / 2), 
-                gameManager.gameCenter.y
-            );
-        }
-
-        // TODO: reset the blocks
     }
 
     // Collects observations from the environment to be used by the agent.

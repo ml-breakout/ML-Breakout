@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void InitializeGame()
     {
+        score = 0;
         resetBricks();
         resetBall();
         if (!IsTrainingMode)
