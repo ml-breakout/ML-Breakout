@@ -26,8 +26,6 @@ public class PaddleAgentController : Agent
     public float gameWidth;
     public float paddleSize;
 
-    private GameManager parentGameManager;
-
     public override void Initialize()
     {
     }
@@ -36,7 +34,6 @@ public class PaddleAgentController : Agent
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        parentGameManager = GameObject.Find("BreakoutGameBoard").GetComponent<GameManager>();
     }
     void FixedUpdate()
     {
@@ -78,7 +75,15 @@ public class PaddleAgentController : Agent
         m_BallRb.linearVelocity = direction.normalized * ballspeed;
 
         // randomize the paddle position (within normal bounds)
-        gameObject.transform.position = new Vector2(Random.Range(0f, 8f), -4.1f);
+        if (gameManager.IsTrainingMode)
+        {
+            gameObject.transform.position = new Vector2(
+                Random.Range(
+                  gameManager.gameCenter.x - gameWidth / 2, 
+                  gameManager.gameCenter.x + gameWidth / 2), 
+                gameManager.gameCenter.y
+            );
+        }
 
         // TODO: reset the blocks
     }
@@ -113,7 +118,7 @@ public class PaddleAgentController : Agent
         if (ball.transform.position.y < gameObject.transform.position.y)
         {
             SetReward(-1f);
-            if (parentGameManager.IsTrainingMode)
+            if (gameManager.IsTrainingMode)
             {
                 EndEpisode();
             }

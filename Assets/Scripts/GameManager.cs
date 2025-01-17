@@ -69,6 +69,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        gameCenter = transform.position;
+        gameCenter = gameCenter + new Vector2(1.267f, 0.0881f);
         // Let the Agent initialize the game
         if (!IsAgentPlayer)
         {
