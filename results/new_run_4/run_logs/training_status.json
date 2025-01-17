@@ -1,0 +1,29 @@
+{
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 8243,
+                "file_path": "results/new_run_4/Paddle/Paddle-8243.onnx",
+                "reward": null,
+                "creation_time": 1737140727.459319,
+                "auxillary_file_paths": [
+                    "results/new_run_4/Paddle/Paddle-8243.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 8243,
+            "file_path": "results/new_run_4/Paddle.onnx",
+            "reward": null,
+            "creation_time": 1737140727.459319,
+            "auxillary_file_paths": [
+                "results/new_run_4/Paddle/Paddle-8243.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.1"
+    }
+}

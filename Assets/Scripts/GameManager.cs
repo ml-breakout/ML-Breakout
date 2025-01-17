@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     // game managment vars
     private int score = 0;
     private int lives = 3;
-    public Vector2 gameCenter;
+    private Vector2 gameCenter;
     private int bricksBroken;
     private int bricksBuilt;
     private bool OrangeBrickBroken = false;
@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
     // ball creation vars
     public GameObject ballPrefab;
     private GameObject BallObject;
-    [SerializeField]
     private Vector2 ballCenter;
 
     private List<GameObject> currentBricks = new List<GameObject>();
@@ -69,8 +68,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        gameCenter = transform.position;
-        gameCenter = gameCenter + new Vector2(1.267f, 0.0881f);
         // Let the Agent initialize the game
         if (!IsAgentPlayer)
         {
@@ -82,6 +79,9 @@ public class GameManager : MonoBehaviour
 
     public void InitializeGame()
     {
+        gameCenter = transform.position;
+        gameCenter = gameCenter + new Vector2(1.267f, 0.0881f);
+        ballCenter = gameCenter + new Vector2(0f, -3f);
         score = 0;
         resetBricks();
         resetBall();
@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
     public void resetBricks()
     {
+        Debug.Log(gameCenter);
         // Destroy all current bricks
         foreach (GameObject brick in currentBricks)
         {
