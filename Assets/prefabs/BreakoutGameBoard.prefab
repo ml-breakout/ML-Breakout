@@ -184,13 +184,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 8769633841020541762}
   livesText: {fileID: 2633356298493121125}
-  gameCenter: {x: 0, y: 0}
   speedChange: 0.5
   IsAgentPlayer: 1
   IsTrainingMode: 0
   paddle: {fileID: 1110599985562955634}
   ballPrefab: {fileID: 1146456820650171359, guid: 9abe6003f53adfe468abb8535ff7cdef, type: 3}
-  ballCenter: {x: 0, y: -3}
   yellowBrick: {fileID: 372470363338947877, guid: 7c297f927a0d4944380d304e864ae20c, type: 3}
   greenBrick: {fileID: 4343636400855690989, guid: cc308109fe37bdb4384d18d5b6f050cc, type: 3}
   orangeBrick: {fileID: 9121138873987132718, guid: ed7a4d79ee523a4428e1408540731c26, type: 3}
@@ -386,7 +384,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: a84c87fa121854ad688878e0ff1cfed1, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: e233dee8494734d508d2e99e6363358d, type: 3}
   m_InferenceDevice: 2
   m_BehaviorType: 1
   m_BehaviorName: Paddle
