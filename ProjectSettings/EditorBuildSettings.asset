@@ -10,10 +10,10 @@ EditorBuildSettings:
     guid: 0bc64c62a5d0f3e429e4df9d4d8f95af
   - enabled: 1
     path: Assets/Scenes/SinglePlayer.unity
-    guid: 2d3014552a7ffe94c9d35e7c27380d23
+    guid: 3614205a5263c4425b85a10441594e6a
   - enabled: 1
-    path: Assets/Scenes/PVPOld.unity
-    guid: 993048210f3ab1147acdd90c83b75f91
+    path: Assets/Scenes/PVP.unity
+    guid: d6b6db44d0dda447f882bd36a565c458
   - enabled: 1
     path: Assets/Scenes/SinglePlayerAI.unity
     guid: 38d972264fbd94fa5a11241419fc7961
