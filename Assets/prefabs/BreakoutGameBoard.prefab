@@ -159,7 +159,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541428014353482419}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.2673284, y: 0.08808446, z: 0.14334184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
   livesText: {fileID: 2633356298493121125}
   speedChange: 0.5
   IsAgentPlayer: 1
-  IsTrainingMode: 0
+  IsTrainingMode: 1
   paddle: {fileID: 1110599985562955634}
   ballPrefab: {fileID: 1146456820650171359, guid: 9abe6003f53adfe468abb8535ff7cdef, type: 3}
   yellowBrick: {fileID: 372470363338947877, guid: 7c297f927a0d4944380d304e864ae20c, type: 3}
@@ -386,7 +386,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: e233dee8494734d508d2e99e6363358d, type: 3}
   m_InferenceDevice: 2
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: Paddle
   TeamId: 0
   m_UseChildSensors: 1
