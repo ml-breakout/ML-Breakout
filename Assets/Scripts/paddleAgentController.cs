@@ -5,6 +5,8 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 // This class is similar to the PaddleController class, but contains modifications
 // that allow the paddle to be controlled by an ML Agent.
@@ -25,6 +27,8 @@ public class PaddleAgentController : Agent
     public Vector2 gameCenterPosition;
     public float gameWidth;
     public float paddleSize;
+
+    private List<int> currentBricksAlive = new List<int>();
 
     public override void Initialize()
     {
@@ -81,6 +85,14 @@ public class PaddleAgentController : Agent
         // TODO (is it ok to directly add a vec3, or do I need to deconstruct it?)
         sensor.AddObservation(m_BallRb.linearVelocity.x);
         sensor.AddObservation(m_BallRb.linearVelocity.y);
+
+        // bricks 
+        currentBricksAlive = gameManager.getBricksAlive();
+        for(int i = 0; i < currentBricksAlive.Count; i++ ){
+            sensor.AddObservation(currentBricksAlive[i]);
+        }
+        
+
     }
 
     // Executes the actions requested by the agent and grants rewards based on the current game state.

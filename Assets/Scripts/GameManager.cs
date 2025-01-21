@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> currentBricks = new List<GameObject>();
 
+    private List<int> currentBricksAlive = new List<int>();
+    // private int[] currentBricksAlive;
     // brick creation vars
     public GameObject yellowBrick;
     public GameObject greenBrick;
@@ -102,6 +104,7 @@ public class GameManager : MonoBehaviour
             Destroy(brick);
         }
         currentBricks.Clear();
+        currentBricksAlive.Clear();
 
         GameObject[] bricks = { yellowBrick, greenBrick, orangeBrick, redBrick };
         bricksInitalX = bricksWidth / 2 + brickSpaceingX / 2;
@@ -118,7 +121,9 @@ public class GameManager : MonoBehaviour
                 Vector3 leftBrickPos = new Vector3((brickSpaceingX + bricksWidth) * -j - bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
 
                 currentBricks.Add(Instantiate(bricks[(int)math.floor(i / 2)], rightBrickPos, Quaternion.identity, this.transform));
+                currentBricksAlive.Add(1);
                 currentBricks.Add(Instantiate(bricks[(int)math.floor(i / 2)], leftBrickPos, Quaternion.identity, this.transform));
+                currentBricksAlive.Add(1);
             }
             bricksInitalY += bricksHeight + brickSpaceingY;
         }
@@ -249,6 +254,10 @@ public class GameManager : MonoBehaviour
     public GameObject GetBall()
     {
         return BallObject;
+    }
+
+    public List<int> getBricksAlive(){
+        return currentBricksAlive;
     }
 
 }
