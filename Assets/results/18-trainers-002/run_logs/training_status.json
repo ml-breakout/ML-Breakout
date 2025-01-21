@@ -1,0 +1,38 @@
+{
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 499996,
+                "file_path": "results\\18-trainers-002\\Paddle\\Paddle-499996.onnx",
+                "reward": null,
+                "creation_time": 1737412291.630052,
+                "auxillary_file_paths": [
+                    "results\\18-trainers-002\\Paddle\\Paddle-499996.pt"
+                ]
+            },
+            {
+                "steps": 500060,
+                "file_path": "results\\18-trainers-002\\Paddle\\Paddle-500060.onnx",
+                "reward": null,
+                "creation_time": 1737412291.6503341,
+                "auxillary_file_paths": [
+                    "results\\18-trainers-002\\Paddle\\Paddle-500060.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500060,
+            "file_path": "results\\18-trainers-002\\Paddle.onnx",
+            "reward": null,
+            "creation_time": 1737412291.6503341,
+            "auxillary_file_paths": [
+                "results\\18-trainers-002\\Paddle\\Paddle-500060.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

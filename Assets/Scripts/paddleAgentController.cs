@@ -70,12 +70,12 @@ public class PaddleAgentController : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // Ball position
-        sensor.AddObservation(ball.transform.position.x);
-        sensor.AddObservation(ball.transform.position.y);
+        sensor.AddObservation(ball.transform.localPosition.x);
+        sensor.AddObservation(ball.transform.localPosition.y);
 
         // Paddle position
-        sensor.AddObservation(gameObject.transform.position.x);
-        sensor.AddObservation(gameObject.transform.position.y);
+        sensor.AddObservation(gameObject.transform.localPosition.x);
+        sensor.AddObservation(gameObject.transform.localPosition.y);
 
         // Ball velocity
         // TODO (is it ok to directly add a vec3, or do I need to deconstruct it?)
@@ -92,7 +92,7 @@ public class PaddleAgentController : Agent
         rb.linearVelocity = new Vector2(move, 0) * movementSpeed;
 
         // end the eposide if the ball passes the paddle
-        if (ball.transform.position.y < gameObject.transform.position.y)
+        if (ball.transform.localPosition.y < gameObject.transform.localPosition.y)
         {
             SetReward(-1f);
             if (gameManager.IsTrainingMode)
