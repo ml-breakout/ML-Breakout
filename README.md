@@ -26,3 +26,10 @@ Great! Now your model will be used in all instances of BreakoutGameBoard that ar
 To test out your new model, the easiest way is:
 
 1. Open up the `SinglePlayerAI` scene and press Play.
+
+
+## Debugging
+
+Here are some handy tips for solving common problems:
+
+* If the Unity editor crashes while you're trying to play a scene that includes an agent running in inference mode, check that the model you're using was trained using the same Vector Observation Stack Size as what's currently being used in your code. If there's a mismatch, that'll likely result in a crash (based on my experience)
