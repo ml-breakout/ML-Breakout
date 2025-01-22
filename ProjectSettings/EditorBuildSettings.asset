@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SinglePlayerAI.unity
     guid: 38d972264fbd94fa5a11241419fc7961
+  - enabled: 1
+    path: Assets/Scenes/PVAI.unity
+    guid: d9a626eacf6bb4b08afd0d0825dbc8d7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

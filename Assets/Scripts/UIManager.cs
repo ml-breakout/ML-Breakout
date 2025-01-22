@@ -17,19 +17,19 @@ public class UIManager : MonoBehaviour
 
     public void open1PScene()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("SinglePlayer");
     }
 
     public void open1PAIScene()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("SinglePlayerAI");
     }
     public void openPVPScene()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("PVP");
     }
-    // need to finish
-    // public void openPVAIScene(){
-    //     SceneManager.GetSceneByBuildIndex(2);
-    // }
+
+    public void openPVAIScene(){
+        SceneManager.LoadScene("PVAI");
+    }
 }
