@@ -134,7 +134,7 @@ public class BallController : MonoBehaviour
 
     public void IncreaseBallSpeed(float amount){
         initialSpeed += amount;
-        Debug.Log(initialSpeed);
+        // Debug.Log(initialSpeed);
     }
 
 }

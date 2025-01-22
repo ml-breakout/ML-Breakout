@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1737501317",
+        "python_version": "3.10.12 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 19:01:18) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\caden\\AppData\\Local\\miniconda3\\envs\\mlagents\\Scripts\\mlagents-learn agent-training-configs/config_v0.yaml --run-id=Caden_test_4 --train",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cu121",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1737501380"
+    },
+    "total": 62.692482199985534,
+    "count": 1,
+    "self": 0.008084899978712201,
+    "children": {
+        "run_training.setup": {
+            "total": 0.10383789998013526,
+            "count": 1,
+            "self": 0.10383789998013526
+        },
+        "TrainerController.start_learning": {
+            "total": 62.58055940002669,
+            "count": 1,
+            "self": 0.00017860002117231488,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 62.58035890001338,
+                    "count": 1,
+                    "self": 62.58035890001338
+                },
+                "TrainerController._save_models": {
+                    "total": 2.1899992134422064e-05,
+                    "count": 1,
+                    "self": 2.1899992134422064e-05
+                }
+            }
+        }
+    }
+}

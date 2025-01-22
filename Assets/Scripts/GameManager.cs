@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;  // For restarting the game
 using TMPro;
 using Unity.Mathematics;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -97,7 +98,7 @@ public class GameManager : MonoBehaviour
 
     public void resetBricks()
     {
-        Debug.Log(gameCenter);
+        // Debug.Log(gameCenter);
         // Destroy all current bricks
         foreach (GameObject brick in currentBricks)
         {
@@ -163,7 +164,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         //defeatAudioSource.Play();
-        Debug.Log("Game Over!");
+        // Debug.Log("Game Over!");
         // Restart the game after 2 seconds
         Invoke("RestartGame", 2f);
     }
@@ -206,7 +207,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void BrickUpdate(string type)
+    public void BrickUpdate(string type, int ID)
     {
         bricksBroken++;
 
@@ -214,29 +215,43 @@ public class GameManager : MonoBehaviour
         {
             OrangeBrickBroken = true;
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            Debug.Log("Orange");
+            // Debug.Log("Orange");
         }
         else if (type == "Red" && !RedBrickBroken)
         {
             RedBrickBroken = true;
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            Debug.Log("red");
+            // Debug.Log("red");
         }
+        // Debug.Log(currentBricks.Count);
+        for(int i = 0; i < currentBricks.Count; i++){
+            // Debug.Log(currentBricks[i].GetInstanceID());
+            // Debug.Log(ID);
+            if(currentBricks[i].GetInstanceID() == ID){
+                currentBricksAlive[i] = 0;
+                break;
+            }
+        }
+        // string currentBricksAliveArray = "";
+        // for(int i = 0; i < currentBricksAlive.Count; i++){
+        //     currentBricksAliveArray += currentBricksAlive[i];
+        // }
+        // Debug.Log(currentBricksAliveArray);
         if (bricksBroken == 4)
         {
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            Debug.Log("Broken:4");
+            // Debug.Log("Broken:4");
         }
         else if (bricksBroken == 12)
         {
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            Debug.Log("Broken:12");
+            // Debug.Log("Broken:12");
         }
         else if (bricksBroken == bricksBuilt)
         {
             victoryAudioSource.Play();
             //until level 2 is added:
-            Debug.Log("");
+            // Debug.Log("");
             Invoke("RestartGame", 4f);
             //GameStateManager.instance.checkGameOver();
         }

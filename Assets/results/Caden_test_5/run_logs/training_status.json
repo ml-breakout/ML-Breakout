@@ -1,0 +1,47 @@
+{
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 318914,
+                "file_path": "results\\Caden_test_5\\Paddle\\Paddle-318914.onnx",
+                "reward": null,
+                "creation_time": 1737503215.900289,
+                "auxillary_file_paths": [
+                    "results\\Caden_test_5\\Paddle\\Paddle-318914.pt"
+                ]
+            },
+            {
+                "steps": 499938,
+                "file_path": "results\\Caden_test_5\\Paddle\\Paddle-499938.onnx",
+                "reward": null,
+                "creation_time": 1737504556.709699,
+                "auxillary_file_paths": [
+                    "results\\Caden_test_5\\Paddle\\Paddle-499938.pt"
+                ]
+            },
+            {
+                "steps": 500002,
+                "file_path": "results\\Caden_test_5\\Paddle\\Paddle-500002.onnx",
+                "reward": null,
+                "creation_time": 1737504556.7823825,
+                "auxillary_file_paths": [
+                    "results\\Caden_test_5\\Paddle\\Paddle-500002.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500002,
+            "file_path": "results\\Caden_test_5\\Paddle.onnx",
+            "reward": null,
+            "creation_time": 1737504556.7823825,
+            "auxillary_file_paths": [
+                "results\\Caden_test_5\\Paddle\\Paddle-500002.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

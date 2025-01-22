@@ -1,5 +1,6 @@
 using System;
 using Unity.VisualScripting;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -12,9 +13,13 @@ public class Brick : MonoBehaviour
     private string type;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+    private int ID;
+
     private GameObject parent;    
     void Start(){
         parent = transform.parent.gameObject;
+
+        ID = this.gameObject.GetInstanceID();
     }
 
     private void OnCollisionEnter2D(Collision2D collision){
@@ -22,7 +27,7 @@ public class Brick : MonoBehaviour
         if (parent != null)
         {
             parent.GetComponent<GameManager>().AddScore(score);
-            parent.GetComponent<GameManager>().BrickUpdate(type);
+            parent.GetComponent<GameManager>().BrickUpdate(type , ID);
         }
         Destroy(this.gameObject);
     }
