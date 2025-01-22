@@ -73,6 +73,9 @@ public class PaddleAgentController : Agent
     // This is the input to the agent.
     public override void CollectObservations(VectorSensor sensor)
     {
+        ball = gameManager.GetBall();
+        m_BallRb = ball.GetComponent<Rigidbody2D>();
+
         // Ball position
         sensor.AddObservation(ball.transform.localPosition.x);
         sensor.AddObservation(ball.transform.localPosition.y);
