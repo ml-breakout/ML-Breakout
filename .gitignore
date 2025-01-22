@@ -73,3 +73,7 @@ crashlytics-build.properties
 
 # Mac crap
 .DS_Store
+
+UserSettings/Layouts/*
+/[Aa]ssets/ML-Agents/Timers/*
+mono_crash
