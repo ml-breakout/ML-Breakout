@@ -29,6 +29,9 @@ public class PaddleAgentController : Agent
     public float paddleSize;
 
     private List<int> currentBricksAlive = new List<int>();
+    
+    private int prevScore = 0;
+    private int newScore = 0;
 
     public override void Initialize()
     {
@@ -118,7 +121,33 @@ public class PaddleAgentController : Agent
         else
         {
             // reward the agent for keeping the ball in play
-            SetReward(0.01f);
+            //SetReward(0.01f);
+            //Going to reward the Agent less for keeping it in play, and more for increasing the score
+            newScore = gameManager.GetScore();
+            int difference = newScore - prevScore;
+            prevScore = newScore;
+            switch(difference)
+            {
+                case 0:
+                    SetReward(0.0f);
+                    break;
+                case 1:
+                    SetReward(0.01f);
+                    break;
+                case 3:
+                    SetReward(0.03f);
+                    break;
+                case 5:
+                    SetReward(0.05f);
+                    break;
+                case 7:
+                    SetReward(0.07f);
+                    break;
+                default:
+                    //Combo of blocks
+                    SetReward(0.04f);
+                    break;
+            }
         }
     }
 
