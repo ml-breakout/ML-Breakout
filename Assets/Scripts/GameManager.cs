@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
         gameCenter = gameCenter + new Vector2(1.267f, 0.0881f);
         ballCenter = gameCenter + new Vector2(0f, -3f);
         score = 0;
+        scoreText.text = score.ToString();
         resetBricks();
         resetBall();
         if (!IsTrainingMode)
@@ -180,6 +181,11 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
+    public int GetScore()
+    {
+        return score;
+    }
+
     public Vector2 GetBallStartingPosition()
     {
         return ballCenter;
@@ -192,6 +198,7 @@ public class GameManager : MonoBehaviour
         }
         if (IsTrainingMode)
         {
+            score = 0;
             return 0;  //  Don't lose a life in training mode, let the Agent do it.
         }
         lives--;
