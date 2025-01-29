@@ -77,6 +77,7 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("Top Wall"))
         {
             wallCollisionSoundSource.Play();
+
         }
         if (collision.gameObject.CompareTag("Paddle"))
         {

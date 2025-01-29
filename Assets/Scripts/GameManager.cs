@@ -267,10 +267,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePaddleSize()
     {
-        if (!IsAgentPlayer)
-        {
-            paddle.GetComponent<PaddleAgentController>().updatePaddleSize();
-        }
+        paddle.GetComponent<PaddleAgentController>().updatePaddleSize();
     }
 
     public GameObject GetBall()
