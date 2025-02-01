@@ -7,10 +7,37 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    // *****************************
+    // * PUBLIC VARIABLES -> START *
+    // *****************************
+
     // UI vars
-    // public static GameManager instance;  // Singleton pattern
     public TextMeshProUGUI scoreText;  // Reference to UI text
     public TextMeshProUGUI livesText;   // Reference to UI text
+    public TextMeshProUGUI averageScore;   // Reference to UI text
+    public TextMeshProUGUI gamesPlayed;   // Reference to UI text
+
+    // AI Agent vars
+    public bool IsAgentPlayer; // Whether the AI agent is playing the game
+    public bool IsTrainingMode = false;  // Whether the game is in training mode
+
+    // Ball Creation
+    public GameObject ballPrefab;
+
+        // brick creation vars
+    public GameObject yellowBrick;
+    public GameObject greenBrick;
+    public GameObject orangeBrick;
+    public GameObject redBrick;
+
+    // ***************************
+    // * PUBLIC VARIABLES -> END *
+    // ***************************
+
+
+    // ******************************
+    // * PRIVATE VARIABLES -> START *
+    // ******************************
 
     // game managment vars
     private int score = 0;
@@ -23,31 +50,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float speedChange = 1f;
 
-    // AI Agent vars
-    public bool IsAgentPlayer; // Whether the AI agent is playing the game
-    public bool IsTrainingMode = false;  // Whether the game is in training mode
-
     // paddle vars
-
     [SerializeField]
     private GameObject paddle;
 
-
     // ball creation vars
-    public GameObject ballPrefab;
     private GameObject BallObject;
     private Vector2 ballCenter;
-
     private List<GameObject> currentBricks = new List<GameObject>();
-
     private List<int> currentBricksAlive = new List<int>();
-    // private int[] currentBricksAlive;
-    // brick creation vars
-    public GameObject yellowBrick;
-    public GameObject greenBrick;
-    public GameObject orangeBrick;
-    public GameObject redBrick;
-
     [SerializeField]
     private float bricksWidth = 0.5f;
     [SerializeField]
@@ -58,17 +69,18 @@ public class GameManager : MonoBehaviour
     private float brickSpaceingY = 0.25f;
     private float bricksInitalX;
     private float bricksInitalY = 0f;
-
     private string loseALifeAudioName = "173958__leszek_szary__failure";
     private string defeatAudioName = "538151__fupicat__8bit-fall";
     private string victoryAudioName = "752857__etheraudio__square-nice-arpeggio-slow-echo";
     private AudioSource loseALifeAudioSource;
     private AudioSource defeatAudioSource;
     private AudioSource victoryAudioSource;
-
     private GameStateManager gameStateManager;
 
-
+    // ****************************
+    // * PRIVATE VARIABLES -> END *
+    // ****************************
+    
     void Start()
     {
         // Let the Agent initialize the game
@@ -87,17 +99,16 @@ public class GameManager : MonoBehaviour
         ballCenter = gameCenter + new Vector2(0f, -3f);
         score = 0;
         scoreText.text = score.ToString();
-        resetBricks();
-        resetBall();
+        ResetBricks();
+        ResetBall();
         if (!IsTrainingMode)
         {
-            initLives();
-            initAudio();
+            InitLives();
+            InitAudio();
         }
-
     }
 
-    public void resetBricks()
+    public void ResetBricks()
     {
         // Debug.Log(gameCenter);
         // Destroy all current bricks
@@ -119,8 +130,8 @@ public class GameManager : MonoBehaviour
             {
                 bricksBuilt++;
                 bricksBuilt++;
-                Vector3 rightBrickPos = new Vector3((brickSpaceingX + bricksWidth) * j + bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
-                Vector3 leftBrickPos = new Vector3((brickSpaceingX + bricksWidth) * -j - bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
+                Vector3 rightBrickPos = new((brickSpaceingX + bricksWidth) * j + bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
+                Vector3 leftBrickPos = new((brickSpaceingX + bricksWidth) * -j - bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
 
                 currentBricks.Add(Instantiate(bricks[(int)math.floor(i / 2)], rightBrickPos, Quaternion.identity, this.transform));
                 currentBricksAlive.Add(1);
@@ -132,7 +143,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void resetBall()
+    public void ResetBall()
     {
         if (BallObject != null)
         {
@@ -140,13 +151,16 @@ public class GameManager : MonoBehaviour
         }
         BallObject = Instantiate(ballPrefab, new Vector3(ballCenter.x, ballCenter.y, 0), Quaternion.identity, this.transform);
     }
-    public void initLives()
+
+    public void InitLives()
     {
         livesText.text = lives.ToString();
     }
-    public void initAudio(){
+
+    public void InitAudio()
+    {
         AudioSource[] audio_options = GetComponents<AudioSource>();
-        foreach(AudioSource source in audio_options)
+        foreach (AudioSource source in audio_options)
         {
             if (string.Equals(source.clip.name, loseALifeAudioName) is true)
             {
@@ -162,6 +176,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     public void GameOver()
     {
         //defeatAudioSource.Play();
@@ -193,7 +208,8 @@ public class GameManager : MonoBehaviour
 
     public int LoseALife()
     {
-        if (loseALifeAudioSource != null) {
+        if (loseALifeAudioSource != null)
+        {
             loseALifeAudioSource.Play();
         }
         if (IsTrainingMode)
@@ -204,10 +220,11 @@ public class GameManager : MonoBehaviour
         lives--;
         if (lives <= 0)
         {
-            if (defeatAudioSource != null) {
+            if (defeatAudioSource != null)
+            {
                 defeatAudioSource.Play();
             }
-            gameStateManager.registerGameOver();
+            gameStateManager.RegisterGameOver();
         }
         livesText.text = lives.ToString();
         return lives;
@@ -231,10 +248,12 @@ public class GameManager : MonoBehaviour
             // Debug.Log("red");
         }
         // Debug.Log(currentBricks.Count);
-        for(int i = 0; i < currentBricks.Count; i++){
+        for (int i = 0; i < currentBricks.Count; i++)
+        {
             // Debug.Log(currentBricks[i].GetInstanceID());
             // Debug.Log(ID);
-            if(currentBricks[i].GetInstanceID() == ID){
+            if (currentBricks[i].GetInstanceID() == ID)
+            {
                 currentBricksAlive[i] = 0;
                 break;
             }
@@ -275,8 +294,8 @@ public class GameManager : MonoBehaviour
         return BallObject;
     }
 
-    public List<int> getBricksAlive(){
+    public List<int> GetBricksAlive()
+    {
         return currentBricksAlive;
     }
-
 }

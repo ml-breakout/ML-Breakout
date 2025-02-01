@@ -1,0 +1,32 @@
+{
+    "stage": {
+        "lesson_num": 0
+    },
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 353705,
+                "file_path": "results\\18-trainers-005\\Paddle\\Paddle-353705.onnx",
+                "reward": -0.9166666626930237,
+                "creation_time": 1738425155.4913952,
+                "auxillary_file_paths": [
+                    "results\\18-trainers-005\\Paddle\\Paddle-353705.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 353705,
+            "file_path": "results\\18-trainers-005\\Paddle.onnx",
+            "reward": -0.9166666626930237,
+            "creation_time": 1738425155.4913952,
+            "auxillary_file_paths": [
+                "results\\18-trainers-005\\Paddle\\Paddle-353705.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

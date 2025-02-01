@@ -13,43 +13,55 @@ using Google.Protobuf.WellKnownTypes;
 // that allow the paddle to be controlled by an ML Agent.
 public class PaddleAgentController : Agent
 {
-    [SerializeField]
-    private float movementSpeed = 300f;
-    private Rigidbody2D rb;
 
-    private Vector2 movementDirection;
+    // *****************************
+    // * PUBLIC VARIABLES -> START *
+    // *****************************
+
     public KeyCode left;
     public KeyCode right;
-
-    private GameObject ball;
     public GameManager gameManager;
-    Rigidbody2D m_BallRb;
-
     public Vector2 gameCenterPosition;
     public float gameWidth;
     public float paddleSize;
 
-    private List<int> currentBricksAlive = new List<int>();
+    // ***************************
+    // * PUBLIC VARIABLES -> END *
+    // ***************************
+    
 
+    // ******************************
+    // * PRIVATE VARIABLES -> START *
+    // ******************************
+
+    [SerializeField]
+    private float movementSpeed = 300f;
+    private Rigidbody2D rb;
+    private Vector2 movementDirection;
+    private GameObject ball;
+    private List<int> currentBricksAlive = new List<int>();
     private int prevScore = 0;
     private int newScore = 0;
-
     private float ball_min_x = -3.140096f;
     private float ball_max_x = 5.674098f;
-
     private float ball_min_y = -4.282911f;
     private float ball_max_y = 4.388294f;
-
     private float paddle_min_x = -2.667672f;
     private float paddle_max_x = 5.202328f;
-
     private float ball_velocity_min_x = -5f;
     private float ball_velocity_max_x = 5f;
     private float ball_velocity_min_y = -5f;
     private float ball_velocity_max_y = 5f;
 
+    // ****************************
+    // * PRIVATE VARIABLES -> END *
+    // ****************************
+    
+    Rigidbody2D m_BallRb;
+
     public override void Initialize()
     {
+
     }
 
     // Normalizes a value between 0 and 1
@@ -69,6 +81,7 @@ public class PaddleAgentController : Agent
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
     void FixedUpdate()
     {
         if (Input.GetKey(left))
@@ -125,7 +138,7 @@ public class PaddleAgentController : Agent
         // TODO possibly set to false during early stages of academy training
         bool watch_bricks = true;
         // bricks 
-        currentBricksAlive = gameManager.getBricksAlive();
+        currentBricksAlive = gameManager.GetBricksAlive();
         for (int i = 0; i < currentBricksAlive.Count; i++)
         {
             if (watch_bricks)
@@ -137,8 +150,6 @@ public class PaddleAgentController : Agent
                 sensor.AddObservation(0);
             }
         }
-
-
     }
 
     // Executes the actions requested by the agent and grants rewards based on the current game state.

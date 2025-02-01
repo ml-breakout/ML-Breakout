@@ -204,7 +204,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 210885065}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: open1PAIScene
+        m_MethodName: Open1PAIScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -517,7 +517,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 210885065}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: openPVAIScene
+        m_MethodName: OpenPVAIScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1001,7 +1001,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 210885065}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: openPVPScene
+        m_MethodName: OpenPVPScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1376,7 +1376,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 210885065}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: open1PScene
+        m_MethodName: Open1PScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

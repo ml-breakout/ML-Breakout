@@ -3,6 +3,22 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    // *****************************
+    // * PUBLIC VARIABLES -> START *
+    // *****************************
+
+    // ***************************
+    // * PUBLIC VARIABLES -> END *
+    // ***************************
+
+    // ******************************
+    // * PRIVATE VARIABLES -> START *
+    // ******************************
+
+    // ****************************
+    // * PRIVATE VARIABLES -> END *
+    // ****************************
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,21 +31,22 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void open1PScene()
+    public void Open1PScene()
     {
         SceneManager.LoadScene("SinglePlayer");
     }
 
-    public void open1PAIScene()
+    public void Open1PAIScene()
     {
         SceneManager.LoadScene("SinglePlayerAI");
     }
-    public void openPVPScene()
+    
+    public void OpenPVPScene()
     {
         SceneManager.LoadScene("PVP");
     }
 
-    public void openPVAIScene(){
+    public void OpenPVAIScene(){
         SceneManager.LoadScene("PVAI");
     }
 }
