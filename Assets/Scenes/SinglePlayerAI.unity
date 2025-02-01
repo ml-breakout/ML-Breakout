@@ -563,14 +563,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BreakoutGameBoard
       objectReference: {fileID: 0}
-    - target: {fileID: 2805653434884855871, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-      propertyPath: m_Model
-      value: 
-      objectReference: {fileID: 5022602860645237092, guid: 3908c1e4207128b47a31a80e368af45d, type: 3}
-    - target: {fileID: 2805653434884855871, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5335173397818195352, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
       propertyPath: speedChange
       value: 0.5

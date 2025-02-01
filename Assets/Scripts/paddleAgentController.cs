@@ -7,6 +7,7 @@ using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
+using Google.Protobuf.WellKnownTypes;
 
 // This class is similar to the PaddleController class, but contains modifications
 // that allow the paddle to be controlled by an ML Agent.
@@ -29,12 +30,38 @@ public class PaddleAgentController : Agent
     public float paddleSize;
 
     private List<int> currentBricksAlive = new List<int>();
-    
+
     private int prevScore = 0;
     private int newScore = 0;
 
+    private float ball_min_x = -3.140096f;
+    private float ball_max_x = 5.674098f;
+
+    private float ball_min_y = -4.282911f;
+    private float ball_max_y = 4.388294f;
+
+    private float paddle_min_x = -2.667672f;
+    private float paddle_max_x = 5.202328f;
+
+    private float ball_velocity_min_x = -5f;
+    private float ball_velocity_max_x = 5f;
+    private float ball_velocity_min_y = -5f;
+    private float ball_velocity_max_y = 5f;
+
     public override void Initialize()
     {
+    }
+
+    // Normalizes a value between 0 and 1
+    private float NormalizeNonnegative(float value, float min, float max)
+    {
+        return (value - min) / (max - min);
+    }
+
+    // Normalizes a value between -1 and 1
+    private float Normalize(float value, float min, float max)
+    {
+        return 2 * (value - min) / (max - min) - 1;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -70,6 +97,7 @@ public class PaddleAgentController : Agent
 
         ball = gameManager.GetBall();
         m_BallRb = ball.GetComponent<Rigidbody2D>();
+        prevScore = 0;
     }
 
     // Collects observations from the environment to be used by the agent.
@@ -80,24 +108,36 @@ public class PaddleAgentController : Agent
         m_BallRb = ball.GetComponent<Rigidbody2D>();
 
         // Ball position
-        sensor.AddObservation(ball.transform.localPosition.x);
-        sensor.AddObservation(ball.transform.localPosition.y);
+        float ball_x = NormalizeNonnegative(ball.transform.localPosition.x, ball_min_x, ball_max_x);
+        float ball_y = NormalizeNonnegative(ball.transform.localPosition.y, ball_min_y, ball_max_y);
+        sensor.AddObservation(ball_x);
+        sensor.AddObservation(ball_y);
 
         // Paddle position
-        sensor.AddObservation(gameObject.transform.localPosition.x);
-        sensor.AddObservation(gameObject.transform.localPosition.y);
+        float paddle_x = NormalizeNonnegative(gameObject.transform.localPosition.x, paddle_min_x, paddle_max_x);
+        sensor.AddObservation(paddle_x);
 
-        // Ball velocity
-        // TODO (is it ok to directly add a vec3, or do I need to deconstruct it?)
-        sensor.AddObservation(m_BallRb.linearVelocity.x);
-        sensor.AddObservation(m_BallRb.linearVelocity.y);
+        float ball_velocity_x = Normalize(m_BallRb.linearVelocity.x, ball_velocity_min_x, ball_velocity_max_x);
+        float ball_velocity_y = Normalize(m_BallRb.linearVelocity.y, ball_velocity_min_y, ball_velocity_max_y);
+        sensor.AddObservation(ball_velocity_x);
+        sensor.AddObservation(ball_velocity_y);
 
+        // TODO possibly set to false during early stages of academy training
+        bool watch_bricks = true;
         // bricks 
         currentBricksAlive = gameManager.getBricksAlive();
-        for(int i = 0; i < currentBricksAlive.Count; i++ ){
-            sensor.AddObservation(currentBricksAlive[i]);
+        for (int i = 0; i < currentBricksAlive.Count; i++)
+        {
+            if (watch_bricks)
+            {
+                sensor.AddObservation(currentBricksAlive[i]);
+            }
+            else
+            {
+                sensor.AddObservation(0);
+            }
         }
-        
+
 
     }
 
@@ -112,21 +152,30 @@ public class PaddleAgentController : Agent
         // end the eposide if the ball passes the paddle
         if (ball.transform.localPosition.y < gameObject.transform.localPosition.y)
         {
+            // penalize the agent for missing the ball
             SetReward(-1f);
             if (gameManager.IsTrainingMode)
             {
                 EndEpisode();
+                return;
             }
         }
-        else
+
+        // reward the agent for keeping the ball in play
+        float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
+        if (curriculumStage == 1.0f)
         {
-            // reward the agent for keeping the ball in play
-            //SetReward(0.01f);
-            //Going to reward the Agent less for keeping it in play, and more for increasing the score
+            SetReward(0.1f);  // Small reward for not losing
+        }
+
+        // reward the agent for increasing the score
+        if (curriculumStage == 2.0f)
+        {
+
             newScore = gameManager.GetScore();
             int difference = newScore - prevScore;
             prevScore = newScore;
-            switch(difference)
+            switch (difference)
             {
                 case 0:
                     SetReward(0.0f);
@@ -172,5 +221,14 @@ public class PaddleAgentController : Agent
     {
         this.transform.localScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y, this.transform.localScale.z);
         paddleSize /= 2;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
+        if (collision.gameObject.CompareTag("Ball") && (curriculumStage == 0.0f))
+        {
+            SetReward(0.1f);  // Small reward for each hit
+        }
     }
 }
