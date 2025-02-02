@@ -4,18 +4,34 @@ using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour
 {
 
-    public static GameStateManager instance;
+    // *****************************
+    // * PUBLIC VARIABLES -> START *
+    // *****************************
 
+    public static GameStateManager instance;
     public int numPlayers = 1;
+
+    // ***************************
+    // * PUBLIC VARIABLES -> END *
+    // ***************************
+
+    // ******************************
+    // * PRIVATE VARIABLES -> START *
+    // ******************************
+
     private int numCalledGameOver = 0;
 
+    // ****************************
+    // * PRIVATE VARIABLES -> END *
+    // ****************************
 
 
-    void Awake(){
+    void Awake()
+    {
         instance = this;
     }
 
-    public void registerGameOver(){
+    public void RegisterGameOver(){
         numCalledGameOver++;
         if(numCalledGameOver == numPlayers){
             // Debug.Log("Game Over!");
@@ -30,7 +46,8 @@ public class GameStateManager : MonoBehaviour
     }
     
     // TODO
-    void checkNextGame(){
+    void CheckNextGame()
+    {
 
     }
 }

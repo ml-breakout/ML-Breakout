@@ -5,14 +5,24 @@ using UnityEngine.Video;
 
 public class BallController : MonoBehaviour
 {
-    // Adding this line to test pull requests - Tyler 20241114
-    // You can set this in the Unity Inspector
+    // *****************************
+    // * PUBLIC VARIABLES -> START *
+    // *****************************
+
     public float initialSpeed = 5f;
     public float ballX;
     public float ballY;
+
+    // ***************************
+    // * PUBLIC VARIABLES -> END *
+    // ***************************
+
+    // ******************************
+    // * PRIVATE VARIABLES -> START *
+    // ******************************
+
     private Rigidbody2D rb;
     private GameObject parent;   
-
     private bool TopWallCollsion = false;
     private string paddleCollisionSoundName = "361266__japanyoshithegamer__8-bit-soft-beep-impact";
     private string brickCollisionSoundName = "752671__etheraudio__sqr-blip-2";
@@ -20,6 +30,11 @@ public class BallController : MonoBehaviour
     private AudioSource paddleCollisionSoundSource;
     private AudioSource brickCollisionSoundSource;
     private AudioSource wallCollisionSoundSource;
+
+    // ****************************
+    // * PRIVATE VARIABLES -> END *
+    // ****************************
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,10 +49,10 @@ public class BallController : MonoBehaviour
         rb.linearVelocity = direction.normalized * initialSpeed;
 
         //audio
-        initAudio();
+        InitAudio();
     }
 
-    public void initAudio()
+    public void InitAudio()
     {
         AudioSource[] audio_options = GetComponents<AudioSource>();
         //GetComponent<AudioSource>().Play();
@@ -63,6 +78,7 @@ public class BallController : MonoBehaviour
         // Keep the ball at constant speed
         rb.linearVelocity = rb.linearVelocity.normalized * initialSpeed;
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
 
@@ -137,5 +153,4 @@ public class BallController : MonoBehaviour
         initialSpeed += amount;
         // Debug.Log(initialSpeed);
     }
-
 }
