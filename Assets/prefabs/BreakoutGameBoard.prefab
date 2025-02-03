@@ -184,15 +184,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 8769633841020541762}
   livesText: {fileID: 2633356298493121125}
-  speedChange: 0.5
+  averageScore: {fileID: 0}
+  gamesPlayed: {fileID: 0}
   IsAgentPlayer: 1
   IsTrainingMode: 1
-  paddle: {fileID: 1110599985562955634}
   ballPrefab: {fileID: 1146456820650171359, guid: 9abe6003f53adfe468abb8535ff7cdef, type: 3}
   yellowBrick: {fileID: 372470363338947877, guid: 7c297f927a0d4944380d304e864ae20c, type: 3}
   greenBrick: {fileID: 4343636400855690989, guid: cc308109fe37bdb4384d18d5b6f050cc, type: 3}
   orangeBrick: {fileID: 9121138873987132718, guid: ed7a4d79ee523a4428e1408540731c26, type: 3}
   redBrick: {fileID: 2279494898821426182, guid: 5939dcef5e359644e856718b1e791af0, type: 3}
+  speedChange: 0.5
+  paddle: {fileID: 1110599985562955634}
   bricksWidth: 0.5
   bricksHeight: 0.15
   brickSpaceingX: 0.15
@@ -409,13 +411,13 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
-  movementSpeed: 15
   left: 97
   right: 100
   gameManager: {fileID: 5335173397818195352}
   gameCenterPosition: {x: 0, y: 0}
   gameWidth: 0
   paddleSize: 0
+  movementSpeed: 10
 --- !u!114 &1901952777253789674
 MonoBehaviour:
   m_ObjectHideFlags: 0
