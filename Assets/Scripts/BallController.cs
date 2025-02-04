@@ -1,7 +1,4 @@
-using System;
-using UnityEditor.Callbacks;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class BallController : MonoBehaviour
 {
@@ -11,7 +8,7 @@ public class BallController : MonoBehaviour
 
     public float initialSpeed = 5f;
     public float ballX;
-    public float ballY;
+    public float ballY;    
 
     // ***************************
     // * PUBLIC VARIABLES -> END *
@@ -29,7 +26,7 @@ public class BallController : MonoBehaviour
     private string wallCollisionSoundName = "752736__etheraudio__square-blip-non-fade";
     private AudioSource paddleCollisionSoundSource;
     private AudioSource brickCollisionSoundSource;
-    private AudioSource wallCollisionSoundSource;
+    private AudioSource wallCollisionSoundSource;    
 
     // ****************************
     // * PRIVATE VARIABLES -> END *
@@ -81,7 +78,6 @@ public class BallController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-
         if (collision.gameObject.CompareTag("Side Wall"))
         {
             wallCollisionSoundSource.Play();
@@ -93,7 +89,6 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("Top Wall"))
         {
             wallCollisionSoundSource.Play();
-
         }
         if (collision.gameObject.CompareTag("Paddle"))
         {
@@ -110,6 +105,9 @@ public class BallController : MonoBehaviour
 
             // Apply the new velocity
             rb.linearVelocity = direction * initialSpeed;
+
+            // Increment bounces
+            parent.GetComponent<GameManager>().IncrementBounces();
         }
         if (collision.gameObject.CompareTag("Top Wall") && !TopWallCollsion)
         {
@@ -147,7 +145,7 @@ public class BallController : MonoBehaviour
                 }
             }
         }
-    }
+    }   
 
     public void IncreaseBallSpeed(float amount){
         initialSpeed += amount;
