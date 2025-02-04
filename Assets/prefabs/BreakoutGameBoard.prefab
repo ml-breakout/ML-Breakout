@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1557598030937905065}
   m_Layer: 8
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: Side Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -193,6 +193,7 @@ MonoBehaviour:
   greenBrick: {fileID: 4343636400855690989, guid: cc308109fe37bdb4384d18d5b6f050cc, type: 3}
   orangeBrick: {fileID: 9121138873987132718, guid: ed7a4d79ee523a4428e1408540731c26, type: 3}
   redBrick: {fileID: 2279494898821426182, guid: 5939dcef5e359644e856718b1e791af0, type: 3}
+  bouncesText: {fileID: 0}
   speedChange: 0.5
   paddle: {fileID: 1110599985562955634}
   bricksWidth: 0.5
@@ -549,7 +550,7 @@ GameObject:
   - component: {fileID: 4882483201828937109}
   m_Layer: 8
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: Side Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
