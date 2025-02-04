@@ -307,7 +307,7 @@ public class GameManager : MonoBehaviour
 
     void SetBouncesText()
     {
-        bouncesText.text = "Paddle Bounces: " + Bounces.ToString();
+        if (bouncesText is not null) bouncesText.text = "Paddle Bounces: " + Bounces.ToString();
     }
 
     public void IncrementBounces()
