@@ -1,8 +1,4 @@
-using System;
-using Unity.VisualScripting;
-using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class Brick : MonoBehaviour
 {   
@@ -30,13 +26,14 @@ public class Brick : MonoBehaviour
     // * PRIVATE VARIABLES -> END *
     // ****************************
       
-    void Start(){
+    void Start()
+    {
         parent = transform.parent.gameObject;
-
         ID = this.gameObject.GetInstanceID();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision){
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
         // Debug.Log(collision.gameObject);
         if (parent != null)
         {

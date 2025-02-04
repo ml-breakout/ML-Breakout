@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -59,6 +58,12 @@ public class PaddleAgentController : Agent
     
     Rigidbody2D m_BallRb;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     public override void Initialize()
     {
 
@@ -74,12 +79,6 @@ public class PaddleAgentController : Agent
     private float Normalize(float value, float min, float max)
     {
         return 2 * (value - min) / (max - min) - 1;
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -107,7 +106,6 @@ public class PaddleAgentController : Agent
     public override void OnEpisodeBegin()
     {
         gameManager.InitializeGame();
-
         ball = gameManager.GetBall();
         m_BallRb = ball.GetComponent<Rigidbody2D>();
         prevScore = 0;
@@ -182,7 +180,6 @@ public class PaddleAgentController : Agent
         // reward the agent for increasing the score
         if (curriculumStage == 2.0f)
         {
-
             newScore = gameManager.GetScore();
             int difference = newScore - prevScore;
             prevScore = newScore;
@@ -225,7 +222,6 @@ public class PaddleAgentController : Agent
         {
             continuousActionsOut[0] = 1f;
         }
-
     }
 
     public void updatePaddleSize()

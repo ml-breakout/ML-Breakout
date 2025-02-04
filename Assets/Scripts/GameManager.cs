@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     public GameObject orangeBrick;
     public GameObject redBrick;
 
+    // Scorer Variables
+    public TextMeshProUGUI bouncesText;
+
     // ***************************
     // * PUBLIC VARIABLES -> END *
     // ***************************
@@ -76,6 +79,7 @@ public class GameManager : MonoBehaviour
     private AudioSource defeatAudioSource;
     private AudioSource victoryAudioSource;
     private GameStateManager gameStateManager;
+    private int Bounces;
 
     // ****************************
     // * PRIVATE VARIABLES -> END *
@@ -90,6 +94,8 @@ public class GameManager : MonoBehaviour
         }
 
         gameStateManager = GameStateManager.instance;
+        Bounces = 0;
+        SetBouncesText();
     }
 
     public void InitializeGame()
@@ -298,4 +304,15 @@ public class GameManager : MonoBehaviour
     {
         return currentBricksAlive;
     }
+
+    void SetBouncesText()
+    {
+        bouncesText.text = "Paddle Bounces: " + Bounces.ToString();
+    }
+
+    public void IncrementBounces()
+    {
+        Bounces++;
+        SetBouncesText();
+    }    
 }
