@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Mathematics;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -60,8 +61,8 @@ public class GameManager : MonoBehaviour
     // ball creation vars
     private GameObject BallObject;
     private Vector2 ballCenter;
-    private List<GameObject> currentBricks = new List<GameObject>();
-    private List<int> currentBricksAlive = new List<int>();
+    private List<List<GameObject>> currentBricks = new List<List<GameObject>>();
+    private List<List<int>> currentBricksAlive = new List<List<int>>();
     [SerializeField]
     private float bricksWidth = 0.5f;
     [SerializeField]
@@ -118,31 +119,44 @@ public class GameManager : MonoBehaviour
     {
         // Debug.Log(gameCenter);
         // Destroy all current bricks
-        foreach (GameObject brick in currentBricks)
+        foreach (List<GameObject> brickRow in currentBricks)
         {
-            Destroy(brick);
+            foreach (GameObject brick in brickRow)
+            {
+                Destroy(brick);
+            }
         }
         currentBricks.Clear();
         currentBricksAlive.Clear();
 
-        GameObject[] bricks = { yellowBrick, greenBrick, orangeBrick, redBrick };
+        GameObject[] brickColors = { yellowBrick, greenBrick, orangeBrick, redBrick };
         bricksInitalX = bricksWidth / 2 + brickSpaceingX / 2;
 
         bricksInitalY = 0f;
+        float topmostYPosition = gameCenter.y;
+        float leftmostXPosition = gameCenter.x - 7 * (bricksWidth + brickSpaceingX) + (bricksWidth / 2 + brickSpaceingX / 2);
 
-        for (var i = 0; i < 8; i++)
+        for (int verticalIndex = 0; verticalIndex < 8; verticalIndex++)
         {
-            for (var j = 0; j < 7; j++)
-            {
-                bricksBuilt++;
-                bricksBuilt++;
-                Vector3 rightBrickPos = new((brickSpaceingX + bricksWidth) * j + bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
-                Vector3 leftBrickPos = new((brickSpaceingX + bricksWidth) * -j - bricksInitalX + gameCenter.x, bricksInitalY + gameCenter.y, 0);
+            // Set up data scructures for tracking the bricks
+            List<GameObject> brickRow = new List<GameObject>();
+            currentBricks.Add(brickRow);
+            List<int> currentBricksAliveRow = new List<int>();
+            currentBricksAlive.Add(currentBricksAliveRow);
 
-                currentBricks.Add(Instantiate(bricks[(int)math.floor(i / 2)], rightBrickPos, Quaternion.identity, this.transform));
-                currentBricksAlive.Add(1);
-                currentBricks.Add(Instantiate(bricks[(int)math.floor(i / 2)], leftBrickPos, Quaternion.identity, this.transform));
-                currentBricksAlive.Add(1);
+            float yPosition = topmostYPosition + (verticalIndex * (bricksHeight + brickSpaceingY));
+            for (int horizontalIndex = 0; horizontalIndex < 14; horizontalIndex++)
+            {
+                Tuple<int, int> brickCoordinates = new Tuple<int, int>(horizontalIndex, verticalIndex);
+                bricksBuilt++;
+                float xPosition = leftmostXPosition + (horizontalIndex * (bricksWidth + brickSpaceingX));
+                Vector3 brickPosition = new(xPosition, yPosition, 0);
+
+                GameObject brick = Instantiate(brickColors[(int)math.floor(verticalIndex / 2)], brickPosition, Quaternion.identity, this.transform);
+                brick.GetComponent<Brick>().Initialize(brickCoordinates);
+                brickRow.Add(brick);
+
+                currentBricksAliveRow.Add(1);
             }
             bricksInitalY += bricksHeight + brickSpaceingY;
         }
@@ -237,9 +251,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void BrickUpdate(string type, int ID)
+    public void BrickUpdate(string type, Tuple<int, int> brickCoordinates)
     {
         bricksBroken++;
+
+        currentBricksAlive[brickCoordinates.Item2][brickCoordinates.Item1] = 0;
 
         if (type == "Orange" && !OrangeBrickBroken)
         {
@@ -254,16 +270,8 @@ public class GameManager : MonoBehaviour
             // Debug.Log("red");
         }
         // Debug.Log(currentBricks.Count);
-        for (int i = 0; i < currentBricks.Count; i++)
-        {
-            // Debug.Log(currentBricks[i].GetInstanceID());
-            // Debug.Log(ID);
-            if (currentBricks[i].GetInstanceID() == ID)
-            {
-                currentBricksAlive[i] = 0;
-                break;
-            }
-        }
+
+
         // string currentBricksAliveArray = "";
         // for(int i = 0; i < currentBricksAlive.Count; i++){
         //     currentBricksAliveArray += currentBricksAlive[i];
@@ -300,7 +308,7 @@ public class GameManager : MonoBehaviour
         return BallObject;
     }
 
-    public List<int> GetBricksAlive()
+    public List<List<int>> GetBricksAlive()
     {
         return currentBricksAlive;
     }

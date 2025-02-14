@@ -51,6 +51,7 @@ public class PaddleAgentController : Agent
     private float ball_velocity_max_x = 5f;
     private float ball_velocity_min_y = -5f;
     private float ball_velocity_max_y = 5f;
+    private float original_paddle_size;
 
     // ****************************
     // * PRIVATE VARIABLES -> END *
@@ -61,6 +62,7 @@ public class PaddleAgentController : Agent
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        original_paddle_size = paddleSize;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -133,21 +135,9 @@ public class PaddleAgentController : Agent
         sensor.AddObservation(ball_velocity_x);
         sensor.AddObservation(ball_velocity_y);
 
-        // TODO possibly set to false during early stages of academy training
-        bool watch_bricks = true;
         // bricks 
-        currentBricksAlive = gameManager.GetBricksAlive();
-        for (int i = 0; i < currentBricksAlive.Count; i++)
-        {
-            if (watch_bricks)
-            {
-                sensor.AddObservation(currentBricksAlive[i]);
-            }
-            else
-            {
-                sensor.AddObservation(0);
-            }
-        }
+
+        // TODO add observation for bricks
     }
 
     // Executes the actions requested by the agent and grants rewards based on the current game state.

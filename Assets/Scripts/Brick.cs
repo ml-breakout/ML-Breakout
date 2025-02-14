@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Brick : MonoBehaviour
@@ -19,7 +20,7 @@ public class Brick : MonoBehaviour
     [SerializeField]
     private string type;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private int ID;
+    private Tuple<int, int> brickCoordinates;
     private GameObject parent;  
 
     // ****************************
@@ -29,7 +30,11 @@ public class Brick : MonoBehaviour
     void Start()
     {
         parent = transform.parent.gameObject;
-        ID = this.gameObject.GetInstanceID();
+    }
+
+    public void Initialize(Tuple<int, int> coordinates)
+    {
+        brickCoordinates = coordinates;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -38,7 +43,7 @@ public class Brick : MonoBehaviour
         if (parent != null)
         {
             parent.GetComponent<GameManager>().AddScore(score);
-            parent.GetComponent<GameManager>().BrickUpdate(type , ID);
+            parent.GetComponent<GameManager>().BrickUpdate(type , brickCoordinates);
         }
         Destroy(this.gameObject);
     }

@@ -112,8 +112,8 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("Top Wall") && !TopWallCollsion)
         {
             TopWallCollsion = true;
-            if(parent != null){
-                parent.GetComponent<GameManager>().UpdatePaddleSize();
+            if(parent != null){ 
+                // parent.GetComponent<GameManager>().UpdatePaddleSize();
             }
         }
     }
