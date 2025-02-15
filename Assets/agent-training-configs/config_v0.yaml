@@ -33,21 +33,27 @@ behaviors:
       extrinsic:
         gamma: 0.99
         strength: 1.0
-    max_steps: 10000000
+    max_steps: 1000000
     time_horizon: 128
     summary_freq: 10000
 environment_parameters:
   stage:
     curriculum:
-      - name: HitTheBallStage
+      - name: DontLoseStage
         completion_criteria:
           behavior: Paddle
           measure: reward
           threshold: 10.0
         value: 0.0
+      - name: HitTheBallALotStage
+        completion_criteria:
+          behavior: Paddle
+          measure: reward
+          threshold: 30.0
+        value: 1.0
       - name: BreakBricksStage
         completion_criteria:
           behavior: Paddle
           measure: reward
-          threshold: 100.0
+          threshold: 60.0
         value: 2.0
