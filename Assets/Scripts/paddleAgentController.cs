@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using Google.Protobuf.WellKnownTypes;
+using System.Linq;
+using System;
 
 // This class is similar to the PaddleController class, but contains modifications
 // that allow the paddle to be controlled by an ML Agent.
@@ -27,7 +29,7 @@ public class PaddleAgentController : Agent
     // ***************************
     // * PUBLIC VARIABLES -> END *
     // ***************************
-    
+
 
     // ******************************
     // * PRIVATE VARIABLES -> START *
@@ -38,7 +40,6 @@ public class PaddleAgentController : Agent
     private Rigidbody2D rb;
     private Vector2 movementDirection;
     private GameObject ball;
-    private List<int> currentBricksAlive = new List<int>();
     private int prevScore = 0;
     private int newScore = 0;
     private float ball_min_x = -3.140096f;
@@ -56,7 +57,7 @@ public class PaddleAgentController : Agent
     // ****************************
     // * PRIVATE VARIABLES -> END *
     // ****************************
-    
+
     Rigidbody2D m_BallRb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -137,7 +138,55 @@ public class PaddleAgentController : Agent
 
         // bricks 
 
-        // TODO add observation for bricks
+        // Create 4 observations -- one for each quadrant of bricks. The value of the observation is the fraction of bricks remaining in that quadrant.
+        // If we want to experiment with more or fewer partitions, we can change the values of horizontalPartitions and veriticalPartitions below.
+
+        List<List<int>> currentBricksAlive = gameManager.GetBricksAlive();
+
+        int totalHorizontalBricks = currentBricksAlive[0].Count;
+        int totalVerticalBricks = currentBricksAlive.Count;
+        int horizontalPartitions = 2;
+        int veriticalPartitions = 2;
+
+        // The first value of the tuple is the number of bricks alive in the partition, and the second value is the total number of possible bricks in the partition.
+        (int, int)[,] brickCounts = new (int, int)[horizontalPartitions, veriticalPartitions];  // initialized by default (0,0) in each cell
+
+        int horizontalPartitionSize = totalHorizontalBricks / horizontalPartitions;
+        int verticalPartitionSize = totalVerticalBricks / veriticalPartitions;
+
+        foreach (var pair in currentBricksAlive.Select((column, verticalIndex) => new { column = column, verticalIndex = verticalIndex }))
+        {
+            List<int> column = pair.column;
+            int verticalIndex = pair.verticalIndex;
+
+            foreach (var brick in column.Select((brick, horizontalIndex) => new { brick = brick, horizontalIndex = horizontalIndex }))
+            {
+                int horizontalIndex = brick.horizontalIndex;
+                int brickIsAlive = brick.brick;
+
+                int horizontalPartitionIndex = horizontalIndex / horizontalPartitionSize;
+                int verticalPartitionIndex = verticalIndex / verticalPartitionSize;
+
+                brickCounts[horizontalPartitionIndex, verticalPartitionIndex].Item1 += brickIsAlive;
+                brickCounts[horizontalPartitionIndex, verticalPartitionIndex].Item2 += 1;
+            }
+        }
+
+        float[] fractions = new float[horizontalPartitions * veriticalPartitions];
+        int fractionsIndex = 0;
+        for (int i = 0; i < horizontalPartitions; i++)
+        {
+            for (int j = 0; j < veriticalPartitions; j++)
+            {
+                float fractionAlive = (float)brickCounts[i, j].Item1 / brickCounts[i, j].Item2;
+                sensor.AddObservation(fractionAlive);
+                fractions[fractionsIndex] = fractionAlive;
+                fractionsIndex++;
+            }
+        }
+        //Debug.Log("Brick Quadrant Observations: " + string.Join(", ", fractions));
+        //Debug.Log("Number of brick status observations: " + horizontalPartitions * veriticalPartitions);
+
     }
 
     // Executes the actions requested by the agent and grants rewards based on the current game state.
@@ -148,53 +197,50 @@ public class PaddleAgentController : Agent
         float move = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
         rb.linearVelocity = new Vector2(move, 0) * movementSpeed;
 
-        // end the eposide if the ball passes the paddle
-        if (ball.transform.localPosition.y < gameObject.transform.localPosition.y)
+        // Conditions for ending the episode
+        if (gameManager.IsTrainingMode)
         {
-            // penalize the agent for missing the ball
-            SetReward(-1f);
-            if (gameManager.IsTrainingMode)
+            var score = gameManager.GetScore();
+            // end the episode if the agent wins (and there's no more bricks to break)
+            if (score == 448) {
+                EndEpisode();
+                return;
+            }
+
+            // end the episode if the ball passes the paddle
+            if (ball.transform.localPosition.y < gameObject.transform.localPosition.y)
+            {
+                // penalize the agent for missing the ball
+                SetReward(-1f);
+                EndEpisode();
+                return;
+            }
+
+            // end the episode if the ball goes out of bounds
+            float epsilon = 1f;
+            if (ball.transform.localPosition.x < (ball_min_x - epsilon) || ball.transform.localPosition.x > (ball_max_x + epsilon) ||
+                ball.transform.localPosition.y < (ball_min_y - epsilon) || ball.transform.localPosition.y > (ball_max_y + epsilon))
             {
                 EndEpisode();
                 return;
             }
         }
 
+
         // reward the agent for keeping the ball in play
         float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
-        if (curriculumStage == 1.0f)
+        if (curriculumStage >= 1.0f)
         {
             SetReward(0.1f);  // Small reward for not losing
         }
 
         // reward the agent for increasing the score
-        if (curriculumStage == 2.0f)
+        if (curriculumStage >= 2.0f)
         {
             newScore = gameManager.GetScore();
             int difference = newScore - prevScore;
             prevScore = newScore;
-            switch (difference)
-            {
-                case 0:
-                    SetReward(0.0f);
-                    break;
-                case 1:
-                    SetReward(0.01f);
-                    break;
-                case 3:
-                    SetReward(0.03f);
-                    break;
-                case 5:
-                    SetReward(0.05f);
-                    break;
-                case 7:
-                    SetReward(0.07f);
-                    break;
-                default:
-                    //Combo of blocks
-                    SetReward(0.04f);
-                    break;
-            }
+            SetReward(difference * 0.5f);
         }
     }
 
@@ -223,7 +269,7 @@ public class PaddleAgentController : Agent
     void OnCollisionEnter2D(Collision2D collision)
     {
         float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
-        if (collision.gameObject.CompareTag("Ball") && (curriculumStage == 0.0f))
+        if (collision.gameObject.CompareTag("Ball") && (curriculumStage >= 0.0f))
         {
             SetReward(0.1f);  // Small reward for each hit
         }
