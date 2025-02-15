@@ -1,0 +1,50 @@
+{
+    "stage": {
+        "lesson_num": 2
+    },
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 499885,
+                "file_path": "results/main_model_2025-02-14-m/Paddle/Paddle-499885.onnx",
+                "reward": null,
+                "creation_time": 1739595590.3073852,
+                "auxillary_file_paths": [
+                    "results/main_model_2025-02-14-m/Paddle/Paddle-499885.pt"
+                ]
+            },
+            {
+                "steps": 999904,
+                "file_path": "results/main_model_2025-02-14-m/Paddle/Paddle-999904.onnx",
+                "reward": 26.299999237060547,
+                "creation_time": 1739595898.293273,
+                "auxillary_file_paths": [
+                    "results/main_model_2025-02-14-m/Paddle/Paddle-999904.pt"
+                ]
+            },
+            {
+                "steps": 1000032,
+                "file_path": "results/main_model_2025-02-14-m/Paddle/Paddle-1000032.onnx",
+                "reward": 26.299999237060547,
+                "creation_time": 1739595898.312636,
+                "auxillary_file_paths": [
+                    "results/main_model_2025-02-14-m/Paddle/Paddle-1000032.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000032,
+            "file_path": "results/main_model_2025-02-14-m/Paddle.onnx",
+            "reward": 26.299999237060547,
+            "creation_time": 1739595898.312636,
+            "auxillary_file_paths": [
+                "results/main_model_2025-02-14-m/Paddle/Paddle-1000032.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.1"
+    }
+}

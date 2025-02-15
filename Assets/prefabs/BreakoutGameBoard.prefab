@@ -387,7 +387,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 57586db222f0d46a8850950ebef69a93, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 7fdccdebe1b2b4a10bbe65dbbc5167c4, type: 3}
   m_InferenceDevice: 2
   m_BehaviorType: 0
   m_BehaviorName: Paddle
