@@ -39,7 +39,6 @@ public class Brick : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Debug.Log(collision.gameObject);
         if (parent != null)
         {
             parent.GetComponent<GameManager>().AddScore(score);
@@ -47,4 +46,5 @@ public class Brick : MonoBehaviour
         }
         Destroy(this.gameObject);
     }
+
 }

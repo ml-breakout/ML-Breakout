@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     // Ball Creation
     public GameObject ballPrefab;
 
-        // brick creation vars
+    // brick creation vars
     public GameObject yellowBrick;
     public GameObject greenBrick;
     public GameObject orangeBrick;
@@ -73,12 +73,11 @@ public class GameManager : MonoBehaviour
     private float brickSpaceingY = 0.25f;
     private float bricksInitalX;
     private float bricksInitalY = 0f;
-    private string loseALifeAudioName = "173958__leszek_szary__failure";
-    private string defeatAudioName = "538151__fupicat__8bit-fall";
-    private string victoryAudioName = "752857__etheraudio__square-nice-arpeggio-slow-echo";
-    private AudioSource loseALifeAudioSource;
-    private AudioSource defeatAudioSource;
-    private AudioSource victoryAudioSource;
+    [SerializeField] private AudioClip loseALifeAudioClip;
+    [SerializeField] private AudioClip defeatAudioClip;
+    [SerializeField] private AudioClip victoryAudioClip;
+
+
     private GameStateManager gameStateManager;
     private int Bounces;
 
@@ -102,7 +101,7 @@ public class GameManager : MonoBehaviour
     public void InitializeGame()
     {
         gameCenter = transform.position;
-        gameCenter = gameCenter + new Vector2(1.267f, 0.0881f);
+        gameCenter = gameCenter + new Vector2(0f, 0f);
         ballCenter = gameCenter + new Vector2(0f, -3f);
         score = 0;
         scoreText.text = score.ToString();
@@ -111,13 +110,11 @@ public class GameManager : MonoBehaviour
         if (!IsTrainingMode)
         {
             InitLives();
-            InitAudio();
         }
     }
 
     public void ResetBricks()
     {
-        // Debug.Log(gameCenter);
         // Destroy all current bricks
         foreach (List<GameObject> brickRow in currentBricks)
         {
@@ -177,34 +174,6 @@ public class GameManager : MonoBehaviour
         livesText.text = lives.ToString();
     }
 
-    public void InitAudio()
-    {
-        AudioSource[] audio_options = GetComponents<AudioSource>();
-        foreach (AudioSource source in audio_options)
-        {
-            if (string.Equals(source.clip.name, loseALifeAudioName) is true)
-            {
-                loseALifeAudioSource = source;
-            }
-            if (string.Equals(source.clip.name, defeatAudioName) is true)
-            {
-                defeatAudioSource = source;
-            }
-            if (string.Equals(source.clip.name, victoryAudioName) is true)
-            {
-                victoryAudioSource = source;
-            }
-        }
-    }
-
-    public void GameOver()
-    {
-        //defeatAudioSource.Play();
-        // Debug.Log("Game Over!");
-        // Restart the game after 2 seconds
-        Invoke("RestartGame", 2f);
-    }
-
     void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -228,9 +197,9 @@ public class GameManager : MonoBehaviour
 
     public int LoseALife()
     {
-        if (loseALifeAudioSource != null)
+        if (loseALifeAudioClip != null)
         {
-            loseALifeAudioSource.Play();
+            SoundFXManager.instance.PlaySoundFXClip(loseALifeAudioClip, transform, 1f);
         }
         if (IsTrainingMode)
         {
@@ -240,9 +209,9 @@ public class GameManager : MonoBehaviour
         lives--;
         if (lives <= 0)
         {
-            if (defeatAudioSource != null)
+            if (defeatAudioClip != null)
             {
-                defeatAudioSource.Play();
+                SoundFXManager.instance.PlaySoundFXClip(defeatAudioClip, transform, 1f);
             }
             gameStateManager.RegisterGameOver();
         }
@@ -261,37 +230,25 @@ public class GameManager : MonoBehaviour
         {
             OrangeBrickBroken = true;
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            // Debug.Log("Orange");
         }
         else if (type == "Red" && !RedBrickBroken)
         {
             RedBrickBroken = true;
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            // Debug.Log("red");
         }
-        // Debug.Log(currentBricks.Count);
-
-
-        // string currentBricksAliveArray = "";
-        // for(int i = 0; i < currentBricksAlive.Count; i++){
-        //     currentBricksAliveArray += currentBricksAlive[i];
-        // }
-        // Debug.Log(currentBricksAliveArray);
+        
         if (bricksBroken == 4)
         {
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            // Debug.Log("Broken:4");
         }
         else if (bricksBroken == 12)
         {
             BallObject.GetComponent<BallController>().IncreaseBallSpeed(speedChange);
-            // Debug.Log("Broken:12");
         }
         else if (bricksBroken == bricksBuilt)
         {
-            victoryAudioSource.Play();
+            SoundFXManager.instance.PlaySoundFXClip(victoryAudioClip, transform, 1f);
             //until level 2 is added:
-            // Debug.Log("");
             Invoke("RestartGame", 4f);
             //GameStateManager.instance.checkGameOver();
         }

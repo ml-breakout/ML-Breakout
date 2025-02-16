@@ -18,13 +18,11 @@ public class MenuManager : MonoBehaviour
     // * PRIVATE VARIABLES -> END *
     // ****************************
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -48,7 +46,9 @@ public class MenuManager : MonoBehaviour
     public void OpenPVAIScene(){
         SceneManager.LoadScene("PVAI");
     }
+    
     public void QuitGame(){
         Application.Quit();
     }
+
 }

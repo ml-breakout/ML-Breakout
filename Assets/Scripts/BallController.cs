@@ -20,13 +20,11 @@ public class BallController : MonoBehaviour
 
     private Rigidbody2D rb;
     private GameObject parent;   
-    private bool TopWallCollsion = false;
-    private string paddleCollisionSoundName = "361266__japanyoshithegamer__8-bit-soft-beep-impact";
-    private string brickCollisionSoundName = "752671__etheraudio__sqr-blip-2";
-    private string wallCollisionSoundName = "752736__etheraudio__square-blip-non-fade";
-    private AudioSource paddleCollisionSoundSource;
-    private AudioSource brickCollisionSoundSource;
-    private AudioSource wallCollisionSoundSource;    
+    private bool TopWallCollsion = false; 
+    [SerializeField] private AudioClip paddleCollisionClip;
+    [SerializeField] private AudioClip brickCollisionClip;
+    [SerializeField] private AudioClip wallCollisionClip;  
+
 
     // ****************************
     // * PRIVATE VARIABLES -> END *
@@ -45,29 +43,6 @@ public class BallController : MonoBehaviour
         Vector2 direction = new Vector2(x,y);
         rb.linearVelocity = direction.normalized * initialSpeed;
 
-        //audio
-        InitAudio();
-    }
-
-    public void InitAudio()
-    {
-        AudioSource[] audio_options = GetComponents<AudioSource>();
-        //GetComponent<AudioSource>().Play();
-        foreach (AudioSource source in audio_options)
-        {
-            if (string.Equals(source.clip.name, paddleCollisionSoundName) is true)
-            {
-                paddleCollisionSoundSource = source;
-            }
-            else if(string.Equals(source.clip.name, wallCollisionSoundName) is true)
-            {
-                wallCollisionSoundSource = source;
-            }
-            else if(string.Equals(source.clip.name, brickCollisionSoundName) is true)
-            {
-                brickCollisionSoundSource = source;
-            }
-        }
     }
 
     void Update()
@@ -78,21 +53,22 @@ public class BallController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // used for audio clips and ball paddle collision
         if (collision.gameObject.CompareTag("Side Wall"))
         {
-            wallCollisionSoundSource.Play();
+            SoundFXManager.instance.PlaySoundFXClip(wallCollisionClip, transform, 1f);
         }
         if (collision.gameObject.CompareTag("Brick"))
         {
-            brickCollisionSoundSource.Play();
+            SoundFXManager.instance.PlaySoundFXClip(brickCollisionClip, transform, 1f);
         }
         if (collision.gameObject.CompareTag("Top Wall"))
         {
-            wallCollisionSoundSource.Play();
+            SoundFXManager.instance.PlaySoundFXClip(wallCollisionClip, transform, 1f);
         }
         if (collision.gameObject.CompareTag("Paddle"))
         {
-            paddleCollisionSoundSource.Play();
+            SoundFXManager.instance.PlaySoundFXClip(paddleCollisionClip, transform, 1f);
             // Calculate how far from the center of the paddle the ball hit
             float hitPoint = (transform.position.x - collision.transform.position.x) / collision.collider.bounds.size.x;
 
@@ -109,11 +85,12 @@ public class BallController : MonoBehaviour
             // Increment bounces
             parent.GetComponent<GameManager>().IncrementBounces();
         }
+        // reducing paddle size by half *game feature*
         if (collision.gameObject.CompareTag("Top Wall") && !TopWallCollsion)
         {
             TopWallCollsion = true;
             if(parent != null){ 
-                // parent.GetComponent<GameManager>().UpdatePaddleSize();
+                parent.GetComponent<GameManager>().UpdatePaddleSize();
             }
         }
     }
@@ -149,6 +126,5 @@ public class BallController : MonoBehaviour
 
     public void IncreaseBallSpeed(float amount){
         initialSpeed += amount;
-        // Debug.Log(initialSpeed);
     }
 }

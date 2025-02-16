@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Google.Protobuf.WellKnownTypes;
 using System.Linq;
 using System;
+using Unity.MLAgents.Policies;
 
 // This class is similar to the PaddleController class, but contains modifications
 // that allow the paddle to be controlled by an ML Agent.
@@ -38,16 +39,17 @@ public class PaddleAgentController : Agent
     [SerializeField]
     private float movementSpeed = 300f;
     private Rigidbody2D rb;
+    private BehaviorParameters BP;
     private Vector2 movementDirection;
     private GameObject ball;
     private int prevScore = 0;
     private int newScore = 0;
-    private float ball_min_x = -3.140096f;
-    private float ball_max_x = 5.674098f;
-    private float ball_min_y = -4.282911f;
-    private float ball_max_y = 4.388294f;
-    private float paddle_min_x = -2.667672f;
-    private float paddle_max_x = 5.202328f;
+    private float ball_min_x = -4.5f;
+    private float ball_max_x = 4.5f;
+    private float ball_min_y = -4.75f;
+    private float ball_max_y = 4.75f;
+    private float paddle_min_x = -3.5f;
+    private float paddle_max_x = 3.5f;
     private float ball_velocity_min_x = -5f;
     private float ball_velocity_max_x = 5f;
     private float ball_velocity_min_y = -5f;
@@ -65,6 +67,10 @@ public class PaddleAgentController : Agent
     {
         original_paddle_size = paddleSize;
         rb = GetComponent<Rigidbody2D>();
+        BP = GetComponent<BehaviorParameters>();
+        if(MainManager.Instance != null){
+            BP.Model = MainManager.Instance.getDifficulty();
+        }
     }
 
     public override void Initialize()

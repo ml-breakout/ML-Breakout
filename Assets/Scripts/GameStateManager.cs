@@ -34,7 +34,6 @@ public class GameStateManager : MonoBehaviour
     public void RegisterGameOver(){
         numCalledGameOver++;
         if(numCalledGameOver == numPlayers){
-            // Debug.Log("Game Over!");
             // Restart the game after 2 seconds
             Invoke("RestartGame", 2f);
         }
@@ -50,4 +49,5 @@ public class GameStateManager : MonoBehaviour
     {
 
     }
+
 }
