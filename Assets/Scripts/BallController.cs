@@ -90,7 +90,9 @@ public class BallController : MonoBehaviour
         {
             TopWallCollsion = true;
             if(parent != null){ 
-                parent.GetComponent<GameManager>().UpdatePaddleSize();
+                // TODO re-enable this feature. We're disabling it for now because it's causing issues in training.
+                //   See issue #96 for details.
+                // parent.GetComponent<GameManager>().UpdatePaddleSize();
             }
         }
     }
