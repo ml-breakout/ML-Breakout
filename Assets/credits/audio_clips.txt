@@ -63,3 +63,36 @@ Attribution Text:
     Square nice arpeggio slow echo by EtherAudio -- https://freesound.org/s/752857/ -- License: Attribution 4.0
 Link:
     https://freesound.org/people/EtherAudio/sounds/752857/?
+
+Name of Author:
+	BloodPixelHero
+Name of Sound File:
+	616049__bloodpixelhero__game-music-loop-9
+File Type:
+    .wav
+Attribution Text:
+    Game music loop #9 by BloodPixelHero -- https://freesound.org/s/616049/ -- License: Attribution 4.0
+Link:
+    https://freesound.org/people/BloodPixelHero/sounds/616049/?
+
+Name of Author:
+	BloodPixelHero
+Name of Sound File:
+	580898__bloodpixelhero__in-game
+File Type:
+    .wav
+Attribution Text:
+    In game by BloodPixelHero -- https://freesound.org/s/580898/ -- License: Attribution 4.0
+Link:
+    https://freesound.org/people/BloodPixelHero/sounds/580898/?
+
+Name of Author:
+	BloodPixelHero
+Name of Sound File:
+	615013__bloodpixelhero__game-music-loop-8
+File Type:
+    .wav
+Attribution Text:
+    Game music loop #8 by BloodPixelHero -- https://freesound.org/s/615013/ -- License: Attribution 4.0
+Link:
+    https://freesound.org/people/BloodPixelHero/sounds/615013/
