@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System;
+using System.Timers;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     // AI Agent vars
     public bool IsAgentPlayer; // Whether the AI agent is playing the game
     public bool IsTrainingMode = false;  // Whether the game is in training mode
+    public bool IsScoringPlayer = false;
 
     // Ball Creation
     public GameObject ballPrefab;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     // Scorer Variables
     public TextMeshProUGUI bouncesText;
+    public TextMeshProUGUI timerText;
 
     // ***************************
     // * PUBLIC VARIABLES -> END *
@@ -80,6 +83,9 @@ public class GameManager : MonoBehaviour
 
     private GameStateManager gameStateManager;
     private int Bounces;
+    private float CurrentTime;
+    private bool HasLost = false;
+    private bool HasWon = false;
 
     // ****************************
     // * PRIVATE VARIABLES -> END *
@@ -94,8 +100,7 @@ public class GameManager : MonoBehaviour
         }
 
         gameStateManager = GameStateManager.instance;
-        Bounces = 0;
-        SetBouncesText();
+        Bounces = 0;        
     }
 
     public void InitializeGame()
@@ -111,6 +116,12 @@ public class GameManager : MonoBehaviour
         {
             InitLives();
         }
+        if (IsScoringPlayer)
+        {
+            CurrentTime = 0;
+            SetBouncesText();
+            SetTimerText();
+        }        
     }
 
     public void ResetBricks()
@@ -249,7 +260,10 @@ public class GameManager : MonoBehaviour
         {
             SoundFXManager.instance.PlaySoundFXClip(victoryAudioClip, transform, 1f);
             //until level 2 is added:
-            Invoke("RestartGame", 4f);
+            if (!IsScoringPlayer)
+            {
+                Invoke("RestartGame", 4f);
+            }            
             //GameStateManager.instance.checkGameOver();
         }
 
@@ -279,5 +293,43 @@ public class GameManager : MonoBehaviour
     {
         Bounces++;
         SetBouncesText();
-    }    
+    }  
+
+    void Update()
+    {
+        SetTimerText();
+    }
+    
+    public void SetTimerText()
+    {
+        if (timerText is not null)
+        {        
+            if (!HasWon && !HasLost)
+            {
+                CurrentTime += Time.deltaTime;
+                timerText.text = $"Timer: {CurrentTime.ToString("#.00")} seconds";
+            }            
+
+            if (lives < 1 && !HasLost)
+            {
+                HasLost = true;
+                float looseTime = CurrentTime;
+                timerText.text = $"Agent took {looseTime.ToString("#.00")} seconds to loose the game";
+            }
+            else if (score > 447 && !HasWon)
+            {
+                HasWon = true;
+                float winTime = CurrentTime;
+                timerText.text = $"Agent took {winTime.ToString("#.00")} seconds to win the game";
+            }
+        }            
+    }
+
+    private void OnTimedEvent(System.Object source, ElapsedEventArgs e)
+    {
+        if (timerText is not null)
+        {
+            timerText.text = "Timer: " + e.SignalTime;
+        }
+    }
 }
