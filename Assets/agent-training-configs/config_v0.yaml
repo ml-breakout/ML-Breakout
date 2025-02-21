@@ -14,6 +14,8 @@
 behaviors:
   Paddle:
     trainer_type: ppo
+    checkpoint_interval: 10000 # Keep this small so train_models.py can save a recent model when it identifies each AI difficulty stage
+    keep_checkpoints: 10
     hyperparameters:
       batch_size: 64
       buffer_size: 2048
@@ -39,21 +41,24 @@ behaviors:
 environment_parameters:
   stage:
     curriculum:
-      - name: DontLoseStage
+      - name: EasyAIStage
         completion_criteria:
           behavior: Paddle
           measure: reward
-          threshold: 10.0
+          threshold: 3.0
+          require_reset: true  # Forces a reset between lessons
         value: 0.0
-      - name: HitTheBallALotStage
+      - name: MediumAIStage
         completion_criteria:
           behavior: Paddle
           measure: reward
-          threshold: 30.0
-        value: 1.0
-      - name: BreakBricksStage
+          threshold: 6.0
+          require_reset: true
+        value: 0.0
+      - name: HardAIStage
         completion_criteria:
           behavior: Paddle
           measure: reward
           threshold: 60.0
+          require_reset: true
         value: 2.0
