@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CS462.sln"
+    "dotnet.defaultSolution": "MLBreakout.sln"
 }
