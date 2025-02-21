@@ -512,9 +512,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DifficultyModels:
-  - {fileID: 5022602860645237092, guid: 86fb0e00a0fb2d5418bc5959e138c747, type: 3}
-  - {fileID: 5022602860645237092, guid: 57586db222f0d46a8850950ebef69a93, type: 3}
-  - {fileID: 5022602860645237092, guid: 7fdccdebe1b2b4a10bbe65dbbc5167c4, type: 3}
+  - {fileID: 5022602860645237092, guid: a726dc66fdc9c40f69ec48bd9d76a647, type: 3}
+  - {fileID: 5022602860645237092, guid: 17a1fad3039ac4cab8ef647d34f17c8a, type: 3}
+  - {fileID: 5022602860645237092, guid: bd444702fbd3f43f7abc2f70153f28b2, type: 3}
   AIDifficulty: 0
 --- !u!4 &60909164
 Transform:
