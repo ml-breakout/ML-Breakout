@@ -69,6 +69,7 @@ public class PaddleAgentController : Agent
         rb = GetComponent<Rigidbody2D>();
         BP = GetComponent<BehaviorParameters>();
         if(MainManager.Instance != null){
+            Debug.Log("Difficulty: " + MainManager.Instance.getDifficulty());
             BP.Model = MainManager.Instance.getDifficulty();
         }
     }
