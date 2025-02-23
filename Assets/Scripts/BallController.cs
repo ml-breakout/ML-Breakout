@@ -71,22 +71,19 @@ public class BallController : MonoBehaviour
         {
             SoundFXManager.instance.PlaySoundFXClip(paddleCollisionClip, transform, 1f);
             // Calculate how far from the center of the paddle the ball hit
-            if(transform.position.y > collision.transform.position.y){
-                float hitPoint = (transform.position.x - collision.transform.position.x) / collision.collider.bounds.size.x;
+            float hitPoint = (transform.position.x - collision.transform.position.x) / collision.collider.bounds.size.x;
 
-                // Calculate new angle based on hit point
-                float bounceAngle = hitPoint * 60f; // 60 degrees max angle
+            // Calculate new angle based on hit point
+            float bounceAngle = hitPoint * 60f; // 60 degrees max angle
 
-                // Calculate new direction
-                float angleInRadians = bounceAngle * Mathf.Deg2Rad;
-                Vector2 direction = new Vector2(Mathf.Sin(angleInRadians), Mathf.Cos(angleInRadians));
-                // Apply the new velocity
-                rb.linearVelocity = direction * initialSpeed;
+            // Calculate new direction
+            float angleInRadians = bounceAngle * Mathf.Deg2Rad;
+            Vector2 direction = new Vector2(Mathf.Sin(angleInRadians), Mathf.Cos(angleInRadians));
+            // Apply the new velocity
+            rb.linearVelocity = direction * initialSpeed;
 
-                // Increment bounces
-                parent.GetComponent<GameManager>().IncrementBounces();
-            }
-            
+            // Increment bounces
+            parent.GetComponent<GameManager>().IncrementBounces();   
         }
         // reducing paddle size by half *game feature*
         if (collision.gameObject.CompareTag("Top Wall") && !TopWallCollsion)
