@@ -1,0 +1,6 @@
+Agent took 211.24 seconds to win the game, and bounced the ball 86 times
+Agent took 57.80 seconds to loose the game, and bounced the ball 28 times, on 2/24/2025 11:52:17 AM
+Agent took 132.34 seconds to win the game, and bounced the ball 39 times on 2/24/2025 11:53:31 AM
+Agent took 132.34 seconds to loose the game, and bounced the ball 39 times, on 2/24/2025 11:53:34 AM
+Agent took 155.06 seconds to win the game, and bounced the ball 75 times on 2/24/2025 11:53:54 AM
+Agent took 208.10 seconds to win the game, and bounced the ball 111 times on 2/24/2025 11:54:47 AM
