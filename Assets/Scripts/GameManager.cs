@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using System;
 using System.Timers;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -218,7 +219,7 @@ public class GameManager : MonoBehaviour
             return 0;  //  Don't lose a life in training mode, let the Agent do it.
         }
         lives--;
-        if (lives <= 0)
+        if (lives <= 0 && !IsScoringPlayer)
         {
             if (defeatAudioClip != null)
             {
@@ -291,8 +292,11 @@ public class GameManager : MonoBehaviour
 
     public void IncrementBounces()
     {
-        Bounces++;
-        SetBouncesText();
+        if (bricksBroken != bricksBuilt)
+        {
+            Bounces++;
+            SetBouncesText();
+        }
     }  
 
     void Update()
@@ -314,15 +318,21 @@ public class GameManager : MonoBehaviour
             {
                 HasLost = true;
                 float looseTime = CurrentTime;
-                timerText.text = $"Agent took {looseTime.ToString("#.00")} seconds to loose the game";
+                string text = $"Agent took {looseTime.ToString("#.00")} seconds to loose the game";
+                timerText.text = text;
+                text += $", and bounced the ball {Bounces} times, on {DateTime.Now}";
+                LogText(text);
             }
             else if (score > 447 && !HasWon)
             {
                 HasWon = true;
                 float winTime = CurrentTime;
-                timerText.text = $"Agent took {winTime.ToString("#.00")} seconds to win the game";
+                string text = $"Agent took {winTime.ToString("#.00")} seconds to win the game";
+                timerText.text = text;
+                text += $", and bounced the ball {Bounces} times on {DateTime.Now}";
+                LogText(text);
             }
-        }            
+        }        
     }
 
     private void OnTimedEvent(System.Object source, ElapsedEventArgs e)
@@ -330,6 +340,16 @@ public class GameManager : MonoBehaviour
         if (timerText is not null)
         {
             timerText.text = "Timer: " + e.SignalTime;
+        }
+    }
+
+    public void LogText(string text)
+    {
+        string directory = Directory.GetCurrentDirectory();
+        string fullPath = directory + "\\Assets\\Logs\\Logs.txt";
+        using (StreamWriter writer = new(fullPath, true))
+        {
+            writer.WriteLine(text);
         }
     }
 }
