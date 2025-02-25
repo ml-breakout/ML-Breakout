@@ -286,6 +286,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5563205825201364255, guid: fd8b1f158d1878449ae3c4201a2e98bf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 9146971225145683785, guid: fd8b1f158d1878449ae3c4201a2e98bf, type: 3}
       propertyPath: m_Name
       value: PauseMenuUI
@@ -731,7 +735,7 @@ AudioSource:
   m_GameObject: {fileID: 1921495342}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 07d877b7ef58d6244908de2249fb9255, type: 2}
   m_audioClip: {fileID: 8300000, guid: 61b55ec86f03ebb4d8fca7785e8710e7, type: 3}
   m_Resource: {fileID: 8300000, guid: 61b55ec86f03ebb4d8fca7785e8710e7, type: 3}
   m_PlayOnAwake: 1
