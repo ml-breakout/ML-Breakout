@@ -52,13 +52,13 @@ environment_parameters:
         completion_criteria:
           behavior: Paddle
           measure: reward
-          threshold: 6.0
-          require_reset: true
-        value: 0.0
+          threshold: 25.0
+          require_reset: true  # Forces a reset between lessons
+        value: 3.0  # Stage 3 for quadrant brick mode
       - name: HardAIStage
         completion_criteria:
           behavior: Paddle
           measure: reward
           threshold: 60.0
-          require_reset: true
-        value: 2.0
+          require_reset: true  # Forces a reset between lessons
+        value: 4.0

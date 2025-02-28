@@ -1,0 +1,113 @@
+{
+    "stage": {
+        "lesson_num": 2
+    },
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 919954,
+                "file_path": "results/new_model/Paddle/Paddle-919954.onnx",
+                "reward": 76.93333309143782,
+                "creation_time": 1740705350.738697,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-919954.pt"
+                ]
+            },
+            {
+                "steps": 929900,
+                "file_path": "results/new_model/Paddle/Paddle-929900.onnx",
+                "reward": null,
+                "creation_time": 1740705356.989953,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-929900.pt"
+                ]
+            },
+            {
+                "steps": 939983,
+                "file_path": "results/new_model/Paddle/Paddle-939983.onnx",
+                "reward": null,
+                "creation_time": 1740705363.147097,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-939983.pt"
+                ]
+            },
+            {
+                "steps": 949981,
+                "file_path": "results/new_model/Paddle/Paddle-949981.onnx",
+                "reward": null,
+                "creation_time": 1740705369.212766,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-949981.pt"
+                ]
+            },
+            {
+                "steps": 959915,
+                "file_path": "results/new_model/Paddle/Paddle-959915.onnx",
+                "reward": 50.69999885559082,
+                "creation_time": 1740705375.402626,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-959915.pt"
+                ]
+            },
+            {
+                "steps": 969940,
+                "file_path": "results/new_model/Paddle/Paddle-969940.onnx",
+                "reward": 42.65999903082847,
+                "creation_time": 1740705381.134197,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-969940.pt"
+                ]
+            },
+            {
+                "steps": 979956,
+                "file_path": "results/new_model/Paddle/Paddle-979956.onnx",
+                "reward": 217.89999470114708,
+                "creation_time": 1740705387.484143,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-979956.pt"
+                ]
+            },
+            {
+                "steps": 989986,
+                "file_path": "results/new_model/Paddle/Paddle-989986.onnx",
+                "reward": null,
+                "creation_time": 1740705393.7699652,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-989986.pt"
+                ]
+            },
+            {
+                "steps": 999941,
+                "file_path": "results/new_model/Paddle/Paddle-999941.onnx",
+                "reward": null,
+                "creation_time": 1740705399.653743,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-999941.pt"
+                ]
+            },
+            {
+                "steps": 1000069,
+                "file_path": "results/new_model/Paddle/Paddle-1000069.onnx",
+                "reward": null,
+                "creation_time": 1740705399.672076,
+                "auxillary_file_paths": [
+                    "results/new_model/Paddle/Paddle-1000069.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000069,
+            "file_path": "results/new_model/Paddle.onnx",
+            "reward": null,
+            "creation_time": 1740705399.672076,
+            "auxillary_file_paths": [
+                "results/new_model/Paddle/Paddle-1000069.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.5.1"
+    }
+}

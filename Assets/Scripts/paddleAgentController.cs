@@ -44,6 +44,7 @@ public class PaddleAgentController : Agent
     private GameObject ball;
     private int prevScore = 0;
     private int newScore = 0;
+    private int score_at_last_bounce = 0;
     private float ball_min_x = -4.5f;
     private float ball_max_x = 4.5f;
     private float ball_min_y = -4.75f;
@@ -68,7 +69,8 @@ public class PaddleAgentController : Agent
         original_paddle_size = paddleSize;
         rb = GetComponent<Rigidbody2D>();
         BP = GetComponent<BehaviorParameters>();
-        if(MainManager.Instance != null){
+        if (MainManager.Instance != null)
+        {
             Debug.Log("Difficulty: " + MainManager.Instance.getDifficulty());
             BP.Model = MainManager.Instance.getDifficulty();
         }
@@ -116,9 +118,19 @@ public class PaddleAgentController : Agent
     public override void OnEpisodeBegin()
     {
         gameManager.InitializeGame();
+
+        // Check if we're in quadrant training mode (curriculum stage 3)
+        float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
+        if (curriculumStage == 3.0f)
+        {
+            gameManager.KeepOnlyOneQuadrant();
+        }
+
         ball = gameManager.GetBall();
         m_BallRb = ball.GetComponent<Rigidbody2D>();
+
         prevScore = 0;
+        score_at_last_bounce = 0;
     }
 
     // Collects observations from the environment to be used by the agent.
@@ -217,8 +229,8 @@ public class PaddleAgentController : Agent
             // end the episode if the ball passes the paddle
             if (ball.transform.localPosition.y < gameObject.transform.localPosition.y)
             {
-                // penalize the agent for missing the ball
-                SetReward(-1f);
+                // Penalize the agent for missing the ball
+                SetReward(-1.0f);
                 EndEpisode();
                 return;
             }
@@ -233,21 +245,24 @@ public class PaddleAgentController : Agent
             }
         }
 
-
-        // reward the agent for keeping the ball in play
+        // Reward the agent for increasing the score
         float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
-        if (curriculumStage >= 1.0f)
-        {
-            SetReward(0.1f);  // Small reward for not losing
-        }
-
-        // reward the agent for increasing the score
-        if (curriculumStage >= 2.0f)
+        if (curriculumStage >= 3.0f)
         {
             newScore = gameManager.GetScore();
             int difference = newScore - prevScore;
             prevScore = newScore;
-            SetReward(difference * 0.5f);
+            if (difference > 0)
+            {
+                if (curriculumStage == 3.0f)
+                {
+                    SetReward(1.0f);
+                }
+                else
+                {
+                    SetReward(difference * 0.5f);
+                }
+            }
         }
     }
 
@@ -278,7 +293,20 @@ public class PaddleAgentController : Agent
         float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
         if (collision.gameObject.CompareTag("Ball") && (curriculumStage >= 0.0f))
         {
-            SetReward(0.1f);  // Small reward for each hit
+            // In quadrant training mode (stage 3), check if we hit bricks after a paddle collision
+            if (curriculumStage == 3.0f)
+            {
+                bool hitBrickSinceLastBounce = gameManager.GetScore() > score_at_last_bounce;
+                score_at_last_bounce = gameManager.GetScore();
+
+                // End the episode if we didn't break any bricks after this paddle bounce
+                if (!hitBrickSinceLastBounce)
+                {
+                    EndEpisode();
+                }
+            } else {
+                SetReward(0.1f);  // Small reward for each hit
+            }
         }
     }
 }

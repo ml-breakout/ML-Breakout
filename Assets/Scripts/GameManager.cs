@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour
         }
         currentBricks.Clear();
         currentBricksAlive.Clear();
+        bricksBuilt = 0;
 
         GameObject[] brickColors = { yellowBrick, greenBrick, orangeBrick, redBrick };
         bricksInitalX = bricksWidth / 2 + brickSpaceingX / 2;
@@ -169,7 +170,88 @@ public class GameManager : MonoBehaviour
             }
             bricksInitalY += bricksHeight + brickSpaceingY;
         }
-
+    }
+    
+    public void KeepOnlyOneQuadrant()
+    {
+        // Define the quadrants (assuming 8 rows and 14 columns)
+        // The brick grid is divided into 4 quadrants: top-left, top-right, bottom-left, bottom-right
+        int verticalMidpoint = currentBricks.Count / 2;    // 4
+        int horizontalMidpoint = currentBricks[0].Count / 2;  // 7
+        
+        // Randomly choose which quadrant to keep
+        int quadrant = UnityEngine.Random.Range(0, 4);
+        
+        // Calculate the vertical and horizontal ranges for the chosen quadrant
+        int minVertical, maxVertical, minHorizontal, maxHorizontal;
+        
+        // Define the quadrant boundaries
+        switch (quadrant)
+        {
+            case 0: // Top-left
+                minVertical = 0;
+                maxVertical = verticalMidpoint;
+                minHorizontal = 0;
+                maxHorizontal = horizontalMidpoint;
+                break;
+            case 1: // Top-right
+                minVertical = 0;
+                maxVertical = verticalMidpoint;
+                minHorizontal = horizontalMidpoint;
+                maxHorizontal = currentBricks[0].Count;
+                break;
+            case 2: // Bottom-left
+                minVertical = verticalMidpoint;
+                maxVertical = currentBricks.Count;
+                minHorizontal = 0;
+                maxHorizontal = horizontalMidpoint;
+                break;
+            case 3: // Bottom-right
+                minVertical = verticalMidpoint;
+                maxVertical = currentBricks.Count;
+                minHorizontal = horizontalMidpoint;
+                maxHorizontal = currentBricks[0].Count;
+                break;
+            default: // Fallback to the full top-left quadrant
+                minVertical = 0;
+                maxVertical = verticalMidpoint;
+                minHorizontal = 0;
+                maxHorizontal = horizontalMidpoint;
+                break;
+        }
+        
+        // Counter for bricks we're keeping
+        int bricksKept = 0;
+        
+        // Destroy all bricks outside the chosen quadrant
+        for (int v = 0; v < currentBricks.Count; v++)
+        {
+            for (int h = 0; h < currentBricks[v].Count; h++)
+            {
+                // If the brick is outside our chosen quadrant
+                if (v < minVertical || v >= maxVertical || h < minHorizontal || h >= maxHorizontal)
+                {
+                    if (currentBricks[v][h] != null)
+                    {
+                        Destroy(currentBricks[v][h]);
+                        currentBricksAlive[v][h] = 0;
+                    }
+                }
+                else
+                {
+                    // Count the bricks we're keeping
+                    if (currentBricks[v][h] != null && currentBricksAlive[v][h] == 1)
+                    {
+                        bricksKept++;
+                    }
+                }
+            }
+        }
+        
+        // Update bricksBuilt to the number of bricks we kept
+        bricksBuilt = bricksKept;
+        
+        Debug.Log($"Kept quadrant {quadrant} with {bricksKept} bricks.");
     }
 
     public void ResetBall()
@@ -261,7 +343,7 @@ public class GameManager : MonoBehaviour
         {
             SoundFXManager.instance.PlaySoundFXClip(victoryAudioClip, transform, 1f);
             //until level 2 is added:
-            if (!IsScoringPlayer)
+            if (!IsScoringPlayer && !IsTrainingMode)
             {
                 Invoke("RestartGame", 4f);
             }            
@@ -351,5 +433,10 @@ public class GameManager : MonoBehaviour
         {
             writer.WriteLine(text);
         }
+    }
+
+    public bool AllBricksBroken()
+    {
+        return bricksBuilt > 0 && bricksBroken >= bricksBuilt;
     }
 }
