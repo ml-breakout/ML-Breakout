@@ -7,35 +7,60 @@ using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
 {
-    public AudioMixer audioMixer;
+    public AudioMixer soundFXMixer;
+    public AudioMixer musicMixer;
+    //public AudioMixer audioMixer;
 
-    public TextMeshProUGUI volumeText;
+    public TextMeshProUGUI volumeFXText;
+    public TextMeshProUGUI volumeMusicText;
 
-    public Slider volumeSlider;
+    public Slider volumeFXSlider;
+    public Slider volumeMusicSlider;
 
     // Used to set the Volume in the options menu
 
     // sets the inital volume perentage seen in the options menu
     public void Start()
     {   
-        float volume;
-        audioMixer.GetFloat("Volume", out volume);
-        float volumePercent = Mathf.Pow(10,(volume/20)) * 100f;
-        volumeText.text = volumePercent.ToString();
-        volumeSlider.value = volumePercent/10f;
-    }
-    public void SetVolume(float volume){
+        float volumeFX;
+        soundFXMixer.GetFloat("Volume", out volumeFX);
+        float volumeFXPercent = Mathf.Pow(10,(volumeFX/20)) * 100f;
+        volumeFXText.text = volumeFXPercent.ToString();
+        volumeFXSlider.value = volumeFXPercent/10f;
 
-        float volumePercent = volume * 10f;
+        float volumeMusic;
+        musicMixer.GetFloat("Volume", out volumeMusic);
+        float volumeMusicPercent = Mathf.Pow(10,(volumeMusic/20)) * 100f;
+        volumeMusicText.text = volumeMusicPercent.ToString();
+        volumeMusicSlider.value = volumeMusicPercent/10f;
+    }
+    public void SetVolumeFX(float volume){
+
+        float volumeFXPercent = volume * 10f;
 
         if(volume == 0f){
             volume = 0.0001f;
         }else{
             volume = volume/10;
         }
-        audioMixer.SetFloat("Volume", Mathf.Log10(volume)*20f);
+        soundFXMixer.SetFloat("Volume", Mathf.Log10(volume)*20f);
 
-        volumeText.text = volumePercent.ToString();
+        volumeFXText.text = volumeFXPercent.ToString();
+
+    }
+
+    public void SetVolumeMusic(float volume){
+
+        float volumeMusicPercent = volume * 10f;
+
+        if(volume == 0f){
+            volume = 0.0001f;
+        }else{
+            volume = volume/10;
+        }
+        musicMixer.SetFloat("Volume", Mathf.Log10(volume)*20f);
+
+        volumeMusicText.text = volumeMusicPercent.ToString();
 
     }
 
