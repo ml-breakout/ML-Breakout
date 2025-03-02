@@ -314,7 +314,7 @@ public class GameManager : MonoBehaviour
                 timerText.text = $"Timer: {CurrentTime.ToString("#.00")} seconds";
             }            
 
-            if (lives < 1 && !HasLost)
+            if (lives < 1 && !HasWon && !HasLost)
             {
                 HasLost = true;
                 float looseTime = CurrentTime;
@@ -323,7 +323,7 @@ public class GameManager : MonoBehaviour
                 text += $", and bounced the ball {Bounces} times, on {DateTime.Now}";
                 LogText(text);
             }
-            else if (score > 447 && !HasWon)
+            else if (score > 447 && !HasWon && !HasLost)
             {
                 HasWon = true;
                 float winTime = CurrentTime;
