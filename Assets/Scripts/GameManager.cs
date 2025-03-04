@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI bouncesText;
     public TextMeshProUGUI timerText;
 
+    // For the post game menu
+    public PostGameMenu tempObject;
     // ***************************
     // * PUBLIC VARIABLES -> END *
     // ***************************
@@ -270,7 +272,9 @@ public class GameManager : MonoBehaviour
 
     void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
+        tempObject.Pause();
     }
 
     public void AddScore(int updateScore)
