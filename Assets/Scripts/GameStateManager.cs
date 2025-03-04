@@ -10,7 +10,7 @@ public class GameStateManager : MonoBehaviour
 
     public static GameStateManager instance;
     public int numPlayers = 1;
-
+    public PostGameMenu tempObject;
     // ***************************
     // * PUBLIC VARIABLES -> END *
     // ***************************
@@ -41,7 +41,9 @@ public class GameStateManager : MonoBehaviour
 
     void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
+        tempObject.Pause();
     }
     
     // TODO
