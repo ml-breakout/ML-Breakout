@@ -11,6 +11,7 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager instance;
     public int numPlayers = 1;
     public PostGameMenu tempObject;
+
     // ***************************
     // * PUBLIC VARIABLES -> END *
     // ***************************
