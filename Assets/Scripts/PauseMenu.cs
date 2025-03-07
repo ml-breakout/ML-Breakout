@@ -10,6 +10,14 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
 
+    // Use this in scenes that you'd like to scale up or slow down.
+    public float timeScale = 1f;
+
+    void Awake()
+    {
+        Time.timeScale = timeScale;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -24,7 +32,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume(){
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
+        Time.timeScale = timeScale;
         GamePaused = false;
 
     }

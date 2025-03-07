@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
     private bool HasLost = false;
     private bool HasWon = false;
 
+    private ScorerManager scorerManager;
+
     // ****************************
     // * PRIVATE VARIABLES -> END *
     // ****************************
@@ -103,11 +105,16 @@ public class GameManager : MonoBehaviour
         }
 
         gameStateManager = GameStateManager.instance;
-        Bounces = 0;        
+        // find the score manager script, if it's available
+        scorerManager = FindFirstObjectByType<ScorerManager>();
     }
 
     public void InitializeGame()
     {
+        lives = 3;
+        Bounces = 0;  
+        HasWon = false;
+        HasLost = false;
         gameCenter = transform.position;
         gameCenter = gameCenter + new Vector2(0f, 0f);
         ballCenter = gameCenter + new Vector2(0f, -3f);
@@ -403,11 +410,14 @@ public class GameManager : MonoBehaviour
             if (lives < 1 && !HasWon && !HasLost)
             {
                 HasLost = true;
-                float looseTime = CurrentTime;
-                string text = $"Agent took {looseTime.ToString("#.00")} seconds to loose the game";
+                float loseTime = CurrentTime;
+                string text = $"Agent took {loseTime.ToString("#.00")} seconds to lose the game";
                 timerText.text = text;
                 text += $", and bounced the ball {Bounces} times, on {DateTime.Now}";
                 LogText(text);
+                scorerManager.RegisterTrialResult(false, loseTime, score, Bounces, bricksBroken);
+                // Reset the Game
+                InitializeGame();
             }
             else if (score > 447 && !HasWon && !HasLost)
             {
@@ -417,6 +427,9 @@ public class GameManager : MonoBehaviour
                 timerText.text = text;
                 text += $", and bounced the ball {Bounces} times on {DateTime.Now}";
                 LogText(text);
+                scorerManager.RegisterTrialResult(true, winTime, score, Bounces, bricksBroken);
+                // Reset the Game
+                InitializeGame();
             }
         }        
     }
