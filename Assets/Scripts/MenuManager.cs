@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour
 
     public void Open1PAIScene()
     {
-        SceneManager.LoadScene("SinglePlayerAI");
+        SceneManager.LoadScene("Scorer");
     }
     
     public void OpenPVPScene()

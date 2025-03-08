@@ -2366,7 +2366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cecc9dfae4bf474db6d7dd8915480d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumTrials: 25
+  NumTrials: 100
   resultsText: {fileID: 1262706160}
 --- !u!224 &2087721933 stripped
 RectTransform:
