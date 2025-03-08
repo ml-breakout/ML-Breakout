@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Numerics;
-using NUnit.Framework.Interfaces;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.iOS;
+using TMPro;
+using UnityEngine.AI;
 
 public class ScorerManager : MonoBehaviour
 {
@@ -18,9 +16,11 @@ public class ScorerManager : MonoBehaviour
         public int bounces;
     }
 
-    public int NumTrials = 10;
+    public int NumTrials = 4;
 
     public List<TrialResult> results = new List<TrialResult>();
+
+    public TextMeshProUGUI resultsText;
 
     public void RegisterTrialResult(bool success, float time, int score, int bounces, int bricksDestroyed)
     {
@@ -41,7 +41,7 @@ public class ScorerManager : MonoBehaviour
         }
     }
 
-    public void PrintSummaryStats()
+    public string GetSummaryStats()
     {
         int numTrials = results.Count;
         int winCount = 0;
@@ -64,14 +64,24 @@ public class ScorerManager : MonoBehaviour
         }
         float averageBricksDestroyed = (float)totalBricksDestroyed / numTrials;
 
-        Debug.Log("Number of Trials: " + numTrials);
-        Debug.Log("Win Rate: " + winRate);
-        Debug.Log("Average Score: " + avgScore);
-        Debug.Log("Average Bricks Destroyed: " + averageBricksDestroyed);
+        float totalTime = 0f;
+        foreach (var result in results) {
+            totalTime += result.time;
+        }
+        float avgTime = totalTime / numTrials;
+
+        string res = "Number of Trials: " + numTrials + "\n" +
+                     "Win Rate: " + winRate + "\n" +
+                     "Average Score: " + avgScore + "\n" +
+                     "Average Time: " + avgTime + "\n";
+
+        return res;
     }
 
     public void FinishTrials()
     {    
-        PrintSummaryStats();
+        PostGameMenu menu = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
+        menu.Activate();
+        resultsText.text = GetSummaryStats();
     }
 }

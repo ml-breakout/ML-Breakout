@@ -281,7 +281,7 @@ public class GameManager : MonoBehaviour
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
-        tempObject.Pause();
+        tempObject.Activate();
     }
 
     public void AddScore(int updateScore)

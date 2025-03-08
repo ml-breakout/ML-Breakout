@@ -18,7 +18,7 @@ public class PostGameMenu : MonoBehaviour
             if(GamePaused){
                 Resume();
             }else{
-                Pause();
+                Activate();
             }
         }
     }
@@ -30,7 +30,7 @@ public class PostGameMenu : MonoBehaviour
 
     }
 
-    public void Pause()
+    public void Activate()
     {
        postGameMenuUI.SetActive(true);
        Time.timeScale = 0f;
@@ -46,10 +46,6 @@ public class PostGameMenu : MonoBehaviour
             PlaySceneAgain();
        }
        else if (thisScene.name == "18PlayerAITrainer 1")
-       {
-            PlaySceneAgain();
-       }
-       else if (thisScene.name == "Scorer")
        {
             PlaySceneAgain();
        }
