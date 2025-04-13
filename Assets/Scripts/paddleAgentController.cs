@@ -95,7 +95,7 @@ public class PaddleAgentController : Agent
         return 2 * (value - min) / (max - min) - 1;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (!humanControl)
         {
