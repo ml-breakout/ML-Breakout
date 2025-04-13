@@ -70,7 +70,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2029
+          seed: 6502
           value: 0.0
       name: EasyAIStage
       completion_criteria:
@@ -83,7 +83,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2030
+          seed: 6503
           value: 3.0
       name: MediumAIStage
       completion_criteria:
@@ -96,7 +96,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2031
+          seed: 6504
           value: 4.0
       name: HardAIStage
       completion_criteria:
