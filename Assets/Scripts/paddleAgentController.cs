@@ -57,6 +57,8 @@ public class PaddleAgentController : Agent
     private float ball_velocity_max_y = 5f;
     private float original_paddle_size;
 
+    private bool humanControl = false;
+
     // ****************************
     // * PRIVATE VARIABLES -> END *
     // ****************************
@@ -95,6 +97,10 @@ public class PaddleAgentController : Agent
 
     void FixedUpdate()
     {
+        if (!humanControl)
+        {
+            return;
+        }
         if (Input.GetKey(left))
         {
             movementDirection = new Vector2(-1, 0);
@@ -107,7 +113,7 @@ public class PaddleAgentController : Agent
         {
             movementDirection = new Vector2(0, 0);
         }
-        rb.linearVelocity = movementDirection * movementSpeed * Time.deltaTime;
+        rb.linearVelocity = movementDirection * movementSpeed;
     }
 
     // Specifies what should happen when a a training episode begins.
@@ -214,7 +220,9 @@ public class PaddleAgentController : Agent
     {
         // Move the paddle
         float move = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
-        rb.linearVelocity = new Vector2(move, 0) * movementSpeed;
+        if (!humanControl) {
+            rb.linearVelocity = new Vector2(move, 0) * movementSpeed;
+        }
 
         // Conditions for ending the episode
         if (gameManager.IsTrainingMode)
@@ -271,15 +279,7 @@ public class PaddleAgentController : Agent
     // To use this method, the agent must be in "Heuristic" mode--set this in the Unity Inspector.
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        var continuousActionsOut = actionsOut.ContinuousActions;
-        if (Input.GetKey(left))
-        {
-            continuousActionsOut[0] = -1f;
-        }
-        else if (Input.GetKey(right))
-        {
-            continuousActionsOut[0] = 1f;
-        }
+        humanControl = true;
     }
 
     public void updatePaddleSize()
