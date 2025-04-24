@@ -45,6 +45,12 @@ To test out your new model, the easiest way is:
 2. Select the difficulty level your model is assigned to
 3. Select the "AI Player" mode, then watch your model in action!
 
+## Viewing the models via tensorboard
+
+1. Start a new conda environment: `conda activate mlagents`
+2. Enter the Assets directory: `cd Assets/`
+3. run tensorboard --logdir results
+4. go to the http://localhost that it gives you
 
 ## Debugging
 

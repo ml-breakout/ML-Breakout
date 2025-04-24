@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.MLAgents.Integrations.Match3;
 using UnityEngine;
 
@@ -7,9 +8,11 @@ public class BallController : MonoBehaviour
     // * PUBLIC VARIABLES -> START *
     // *****************************
 
+    [Header("Gameplay")]
     public float initialSpeed = 5f;
     public float ballX;
     public float ballY;    
+    public bool discretePaddleAngle = false;
 
     // ***************************
     // * PUBLIC VARIABLES -> END *
@@ -22,9 +25,14 @@ public class BallController : MonoBehaviour
     private Rigidbody2D rb;
     private GameObject parent;   
     private bool TopWallCollsion = false; 
+
+    [Header("Audio")]
     [SerializeField] private AudioClip paddleCollisionClip;
     [SerializeField] private AudioClip brickCollisionClip;
     [SerializeField] private AudioClip wallCollisionClip;  
+
+    private Vector2 currentDirection;
+    private float currentSpeed;
 
 
     // ****************************
@@ -36,24 +44,26 @@ public class BallController : MonoBehaviour
     void Start()
     {
         parent = transform.parent.gameObject;
+        currentSpeed = (parent != null) ? parent.GetComponent<GameManager>().currentBallSpeed : currentSpeed ;
         rb = GetComponent<Rigidbody2D>();
         
         float x = UnityEngine.Random.Range(-1.0f,1.0f);
         float y = UnityEngine.Random.Range(0.5f,1.0f);
 
-        Vector2 direction = new Vector2(x,y);
-        rb.linearVelocity = direction.normalized * initialSpeed;
+        currentDirection = new Vector2(x,y).normalized;
+        rb.linearVelocity = currentDirection * currentSpeed;
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // Keep the ball at constant speed
-        rb.linearVelocity = rb.linearVelocity.normalized * initialSpeed;
+        rb.linearVelocity = currentDirection * initialSpeed;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        currentDirection = rb.linearVelocity.normalized;
         // used for audio clips and ball paddle collision
         if (collision.gameObject.CompareTag("Side Wall"))
         {
@@ -66,6 +76,15 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("Top Wall"))
         {
             SoundFXManager.instance.PlaySoundFXClip(wallCollisionClip, transform, 1f);
+            // reducing paddle size by half *game feature*
+            if(!TopWallCollsion){
+                TopWallCollsion = true;
+                if(parent != null){ 
+                    // TODO re-enable this feature. We're disabling it for now because it's causing issues in training.
+                    //   See issue #96 for details.
+                    // parent.GetComponent<GameManager>().UpdatePaddleSize();
+                }
+            }
         }
         if (collision.gameObject.CompareTag("Paddle"))
         {
@@ -75,25 +94,19 @@ public class BallController : MonoBehaviour
 
             // Calculate new angle based on hit point
             float bounceAngle = hitPoint * 60f; // 60 degrees max angle
+            // discrete vs continous angle option
+            bounceAngle = (discretePaddleAngle) ?  Mathf.Round(bounceAngle / 10f) * 10f : bounceAngle;
 
             // Calculate new direction
             float angleInRadians = bounceAngle * Mathf.Deg2Rad;
             Vector2 direction = new Vector2(Mathf.Sin(angleInRadians), Mathf.Cos(angleInRadians));
             // Apply the new velocity
+            currentDirection = direction;
             rb.linearVelocity = direction * initialSpeed;
 
             // Increment bounces
             parent.GetComponent<GameManager>().IncrementBounces();   
-        }
-        // reducing paddle size by half *game feature*
-        if (collision.gameObject.CompareTag("Top Wall") && !TopWallCollsion)
-        {
-            TopWallCollsion = true;
-            if(parent != null){ 
-                // TODO re-enable this feature. We're disabling it for now because it's causing issues in training.
-                //   See issue #96 for details.
-                // parent.GetComponent<GameManager>().UpdatePaddleSize();
-            }
+
         }
     }
 
@@ -102,31 +115,29 @@ public class BallController : MonoBehaviour
         if (other.gameObject.name == "DeathZone")
         {
             if (parent != null){
+
                 if (parent.GetComponent<GameManager>().IsTrainingMode)
                 {
                     return; // let the Agent handle the ball in training mode
                 }
-                
-                Vector2 pos = parent.GetComponent<GameManager>().GetBallStartingPosition();
-                rb.MovePosition(pos);
-                // objects moved with the above function can still collide, could cause issues but hasn't so far
-                if (parent.GetComponent<GameManager>().LoseALife() <= 0)
-                {
-                    rb.linearVelocity = new Vector2(0f, 0f);
-                }
-                else
-                {
-                    float x = UnityEngine.Random.Range(-1.0f,1.0f);
-                    float y = UnityEngine.Random.Range(0.5f,1.0f);
 
-                    Vector2 direction = new Vector2(x,y);
-                    rb.linearVelocity = direction.normalized * initialSpeed;
+                if (parent.GetComponent<GameManager>().LoseALife() <= 0)
+                {   
+                    rb.linearVelocity = new Vector2(0f, 0f);
+                    currentDirection = new Vector2(0f, 0f);
+                    Vector2 pos = parent.GetComponent<GameManager>().GetBallStartingPosition();
+                    this.transform.position = pos;
+
+                }else{
+                    parent.GetComponent<GameManager>().ResetBall();
                 }
             }
         }
     }   
 
     public void IncreaseBallSpeed(float amount){
-        initialSpeed += amount;
+        currentSpeed += amount;
+        parent.GetComponent<GameManager>().currentBallSpeed += amount;
     }
 }
+
