@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using System;
 using System.Timers;
 using System.IO;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,24 +16,11 @@ public class GameManager : MonoBehaviour
     // *****************************
 
     // UI vars
+    [Header("UI")]
     public TextMeshProUGUI scoreText;  // Reference to UI text
     public TextMeshProUGUI livesText;   // Reference to UI text
     public TextMeshProUGUI averageScore;   // Reference to UI text
     public TextMeshProUGUI gamesPlayed;   // Reference to UI text
-
-    // AI Agent vars
-    public bool IsAgentPlayer; // Whether the AI agent is playing the game
-    public bool IsTrainingMode = false;  // Whether the game is in training mode
-    public bool IsScoringPlayer = false;
-
-    // Ball Creation
-    public GameObject ballPrefab;
-
-    // brick creation vars
-    public GameObject yellowBrick;
-    public GameObject greenBrick;
-    public GameObject orangeBrick;
-    public GameObject redBrick;
 
     // Scorer Variables
     public TextMeshProUGUI bouncesText;
@@ -40,6 +28,23 @@ public class GameManager : MonoBehaviour
 
     // For the post game menu
     public PostGameMenu tempObject;
+
+    // AI Agent vars
+    [Header("AI")]
+    public bool IsAgentPlayer; // Whether the AI agent is playing the game
+    public bool IsTrainingMode = false;  // Whether the game is in training mode
+    public bool IsScoringPlayer = false;
+
+    [Header("Prefabs")]
+    // Ball Creation
+    public GameObject ballPrefab;
+    // brick creation vars
+    public GameObject yellowBrick;
+    public GameObject greenBrick;
+    public GameObject orangeBrick;
+    public GameObject redBrick;
+
+
     // ***************************
     // * PUBLIC VARIABLES -> END *
     // ***************************
@@ -57,18 +62,24 @@ public class GameManager : MonoBehaviour
     private int bricksBuilt;
     private bool OrangeBrickBroken = false;
     private bool RedBrickBroken = false;
-    [SerializeField]
-    private float speedChange = 1f;
-
-    // paddle vars
-    [SerializeField]
-    private GameObject paddle;
-
-    // ball creation vars
     private GameObject BallObject;
     private Vector2 ballCenter;
-    private List<List<GameObject>> currentBricks = new List<List<GameObject>>();
-    private List<List<int>> currentBricksAlive = new List<List<int>>();
+    private bool HasLost = false;
+    private bool HasWon = false;
+    private GameStateManager gameStateManager;
+    private ScorerManager scorerManager;
+
+
+    [Header("Gameplay")]
+    [SerializeField] private float speedChange = 1f;
+    public float paddleSpeed = 7f;
+    public float initBallSpeed = 7f;
+    [HideInInspector]
+    public float currentBallSpeed;
+    // paddle vars
+    [SerializeField] 
+    private GameObject paddle;
+    // Brick vars
     [SerializeField]
     private float bricksWidth = 0.5f;
     [SerializeField]
@@ -77,20 +88,20 @@ public class GameManager : MonoBehaviour
     private float brickSpaceingX = 0.15f;
     [SerializeField]
     private float brickSpaceingY = 0.25f;
-    private float bricksInitalX;
-    private float bricksInitalY = 0f;
+
+    // Ai management vars
+    
+    private List<List<GameObject>> currentBricks = new List<List<GameObject>>();
+    private List<List<int>> currentBricksAlive = new List<List<int>>();
+    private int Bounces;
+    private float CurrentTime;
+    
+    // Audio
+    [Header("Audio")]
     [SerializeField] private AudioClip loseALifeAudioClip;
     [SerializeField] private AudioClip defeatAudioClip;
     [SerializeField] private AudioClip victoryAudioClip;
 
-
-    private GameStateManager gameStateManager;
-    private int Bounces;
-    private float CurrentTime;
-    private bool HasLost = false;
-    private bool HasWon = false;
-
-    private ScorerManager scorerManager;
 
     // ****************************
     // * PRIVATE VARIABLES -> END *
@@ -116,10 +127,10 @@ public class GameManager : MonoBehaviour
         HasWon = false;
         HasLost = false;
         gameCenter = transform.position;
-        gameCenter = gameCenter + new Vector2(0f, 0f);
         ballCenter = gameCenter + new Vector2(0f, -3f);
         score = 0;
         scoreText.text = score.ToString();
+        currentBallSpeed = initBallSpeed;
         ResetBricks();
         ResetBall();
         if (!IsTrainingMode)
@@ -149,9 +160,9 @@ public class GameManager : MonoBehaviour
         bricksBuilt = 0;
 
         GameObject[] brickColors = { yellowBrick, greenBrick, orangeBrick, redBrick };
-        bricksInitalX = bricksWidth / 2 + brickSpaceingX / 2;
+        float bricksInitalX = bricksWidth / 2 + brickSpaceingX / 2;
 
-        bricksInitalY = 0f;
+        float bricksInitalY = 0f;
         float topmostYPosition = gameCenter.y;
         float leftmostXPosition = gameCenter.x - 7 * (bricksWidth + brickSpaceingX) + (bricksWidth / 2 + brickSpaceingX / 2);
 
@@ -277,12 +288,13 @@ public class GameManager : MonoBehaviour
         livesText.text = lives.ToString();
     }
 
-    void RestartGame()
-    {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
-        tempObject.Activate();
-    }
+    // depreciate?
+    // void RestartGame()
+    // {
+    //     //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    //     tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
+    //     tempObject.Activate();
+    // }
 
     public void AddScore(int updateScore)
     {
@@ -330,6 +342,10 @@ public class GameManager : MonoBehaviour
         bricksBroken++;
 
         currentBricksAlive[brickCoordinates.Item2][brickCoordinates.Item1] = 0;
+
+        if(IsTrainingMode && paddle.TryGetComponent<PaddleAgentControllerCNN>(out PaddleAgentControllerCNN script)){
+            script.brickScoreUpdate();
+        }
 
         if (type == "Orange" && !OrangeBrickBroken)
         {
@@ -452,6 +468,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // depreciate? 
     public bool AllBricksBroken()
     {
         return bricksBuilt > 0 && bricksBroken >= bricksBuilt;
