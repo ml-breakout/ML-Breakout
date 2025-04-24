@@ -654,7 +654,7 @@ MonoBehaviour:
   DifficultyModels:
   - {fileID: 5022602860645237092, guid: a726dc66fdc9c40f69ec48bd9d76a647, type: 3}
   - {fileID: 5022602860645237092, guid: 17a1fad3039ac4cab8ef647d34f17c8a, type: 3}
-  - {fileID: 5022602860645237092, guid: bd444702fbd3f43f7abc2f70153f28b2, type: 3}
+  - {fileID: 5022602860645237092, guid: a780d2ddb8d59e84088f92ddc6576f3c, type: 3}
   AIDifficulty: 0
 --- !u!4 &60909164
 Transform:

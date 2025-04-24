@@ -1,0 +1,113 @@
+{
+    "stage": {
+        "lesson_num": 2
+    },
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 919940,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-919940.onnx",
+                "reward": 206.69999742507935,
+                "creation_time": 1745535024.8838434,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-919940.pt"
+                ]
+            },
+            {
+                "steps": 929994,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-929994.onnx",
+                "reward": null,
+                "creation_time": 1745535029.8648024,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-929994.pt"
+                ]
+            },
+            {
+                "steps": 939903,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-939903.onnx",
+                "reward": null,
+                "creation_time": 1745535034.767722,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-939903.pt"
+                ]
+            },
+            {
+                "steps": 949991,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-949991.onnx",
+                "reward": 120.30000165104866,
+                "creation_time": 1745535038.953459,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-949991.pt"
+                ]
+            },
+            {
+                "steps": 959902,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-959902.onnx",
+                "reward": null,
+                "creation_time": 1745535044.146628,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-959902.pt"
+                ]
+            },
+            {
+                "steps": 969972,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-969972.onnx",
+                "reward": null,
+                "creation_time": 1745535048.9352474,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-969972.pt"
+                ]
+            },
+            {
+                "steps": 979940,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-979940.onnx",
+                "reward": null,
+                "creation_time": 1745535053.5578048,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-979940.pt"
+                ]
+            },
+            {
+                "steps": 989987,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-989987.onnx",
+                "reward": 120.84999764710665,
+                "creation_time": 1745535058.7959452,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-989987.pt"
+                ]
+            },
+            {
+                "steps": 999920,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-999920.onnx",
+                "reward": null,
+                "creation_time": 1745535063.416551,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-999920.pt"
+                ]
+            },
+            {
+                "steps": 1000048,
+                "file_path": "results\\before_paddle_reduction\\Paddle\\Paddle-1000048.onnx",
+                "reward": null,
+                "creation_time": 1745535063.4365509,
+                "auxillary_file_paths": [
+                    "results\\before_paddle_reduction\\Paddle\\Paddle-1000048.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000048,
+            "file_path": "results\\before_paddle_reduction\\Paddle.onnx",
+            "reward": null,
+            "creation_time": 1745535063.4365509,
+            "auxillary_file_paths": [
+                "results\\before_paddle_reduction\\Paddle\\Paddle-1000048.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

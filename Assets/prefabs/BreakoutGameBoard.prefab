@@ -186,6 +186,9 @@ MonoBehaviour:
   livesText: {fileID: 2633356298493121125}
   averageScore: {fileID: 0}
   gamesPlayed: {fileID: 0}
+  bouncesText: {fileID: 0}
+  timerText: {fileID: 0}
+  tempObject: {fileID: 0}
   IsAgentPlayer: 1
   IsTrainingMode: 1
   IsScoringPlayer: 0
@@ -194,9 +197,10 @@ MonoBehaviour:
   greenBrick: {fileID: 4343636400855690989, guid: cc308109fe37bdb4384d18d5b6f050cc, type: 3}
   orangeBrick: {fileID: 9121138873987132718, guid: ed7a4d79ee523a4428e1408540731c26, type: 3}
   redBrick: {fileID: 2279494898821426182, guid: 5939dcef5e359644e856718b1e791af0, type: 3}
-  bouncesText: {fileID: 0}
-  timerText: {fileID: 0}
   speedChange: 0.5
+  paddleSpeed: 7
+  initBallSpeed: 7
+  currentBallSpeed: 0
   paddle: {fileID: 1110599985562955634}
   bricksWidth: 0.5
   bricksHeight: 0.15
@@ -383,7 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 9
+    VectorObservationSize: 12
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 1
