@@ -68,7 +68,9 @@ public class PaddleAgentController : Agent
 
     Rigidbody2D m_BallRb;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Initializes the paddle agent by setting up the rigidbody, behavior parameters, and difficulty level.
+    /// </summary>
     void Start()
     {
         original_paddle_size = paddleSize;
@@ -81,23 +83,42 @@ public class PaddleAgentController : Agent
         }
     }
 
+    /// <summary>
+    /// Initializes the ML-Agent. This method is called when the agent is first created.
+    /// </summary>
     public override void Initialize()
     {
 
     }
 
-    // Normalizes a value between 0 and 1
+    /// <summary>
+    /// Normalizes a value to be between 0 and 1 based on the given minimum and maximum values.
+    /// </summary>
+    /// <param name="value">The value to normalize</param>
+    /// <param name="min">The minimum value in the range</param>
+    /// <param name="max">The maximum value in the range</param>
+    /// <returns>A normalized value between 0 and 1</returns>
     private float NormalizeNonnegative(float value, float min, float max)
     {
         return (value - min) / (max - min);
     }
 
-    // Normalizes a value between -1 and 1
+    /// <summary>
+    /// Normalizes a value to be between -1 and 1 based on the given minimum and maximum values.
+    /// </summary>
+    /// <param name="value">The value to normalize</param>
+    /// <param name="min">The minimum value in the range</param>
+    /// <param name="max">The maximum value in the range</param>
+    /// <returns>A normalized value between -1 and 1</returns>
     private float Normalize(float value, float min, float max)
     {
         return 2 * (value - min) / (max - min) - 1;
     }
 
+    /// <summary>
+    /// Handles human input control of the paddle when in human control mode.
+    /// Moves the paddle left or right based on keyboard input.
+    /// </summary>
     void Update()
     {
         if (!humanControl)
@@ -119,11 +140,10 @@ public class PaddleAgentController : Agent
         rb.linearVelocity = movementDirection * movementSpeed;
     }
 
-    // Specifies what should happen when a a training episode begins.
-    // Training is comprised of running many episodes where the agent is contronted with different
-    // scenarios and learns to make decisions based on the observations it makes.
-    // The goal of this method is to initialize a wide variety of scenarios for the agent to
-    // learn from.
+    /// <summary>
+    /// Initializes a new training episode. Sets up the game state, ball position, and resets scores.
+    /// Also handles special initialization for quadrant training mode.
+    /// </summary>
     public override void OnEpisodeBegin()
     {
         gameManager.InitializeGame();
@@ -143,8 +163,11 @@ public class PaddleAgentController : Agent
         paddleSize = original_paddle_size;
     }
 
-    // Collects observations from the environment to be used by the agent.
-    // This is the input to the agent.
+    /// <summary>
+    /// Collects and processes observations from the game environment for the ML-Agent.
+    /// Includes ball position, paddle position, ball velocity, and brick status information.
+    /// </summary>
+    /// <param name="sensor">The vector sensor to add observations to</param>
     public override void CollectObservations(VectorSensor sensor)
     {
         ball = gameManager.GetBall();
@@ -184,7 +207,7 @@ public class PaddleAgentController : Agent
         int totalHorizontalBricks = currentBricksAlive[0].Count;
         int totalVerticalBricks = currentBricksAlive.Count;
         int horizontalPartitions = 2;
-        int veriticalPartitions = 2;
+        int veriticalPartitions = 4;
 
         // The first value of the tuple is the number of bricks alive in the partition, and the second value is the total number of possible bricks in the partition.
         (int, int)[,] brickCounts = new (int, int)[horizontalPartitions, veriticalPartitions];  // initialized by default (0,0) in each cell
@@ -227,8 +250,11 @@ public class PaddleAgentController : Agent
 
     }
 
-    // Executes the actions requested by the agent and grants rewards based on the current game state.
-    // This is the output of the agent.
+    /// <summary>
+    /// Processes the agent's actions and updates the game state accordingly.
+    /// Handles paddle movement, episode termination conditions, and reward distribution.
+    /// </summary>
+    /// <param name="actions">The actions received from the ML-Agent</param>
     public override void OnActionReceived(ActionBuffers actions)
     {
         // Move the paddle
@@ -287,14 +313,18 @@ public class PaddleAgentController : Agent
         }
     }
 
-    // This method allows us to manually control the agent's game object.
-    // Mainly used to test that the agents actions are wired properly.
-    // To use this method, the agent must be in "Heuristic" mode--set this in the Unity Inspector.
+    /// <summary>
+    /// Enables human control mode for testing the agent's behavior.
+    /// </summary>
+    /// <param name="actionsOut">The action buffer to be filled with human input</param>
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         humanControl = true;
     }
 
+    /// <summary>
+    /// Updates the paddle size by reducing it by half, but only once.
+    /// </summary>
     public void updatePaddleSize()
     {
         if (num_paddle_size_reductions < 1)
@@ -305,6 +335,11 @@ public class PaddleAgentController : Agent
         num_paddle_size_reductions++;
     }
 
+    /// <summary>
+    /// Handles collision events between the paddle and other game objects.
+    /// Manages rewards and episode termination based on ball collisions.
+    /// </summary>
+    /// <param name="collision">Information about the collision that occurred</param>
     void OnCollisionEnter2D(Collision2D collision)
     {
         float curriculumStage = Academy.Instance.EnvironmentParameters.GetWithDefault("stage", 0);
