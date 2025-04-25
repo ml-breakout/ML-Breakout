@@ -82,7 +82,10 @@ public class BallController : MonoBehaviour
                 if(parent != null){ 
                     // TODO re-enable this feature. We're disabling it for now because it's causing issues in training.
                     //   See issue #96 for details.
-                    // parent.GetComponent<GameManager>().UpdatePaddleSize();
+                    // 4/23/2025
+                    // Re-Enabling dynamic paddle size reduction
+                    // Re-comment the below line to disable
+                    parent.GetComponent<GameManager>().UpdatePaddleSize();
                 }
             }
         }

@@ -343,9 +343,9 @@ public class GameManager : MonoBehaviour
 
         currentBricksAlive[brickCoordinates.Item2][brickCoordinates.Item1] = 0;
 
-        if(IsTrainingMode && paddle.TryGetComponent<PaddleAgentControllerCNN>(out PaddleAgentControllerCNN script)){
-            script.brickScoreUpdate();
-        }
+        //if(IsTrainingMode && paddle.TryGetComponent<PaddleAgentControllerCNN>(out PaddleAgentControllerCNN script)){
+        //    script.brickScoreUpdate();
+        //}
 
         if (type == "Orange" && !OrangeBrickBroken)
         {

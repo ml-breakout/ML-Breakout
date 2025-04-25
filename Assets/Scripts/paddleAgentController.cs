@@ -57,6 +57,9 @@ public class PaddleAgentController : Agent
     private float ball_velocity_max_y = 5f;
     private float original_paddle_size;
 
+    // I think the paddle size was being reduced to 0
+    private int num_paddle_size_reductions = 0;
+
     private bool humanControl = false;
 
     // ****************************
@@ -137,6 +140,7 @@ public class PaddleAgentController : Agent
 
         prevScore = 0;
         score_at_last_bounce = 0;
+        paddleSize = original_paddle_size;
     }
 
     // Collects observations from the environment to be used by the agent.
@@ -155,6 +159,15 @@ public class PaddleAgentController : Agent
         // Paddle position
         float paddle_x = NormalizeNonnegative(gameObject.transform.localPosition.x, paddle_min_x, paddle_max_x);
         sensor.AddObservation(paddle_x);
+
+        // Paddle size
+        // Doesn't seem like NormalizeNonnegative needs to be used here, but could possibly cause issues
+        sensor.AddObservation(paddleSize);
+        // Could add some quick math to include x and y coords of edge of paddle
+        float paddleLeftEdge = paddle_x - paddleSize / 2;
+        float paddleRightEdge = paddle_x + paddleSize / 2;
+        sensor.AddObservation(paddleLeftEdge);
+        sensor.AddObservation(paddleRightEdge);
 
         float ball_velocity_x = Normalize(m_BallRb.linearVelocity.x, ball_velocity_min_x, ball_velocity_max_x);
         float ball_velocity_y = Normalize(m_BallRb.linearVelocity.y, ball_velocity_min_y, ball_velocity_max_y);
@@ -284,8 +297,12 @@ public class PaddleAgentController : Agent
 
     public void updatePaddleSize()
     {
-        this.transform.localScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y, this.transform.localScale.z);
-        paddleSize /= 2;
+        if (num_paddle_size_reductions < 1)
+            {
+                this.transform.localScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y, this.transform.localScale.z);
+                paddleSize /= 2;
+            }
+        num_paddle_size_reductions++;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
