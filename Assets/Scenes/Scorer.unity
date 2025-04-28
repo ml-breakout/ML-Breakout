@@ -119,29 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &32602598 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-  m_PrefabInstance: {fileID: 1244532465}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &32602599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32602598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9390975b2cbd040afa44905730ac72f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSpeed: 5
-  ballX: 0
-  ballY: 0
-  paddleCollisionClip: {fileID: 0}
-  brickCollisionClip: {fileID: 0}
-  wallCollisionClip: {fileID: 0}
 --- !u!1001 &45671581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,10 +205,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4656050575666740587, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
       insertIndex: 1
       addedObject: {fileID: 933315199}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 675616179}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
 --- !u!1 &75178243
 GameObject:
@@ -505,29 +479,6 @@ RectTransform:
   m_AnchoredPosition: {x: 674, y: 312}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &212147903 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-  m_PrefabInstance: {fileID: 2131391258}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &212147904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 212147903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9390975b2cbd040afa44905730ac72f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSpeed: 5
-  ballX: 0
-  ballY: 0
-  paddleCollisionClip: {fileID: 0}
-  brickCollisionClip: {fileID: 0}
-  wallCollisionClip: {fileID: 0}
 --- !u!1001 &302069129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -629,29 +580,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc59372e02609ea4c812264f812d3484, type: 3}
---- !u!1 &317868409 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-  m_PrefabInstance: {fileID: 975732096581575698}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &317868417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317868409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9390975b2cbd040afa44905730ac72f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSpeed: 5
-  ballX: 0
-  ballY: 0
-  paddleCollisionClip: {fileID: 0}
-  brickCollisionClip: {fileID: 0}
-  wallCollisionClip: {fileID: 0}
 --- !u!1 &329687486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,29 +1241,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &675616178 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-  m_PrefabInstance: {fileID: 45671581}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &675616179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675616178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9390975b2cbd040afa44905730ac72f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSpeed: 5
-  ballX: 0
-  ballY: 0
-  paddleCollisionClip: {fileID: 0}
-  brickCollisionClip: {fileID: 0}
-  wallCollisionClip: {fileID: 0}
 --- !u!1001 &720433752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1899,10 +1804,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4656050575666740587, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
       insertIndex: 1
       addedObject: {fileID: 2006154997}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 32602599}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
 --- !u!1 &1259679138
 GameObject:
@@ -2459,10 +2361,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4656050575666740587, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1087889122}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 212147904}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
 --- !u!1001 &975732096581575698
 PrefabInstance:
@@ -2550,10 +2449,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4656050575666740587, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
       insertIndex: 1
       addedObject: {fileID: 329687487}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1110599985562955634, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 317868417}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a68b307cf951a45d38170bbf4988e601, type: 3}
 --- !u!224 &975732096581575699 stripped
 RectTransform:
