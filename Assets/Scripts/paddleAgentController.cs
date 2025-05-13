@@ -57,8 +57,7 @@ public class PaddleAgentController : Agent
     private float ball_velocity_max_y = 5f;
     private float original_paddle_size;
 
-    // I think the paddle size was being reduced to 0
-    private int num_paddle_size_reductions = 0;
+    private bool paddleSizeReduced = false;
 
     private bool humanControl = false;
 
@@ -160,7 +159,7 @@ public class PaddleAgentController : Agent
 
         prevScore = 0;
         score_at_last_bounce = 0;
-        paddleSize = original_paddle_size;
+        restorePaddleSize();
     }
 
     /// <summary>
@@ -228,6 +227,13 @@ public class PaddleAgentController : Agent
                 int horizontalPartitionIndex = horizontalIndex / horizontalPartitionSize;
                 int verticalPartitionIndex = verticalIndex / verticalPartitionSize;
 
+                // Ensure the indices are within bounds.
+                // We need to do this because if the number of bricks is not divisible by the number of partitions, 
+                // there will be some bricks left over. We want to just put these in the last partition. This means
+                // the last partition can contain more bricks than the others.
+                horizontalPartitionIndex = Mathf.Clamp(horizontalPartitionIndex, 0, horizontalPartitions - 1);
+                verticalPartitionIndex = Mathf.Clamp(verticalPartitionIndex, 0, veriticalPartitions - 1);
+
                 brickCounts[horizontalPartitionIndex, verticalPartitionIndex].Item1 += brickIsAlive;
                 brickCounts[horizontalPartitionIndex, verticalPartitionIndex].Item2 += 1;
             }
@@ -259,7 +265,8 @@ public class PaddleAgentController : Agent
     {
         // Move the paddle
         float move = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
-        if (!humanControl) {
+        if (!humanControl)
+        {
             rb.linearVelocity = new Vector2(move, 0) * movementSpeed;
         }
 
@@ -268,7 +275,8 @@ public class PaddleAgentController : Agent
         {
             var score = gameManager.GetScore();
             // end the episode if the agent wins (and there's no more bricks to break)
-            if (score == 448) {
+            if (score == 448)
+            {
                 EndEpisode();
                 return;
             }
@@ -327,12 +335,22 @@ public class PaddleAgentController : Agent
     /// </summary>
     public void updatePaddleSize()
     {
-        if (num_paddle_size_reductions < 1)
-            {
-                this.transform.localScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y, this.transform.localScale.z);
-                paddleSize /= 2;
-            }
-        num_paddle_size_reductions++;
+        if (!paddleSizeReduced)
+        {
+            this.transform.localScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y, this.transform.localScale.z);
+            paddleSize /= 2;
+        }
+        paddleSizeReduced = true;
+    }
+
+    public void restorePaddleSize()
+    {
+        if (paddleSizeReduced)
+        {
+            this.transform.localScale = new Vector3(this.transform.localScale.x * 2, this.transform.localScale.y, this.transform.localScale.z);
+        }
+        paddleSize = original_paddle_size;
+        paddleSizeReduced = false;
     }
 
     /// <summary>
@@ -356,7 +374,9 @@ public class PaddleAgentController : Agent
                 {
                     EndEpisode();
                 }
-            } else {
+            }
+            else
+            {
                 SetReward(0.1f);  // Small reward for each hit
             }
         }

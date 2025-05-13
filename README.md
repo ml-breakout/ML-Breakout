@@ -1,3 +1,30 @@
+# Project Overview
+ML Breakout reimagines the iconic arcade game with modern Unity graphics while incorporating sophisticated machine learning capabilities. Our project serves as both an engaging game and an educational platform for exploring AI concepts through gameplay.
+
+![ML Breakout training session screenshot](docs/images/training-screenshot.png)
+
+[Project Demo Video](https://youtu.be/9Wiy9EaTTJw)
+
+Key Features:
+* **Classic Breakout Gameplay:** Control a paddle to bounce a ball and break colorful brick patterns
+* **AI Opponents:** Challenge machine learning models trained through reinforcement learning
+* **Player vs. Player Mode:** Compete side-by-side with friends in two-player matches
+* **Player vs. AI Mode:** Test your skills against various AI difficulty levels
+
+Technical Highlights:
+* Built with Unity game engine
+* AI powered by Unity ML-Agents framework
+* Automated training and evaluation scripts
+* Comprehensive training curriculum with specialized learning phases
+
+## Development Team
+
+* Benjamin R Leonard
+* Caden White
+* Jack La Barba
+* John Tyler Kinkade
+
+# Developer Instructions
 ## Dev environment setup
 
 You'll need to install the mlagents python library:
@@ -57,3 +84,19 @@ To test out your new model, the easiest way is:
 Here are some handy tips for solving common problems:
 
 * If the Unity editor crashes while you're trying to play a scene that includes an agent running in inference mode, check that the model you're using was trained using the same Vector Observation Stack Size as what's currently being used in your code. If there's a mismatch, that'll likely result in a crash (based on my experience)
+
+
+## Current Performance
+
+Easy (n=100 games)
+* win rate: 0%
+* avg time-to-win: N/A
+
+
+Medium (n=100 games)
+* win rate: 16%
+* avg time-to-win: 260 sec
+
+Hard (n=100 games)
+* win rate: 91%
+* avg time-to-win: 235 sec

@@ -49,10 +49,6 @@ public class PostGameMenu : MonoBehaviour
        {
             PlaySceneAgain();
        }
-       else if (thisScene.name == "Scorer")
-       {
-            PlaySceneAgain();
-       }
     }
 
     public void PlaySceneAgain()

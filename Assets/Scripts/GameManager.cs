@@ -133,6 +133,8 @@ public class GameManager : MonoBehaviour
         currentBallSpeed = initBallSpeed;
         ResetBricks();
         ResetBall();
+        PaddleAgentController paddleScript = paddle.GetComponent<PaddleAgentController>();
+        paddleScript.restorePaddleSize();
         if (!IsTrainingMode)
         {
             InitLives();

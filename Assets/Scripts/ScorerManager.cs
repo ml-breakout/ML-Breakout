@@ -66,9 +66,16 @@ public class ScorerManager : MonoBehaviour
 
         float totalTime = 0f;
         foreach (var result in results) {
-            totalTime += result.time;
+            if (result.success) {
+                totalTime += result.time;
+            }
         }
-        float avgTime = totalTime / numTrials;
+        float avgTime;
+        if (winCount > 0) {
+            avgTime = totalTime / winCount;
+        } else {
+            avgTime = float.MaxValue; // Avoid division by zero if no wins
+        }
 
         string res = "Number of Trials: " + numTrials + "\n" +
                      "Win Rate: " + winRate + "\n" +
