@@ -475,4 +475,14 @@ public class GameManager : MonoBehaviour
     {
         return bricksBuilt > 0 && bricksBroken >= bricksBuilt;
     }
+
+    public void SetBall(GameObject newBall)
+    {
+        BallObject = newBall;
+    }
+
+    public void SetBricksAlive(List<List<int>> newBricksAlive)
+    {
+        currentBricksAlive = new List<List<int>>(newBricksAlive);
+    }
 }

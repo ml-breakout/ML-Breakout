@@ -354,6 +354,86 @@ public class PaddleAgentController : Agent
     }
 
     /// <summary>
+    /// Helper method to get all observations for testing purposes
+    /// </summary>
+    /// <returns>A list of all the observations that would be collected</returns>
+    public List<float> GetObservationsForTesting()
+    {
+        List<float> observations = new List<float>();
+        
+        ball = gameManager.GetBall();
+        m_BallRb = ball.GetComponent<Rigidbody2D>();
+
+        // Ball position
+        float ball_x = NormalizeNonnegative(ball.transform.localPosition.x, ball_min_x, ball_max_x);
+        float ball_y = NormalizeNonnegative(ball.transform.localPosition.y, ball_min_y, ball_max_y);
+        observations.Add(ball_x);
+        observations.Add(ball_y);
+
+        // Paddle position
+        float paddle_x = NormalizeNonnegative(gameObject.transform.localPosition.x, paddle_min_x, paddle_max_x);
+        observations.Add(paddle_x);
+
+        // Paddle size
+        observations.Add(paddleSize);
+        float paddleLeftEdge = paddle_x - paddleSize / 2;
+        float paddleRightEdge = paddle_x + paddleSize / 2;
+        observations.Add(paddleLeftEdge);
+        observations.Add(paddleRightEdge);
+
+        float ball_velocity_x = Normalize(m_BallRb.linearVelocity.x, ball_velocity_min_x, ball_velocity_max_x);
+        float ball_velocity_y = Normalize(m_BallRb.linearVelocity.y, ball_velocity_min_y, ball_velocity_max_y);
+        observations.Add(ball_velocity_x);
+        observations.Add(ball_velocity_y);
+
+        // Bricks
+        List<List<int>> currentBricksAlive = gameManager.GetBricksAlive();
+
+        int totalHorizontalBricks = currentBricksAlive[0].Count;
+        int totalVerticalBricks = currentBricksAlive.Count;
+        int horizontalPartitions = 2;
+        int veriticalPartitions = 4;
+
+        // The first value of the tuple is the number of bricks alive in the partition, and the second value is the total number of possible bricks in the partition.
+        (int, int)[,] brickCounts = new (int, int)[horizontalPartitions, veriticalPartitions];
+
+        int horizontalPartitionSize = totalHorizontalBricks / horizontalPartitions;
+        int verticalPartitionSize = totalVerticalBricks / veriticalPartitions;
+
+        foreach (var pair in currentBricksAlive.Select((column, verticalIndex) => new { column = column, verticalIndex = verticalIndex }))
+        {
+            List<int> column = pair.column;
+            int verticalIndex = pair.verticalIndex;
+
+            foreach (var brick in column.Select((brick, horizontalIndex) => new { brick = brick, horizontalIndex = horizontalIndex }))
+            {
+                int horizontalIndex = brick.horizontalIndex;
+                int brickIsAlive = brick.brick;
+
+                int horizontalPartitionIndex = horizontalIndex / horizontalPartitionSize;
+                int verticalPartitionIndex = verticalIndex / verticalPartitionSize;
+
+                horizontalPartitionIndex = Mathf.Clamp(horizontalPartitionIndex, 0, horizontalPartitions - 1);
+                verticalPartitionIndex = Mathf.Clamp(verticalPartitionIndex, 0, veriticalPartitions - 1);
+
+                brickCounts[horizontalPartitionIndex, verticalPartitionIndex].Item1 += brickIsAlive;
+                brickCounts[horizontalPartitionIndex, verticalPartitionIndex].Item2 += 1;
+            }
+        }
+
+        for (int i = 0; i < horizontalPartitions; i++)
+        {
+            for (int j = 0; j < veriticalPartitions; j++)
+            {
+                float fractionAlive = (float)brickCounts[i, j].Item1 / brickCounts[i, j].Item2;
+                observations.Add(fractionAlive);
+            }
+        }
+        
+        return observations;
+    }
+
+    /// <summary>
     /// Handles collision events between the paddle and other game objects.
     /// Manages rewards and episode termination based on ball collisions.
     /// </summary>
