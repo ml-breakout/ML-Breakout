@@ -1,0 +1,47 @@
+{
+    "PaddleCNN": {
+        "checkpoints": [
+            {
+                "steps": 999885,
+                "file_path": "results\\CNN_v6\\PaddleCNN\\PaddleCNN-999885.onnx",
+                "reward": 1.6500000953674316,
+                "creation_time": 1745525974.821367,
+                "auxillary_file_paths": [
+                    "results\\CNN_v6\\PaddleCNN\\PaddleCNN-999885.pt"
+                ]
+            },
+            {
+                "steps": 1999929,
+                "file_path": "results\\CNN_v6\\PaddleCNN\\PaddleCNN-1999929.onnx",
+                "reward": null,
+                "creation_time": 1745530721.957311,
+                "auxillary_file_paths": [
+                    "results\\CNN_v6\\PaddleCNN\\PaddleCNN-1999929.pt"
+                ]
+            },
+            {
+                "steps": 2892918,
+                "file_path": "results\\CNN_v6\\PaddleCNN\\PaddleCNN-2892918.onnx",
+                "reward": 13.600000381469727,
+                "creation_time": 1745534666.5542943,
+                "auxillary_file_paths": [
+                    "results\\CNN_v6\\PaddleCNN\\PaddleCNN-2892918.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2892918,
+            "file_path": "results\\CNN_v6\\PaddleCNN.onnx",
+            "reward": 13.600000381469727,
+            "creation_time": 1745534666.5542943,
+            "auxillary_file_paths": [
+                "results\\CNN_v6\\PaddleCNN\\PaddleCNN-2892918.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

@@ -14,13 +14,17 @@ public class MenuManager : MonoBehaviour
     // * PRIVATE VARIABLES -> START *
     // ******************************
 
+    MainManager mainManager;
     // ****************************
     // * PRIVATE VARIABLES -> END *
     // ****************************
 
     void Start()
     {
-
+        if (MainManager.Instance != null)
+        {
+            mainManager = MainManager.Instance;
+        }
     }
 
     void Update()
@@ -35,7 +39,12 @@ public class MenuManager : MonoBehaviour
 
     public void Open1PAIScene()
     {
-        SceneManager.LoadScene("Scorer");
+        if(mainManager.getDifficultyInt() == 3){
+            SceneManager.LoadScene("Scorer CNN");
+        }else{
+            SceneManager.LoadScene("Scorer");
+        }
+        
     }
     
     public void OpenPVPScene()
@@ -44,7 +53,11 @@ public class MenuManager : MonoBehaviour
     }
 
     public void OpenPVAIScene(){
-        SceneManager.LoadScene("PVAI");
+        if(mainManager.getDifficultyInt() == 3){
+            SceneManager.LoadScene("PVAI CNN"); 
+        }else{
+            SceneManager.LoadScene("PVAI");
+        }
     }
     
     public void QuitGame(){
