@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     // game managment vars
     private int score = 0;
     private int lives = 3;
+    private int playerNumber = 0;   // 0 is singleplayer, 1 is p1, 2 is p2
     private Vector2 gameCenter;
     private int bricksBroken;
     private int bricksBuilt;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
     private bool HasWon = false;
     private GameStateManager gameStateManager;
     private ScorerManager scorerManager;
+    private bool victory = false; // for disabling lives decrement
 
 
     [Header("Gameplay")]
@@ -147,7 +149,29 @@ public class GameManager : MonoBehaviour
             CurrentTime = 0;
             SetBouncesText();
             SetTimerText();
-        }        
+        }
+
+        // should be ok with the CNN additions, will still = 0 by default
+        // can't do BreakoutGameBoardCNN -> playerNumber = 0 because
+        // in PVAICNN p2 is ^.  Will just say victory and not p2 victory unless we change the gameObject name
+        if (this.name == "BreakoutGameBoard")
+        {
+            playerNumber = 0;
+        }
+        if (this.name == "BreakoutGameBoardP1")
+        {
+            playerNumber = 1;
+        }
+        if (this.name == "BreakoutGameBoardP2")
+        {
+            playerNumber = 2;
+        }
+        if (this.name == "BreakoutGameBoard CNN")
+        {
+            // optionally I can set it to say CNN AI VICTORY
+            playerNumber = 3;
+        }
+
     }
 
     public void ResetBricks()
@@ -297,7 +321,31 @@ public class GameManager : MonoBehaviour
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
-        tempObject.Activate();
+        string tempString = "";
+        if (victory)
+        {
+            if (playerNumber == 0)
+            {
+                tempString = "VICTORY";
+            }
+            else if (playerNumber == 1)
+            {
+                tempString = "PLAYER 1 VICTORY";
+            }
+            else if (playerNumber == 2)
+            {
+                tempString = "PLAYER 2 VICTORY";
+            }
+            else if (playerNumber == 3)
+            {
+                tempString = "CNN AI VICTORY";
+            }
+        }
+        else
+        {
+            tempString = "GAME OVER";
+        }
+        tempObject.Activate(tempString);
     }
 
     public void AddScore(int updateScore)
@@ -327,7 +375,9 @@ public class GameManager : MonoBehaviour
             score = 0;
             return 0;  //  Don't lose a life in training mode, let the Agent do it.
         }
-        lives--;
+        // this conditional should prevent from losing after winning but before PostGameMenu
+        if (!victory)
+            lives--;
         if (lives <= 0 && !IsScoringPlayer)
         {
             if (defeatAudioClip != null)
@@ -373,9 +423,11 @@ public class GameManager : MonoBehaviour
         else if (bricksBroken == bricksBuilt)
         {
             SoundFXManager.instance.PlaySoundFXClip(victoryAudioClip, transform, 1f);
+            victory = true;
             //until level 2 is added:
             if (!IsScoringPlayer && !IsTrainingMode)
             {
+                // RestartGame goes to PostGameMenu
                 Invoke("RestartGame", 4f);
             }            
             //GameStateManager.instance.checkGameOver();

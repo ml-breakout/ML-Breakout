@@ -20,7 +20,7 @@ public class ScorerManager : MonoBehaviour
 
     public List<TrialResult> results = new List<TrialResult>();
 
-    public TextMeshProUGUI resultsText;
+    public TextMeshProUGUI ScorerResultsText;
 
     public void RegisterTrialResult(bool success, float time, int score, int bounces, int bricksDestroyed)
     {
@@ -88,7 +88,7 @@ public class ScorerManager : MonoBehaviour
     public void FinishTrials()
     {    
         PostGameMenu menu = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
-        menu.Activate();
-        resultsText.text = GetSummaryStats();
+        menu.Activate("Finished Trials.");
+        ScorerResultsText.text = GetSummaryStats();
     }
 }
