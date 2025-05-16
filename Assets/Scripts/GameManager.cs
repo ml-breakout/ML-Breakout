@@ -133,8 +133,11 @@ public class GameManager : MonoBehaviour
         currentBallSpeed = initBallSpeed;
         ResetBricks();
         ResetBall();
-        PaddleAgentController paddleScript = paddle.GetComponent<PaddleAgentController>();
-        paddleScript.restorePaddleSize();
+
+        bool paddleScriptNotNull = paddle.TryGetComponent<PaddleController>(out PaddleController paddleScript);
+        if(paddleScriptNotNull){
+            paddleScript.restorePaddleSize();
+        }
         if (!IsTrainingMode)
         {
             InitLives();
@@ -290,13 +293,12 @@ public class GameManager : MonoBehaviour
         livesText.text = lives.ToString();
     }
 
-    // depreciate?
-    // void RestartGame()
-    // {
-    //     //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    //     tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
-    //     tempObject.Activate();
-    // }
+    void RestartGame()
+    {
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
+        tempObject.Activate();
+    }
 
     public void AddScore(int updateScore)
     {
@@ -383,7 +385,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePaddleSize()
     {
-        paddle.GetComponent<PaddleAgentController>().updatePaddleSize();
+        paddle.GetComponent<PaddleController>().updatePaddleSize();
     }
 
     public GameObject GetBall()

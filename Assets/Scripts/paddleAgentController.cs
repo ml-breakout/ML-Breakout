@@ -13,19 +13,19 @@ using Unity.MLAgents.Policies;
 
 // This class is similar to the PaddleController class, but contains modifications
 // that allow the paddle to be controlled by an ML Agent.
-public class PaddleAgentController : Agent
+public class PaddleAgentController : PaddleController
 {
 
     // *****************************
     // * PUBLIC VARIABLES -> START *
     // *****************************
 
-    public KeyCode left;
-    public KeyCode right;
-    public GameManager gameManager;
-    public Vector2 gameCenterPosition;
-    public float gameWidth;
-    public float paddleSize;
+    // public KeyCode left;
+    // public KeyCode right;
+    // public GameManager gameManager;
+    // public Vector2 gameCenterPosition;
+    // public float gameWidth;
+    // public float paddleSize;
 
     // ***************************
     // * PUBLIC VARIABLES -> END *
@@ -55,9 +55,9 @@ public class PaddleAgentController : Agent
     private float ball_velocity_max_x = 5f;
     private float ball_velocity_min_y = -5f;
     private float ball_velocity_max_y = 5f;
-    private float original_paddle_size;
+    // private float original_paddle_size;
 
-    private bool paddleSizeReduced = false;
+    // private bool paddleSizeReduced = false;
 
     private bool humanControl = false;
 
@@ -72,7 +72,7 @@ public class PaddleAgentController : Agent
     /// </summary>
     void Start()
     {
-        original_paddle_size = paddleSize;
+        // original_paddle_size = paddleSize;
         rb = GetComponent<Rigidbody2D>();
         BP = GetComponent<BehaviorParameters>();
         if (MainManager.Instance != null)
@@ -328,29 +328,6 @@ public class PaddleAgentController : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         humanControl = true;
-    }
-
-    /// <summary>
-    /// Updates the paddle size by reducing it by half, but only once.
-    /// </summary>
-    public void updatePaddleSize()
-    {
-        if (!paddleSizeReduced)
-        {
-            this.transform.localScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y, this.transform.localScale.z);
-            paddleSize /= 2;
-        }
-        paddleSizeReduced = true;
-    }
-
-    public void restorePaddleSize()
-    {
-        if (paddleSizeReduced)
-        {
-            this.transform.localScale = new Vector3(this.transform.localScale.x * 2, this.transform.localScale.y, this.transform.localScale.z);
-        }
-        paddleSize = original_paddle_size;
-        paddleSizeReduced = false;
     }
 
     /// <summary>

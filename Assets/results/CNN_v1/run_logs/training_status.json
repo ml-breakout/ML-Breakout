@@ -1,0 +1,110 @@
+{
+    "PaddleCNN": {
+        "checkpoints": [
+            {
+                "steps": 869962,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-869962.onnx",
+                "reward": null,
+                "creation_time": 1742248036.497168,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-869962.pt"
+                ]
+            },
+            {
+                "steps": 879899,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-879899.onnx",
+                "reward": -0.1999999781449636,
+                "creation_time": 1742249124.572486,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-879899.pt"
+                ]
+            },
+            {
+                "steps": 889882,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-889882.onnx",
+                "reward": null,
+                "creation_time": 1742250437.657875,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-889882.pt"
+                ]
+            },
+            {
+                "steps": 899954,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-899954.onnx",
+                "reward": null,
+                "creation_time": 1742251716.682715,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-899954.pt"
+                ]
+            },
+            {
+                "steps": 909951,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-909951.onnx",
+                "reward": null,
+                "creation_time": 1742252777.51964,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-909951.pt"
+                ]
+            },
+            {
+                "steps": 919996,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-919996.onnx",
+                "reward": null,
+                "creation_time": 1742254032.0323868,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-919996.pt"
+                ]
+            },
+            {
+                "steps": 929925,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-929925.onnx",
+                "reward": null,
+                "creation_time": 1742255317.0157676,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-929925.pt"
+                ]
+            },
+            {
+                "steps": 939913,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-939913.onnx",
+                "reward": 5.400000117719173,
+                "creation_time": 1742256402.7033033,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-939913.pt"
+                ]
+            },
+            {
+                "steps": 949955,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-949955.onnx",
+                "reward": 4.200000114738941,
+                "creation_time": 1742257698.5006568,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-949955.pt"
+                ]
+            },
+            {
+                "steps": 959195,
+                "file_path": "results\\CNN_v1\\PaddleCNN\\PaddleCNN-959195.onnx",
+                "reward": null,
+                "creation_time": 1742259053.0406756,
+                "auxillary_file_paths": [
+                    "results\\CNN_v1\\PaddleCNN\\PaddleCNN-959195.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 959195,
+            "file_path": "results\\CNN_v1\\PaddleCNN.onnx",
+            "reward": null,
+            "creation_time": 1742259053.0406756,
+            "auxillary_file_paths": [
+                "results\\CNN_v1\\PaddleCNN\\PaddleCNN-959195.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
