@@ -2,8 +2,12 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using TMPro;
+using System;
+
 public class PostGameMenu : MonoBehaviour
 {
+    public TextMeshProUGUI ResultsText;  // Reference to UI text
     public static bool GamePaused = false;
 
     //public static bool postGameMenuOpen = false;
@@ -18,7 +22,7 @@ public class PostGameMenu : MonoBehaviour
             if(GamePaused){
                 Resume();
             }else{
-                Activate();
+                Activate("PGM via DELETE KEY");
             }
         }
     }
@@ -30,25 +34,44 @@ public class PostGameMenu : MonoBehaviour
 
     }
 
-    public void Activate()
+    public void Activate(string results)
     {
-       postGameMenuUI.SetActive(true);
-       Time.timeScale = 0f;
-       GamePaused = true;
+        //ResultsText.text = "DEFEAT YOU LOST";
+        ResultsText.text = results;
+        postGameMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        GamePaused = true;
 
-       UnityEngine.SceneManagement.Scene thisScene = SceneManager.GetActiveScene();
-       if (thisScene.name == "SinglePlayerAI")
-       {
-            PlaySceneAgain();
-       }
-       else if (thisScene.name == "SinglePlayerAITrainer")
-       {
-            PlaySceneAgain();
-       }
-       else if (thisScene.name == "18PlayerAITrainer 1")
-       {
-            PlaySceneAgain();
-       }
+        UnityEngine.SceneManagement.Scene thisScene = SceneManager.GetActiveScene();
+        if (thisScene.name == "SinglePlayerAI")
+        {
+                PlaySceneAgain();
+        }
+        else if (thisScene.name == "SinglePlayerAITrainer")
+        {
+                PlaySceneAgain();
+        }
+        else if (thisScene.name == "18PlayerAITrainer 1")
+        {
+                PlaySceneAgain();
+        }
+        else if (thisScene.name == "SinglePlayerAICNN")
+        {
+                PlaySceneAgain();
+        }
+        else if (thisScene.name == "CNN18PlayerAITrainer")
+        {
+                PlaySceneAgain();
+        }
+        else if (thisScene.name == "CNNSinglePlayerAITrainer")
+        {
+                PlaySceneAgain();
+        }
+        //    else if (thisScene.name == "Scorer CNN")
+        //    {
+        //         PlaySceneAgain();
+        //    }
+        // Scorer just loops infinitely if this is uncommented (tested on non-cnn scorer)
     }
 
     public void PlaySceneAgain()
@@ -59,6 +82,7 @@ public class PostGameMenu : MonoBehaviour
     }
     
     public void QuitGame(){
+        // doesn't work?
         Application.Quit();
     }
     

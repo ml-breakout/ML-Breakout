@@ -44,7 +44,8 @@ public class GameStateManager : MonoBehaviour
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         tempObject = GameObject.FindWithTag("PostGameMenuUI").GetComponent<PostGameMenu>();
-        tempObject.Activate();
+        string tempString = "GAME OVER";
+        tempObject.Activate(tempString);
     }
     
     // TODO
