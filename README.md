@@ -7,6 +7,8 @@ ML Breakout reimagines the iconic arcade game with modern Unity graphics while i
 
 [Project Demo Video](https://youtu.be/9Wiy9EaTTJw)
 
+[Play the Game!](https://ml-breakout.github.io/)
+
 Key Features:
 * **Classic Breakout Gameplay:** Control a paddle to bounce a ball and break colorful brick patterns
 * **AI Opponents:** Challenge machine learning models trained through reinforcement learning
