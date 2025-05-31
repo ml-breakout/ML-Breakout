@@ -1,3 +1,5 @@
+![ml breakout logo](ml-breakout-logo.png)
+
 # Project Overview
 ML Breakout reimagines the iconic arcade game with modern Unity graphics while incorporating sophisticated machine learning capabilities. Our project serves as both an engaging game and an educational platform for exploring AI concepts through gameplay.
 
