@@ -73,6 +73,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 /Logs
+/profilerLogs
 
 # Mac crap
 .DS_Store
